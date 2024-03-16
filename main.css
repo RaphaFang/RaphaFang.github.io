@@ -25,13 +25,25 @@ header {
   /* margin-left: 30px; */
 }
 
+.personal_info {
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.8;
+  background-color: white;
+  /* letter-spacing: -1px; */
+  box-shadow: 10px 50px 100px 0 rgba(0, 0, 0, 0.1);
+  /* 左右、上下、模糊、半徑 */
+  border-radius: 12px;
+
+  margin-bottom: 64px;
+}
 body {
   font-family: "Inter", sans-serif;
   color: #343a40;
   background-color: #e9e9e9;
 
   border-top: 16px solid #233446;
-  border-bottom: 12px solid #233446;
+  border-bottom: 64px solid #233446;
 }
 
 .container {
@@ -70,19 +82,6 @@ li {
   border-radius: 12px;
 }
 
-.personal_info {
-  padding: 20px;
-  font-size: 16px;
-  line-height: 1.8;
-  background-color: white;
-  /* letter-spacing: -1px; */
-  box-shadow: 10px 50px 100px 0 rgba(0, 0, 0, 0.1);
-  /* 左右、上下、模糊、半徑 */
-  border-radius: 12px;
-
-  margin-bottom: 64px;
-}
-
 .icon {
   stroke: #087f5b;
   display: inline-block;
@@ -92,4 +91,14 @@ li {
 
 embed {
   height: 600px;
+}
+
+.video_div {
+  height: fit-content;
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: center;
+}
+.last_block {
+  margin-bottom: 64px;
 }
