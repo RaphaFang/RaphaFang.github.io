@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 20px;
+}
+
+body {
+  font-family: "Tinos", serif;
+  color: #343a40;
+  line-height: 1;
+}
+
+.container {
+  max-width: 1920px;
+  min-width: 1200px;
+  background-color: white;
+  /* display: flex;
+  flex-direction: row; */
+}
+
+.navbar-list {
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.navbar-item {
+  margin: 8px 12px;
+}
+.navbar-item:first-child {
+  margin-right: auto;
+}
+
+.welcome-bar {
+  background-color: #dcebf5;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 105px 0px;
+}
+.welcome-text {
+  font-size: 40px;
+}
+.photo-container {
+  width: 1200px;
+  /* background-color: blue; */
+}
