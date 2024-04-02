@@ -77,22 +77,20 @@ body {
   }
 }
 .title-1,
+.title-2,
+.title-3,
+.title-4,
+.title-5,
+.title-7,
+.title-8,
+.title-9,
+.title-10,
 .title-6 {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
 }
-
-/* .title-1::before,
-.title-6::before {
-  content: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/yellow_star.png");
-  width: 12px;
-  display: inline-block;
-  position: absolute;
-  top: -100px;
-  right: -25px;
-} */
 
 .star {
   position: absolute;
@@ -102,8 +100,8 @@ body {
   right: 5px;
 }
 .background-image-container {
-  width: auto;
   height: 150px;
+  width: 150px;
   background-image: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/IMG_7522.jpg");
   background-size: cover;
   background-position: center;
@@ -113,16 +111,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  opacity: 0.6;
+  opacity: 0.8;
   position: relative;
 
   p {
     opacity: 1;
   }
 }
-/* .star {
-  height: 20px;
-} */
 
 .promotion-p {
   padding-left: 10px;
