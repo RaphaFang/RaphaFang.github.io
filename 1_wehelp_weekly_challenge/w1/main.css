@@ -84,19 +84,23 @@ body {
   position: relative;
 }
 
-.title-1::before,
+/* .title-1::before,
 .title-6::before {
-  content: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/star.jpeg");
-  color: ;
-  font-size: 160px;
-  font-weight: bold;
+  content: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/yellow_star.png");
+  width: 12px;
   display: inline-block;
-  /* padding: 5px 10px; */
   position: absolute;
-  top: -10px;
+  top: -100px;
   right: -25px;
-}
+} */
 
+.star {
+  position: absolute;
+  width: 30px;
+  opacity: 1;
+  top: -125px;
+  right: 5px;
+}
 .background-image-container {
   width: auto;
   height: 150px;
@@ -151,4 +155,5 @@ body {
 
 p {
   color: black;
+  opacity: 1;
 }
