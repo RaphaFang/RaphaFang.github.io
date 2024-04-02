@@ -78,12 +78,24 @@ body {
 }
 .title-1,
 .title-6 {
-  background-color: #dcebf5;
-  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: center;
+  position: relative;
+}
+
+.title-1::before,
+.title-6::before {
+  content: url= "";
+  background-color: #ffe70e;
+  color: yellow;
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+  padding: 5px 10px;
+  position: absolute;
+  top: -10px;
+  right: -25px;
 }
 
 .background-image-container {
@@ -93,6 +105,21 @@ body {
   background-size: cover;
   background-position: center;
 }
+.title-bg {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  opacity: 0.6;
+  position: relative;
+
+  p {
+    opacity: 1;
+  }
+}
+/* .star {
+  height: 20px;
+} */
 
 .promotion-p {
   padding-left: 10px;
@@ -121,4 +148,8 @@ body {
 .title-6 {
   grid-column: 1 / 3;
   grid-row: 3 / 4;
+}
+
+p {
+  color: black;
 }
