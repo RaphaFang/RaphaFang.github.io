@@ -90,21 +90,21 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
+  height: 180px;
+  width: auto;
 }
 
 .star {
   position: absolute;
   width: 30px;
   opacity: 1;
-  top: -125px;
+  top: -155px;
   right: 5px;
 }
 .background-image-container {
-  height: 150px;
-  width: 150px;
   background-image: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/IMG_7522.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: center center;
 }
 .title-bg {
   background-color: white;
