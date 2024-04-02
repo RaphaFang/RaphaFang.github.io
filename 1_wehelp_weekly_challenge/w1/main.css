@@ -87,9 +87,8 @@ body {
 .title-1::before,
 .title-6::before {
   content: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/star.jpeg");
-  background-color: #ffe70e;
-  color: yellow;
-  font-size: 16px;
+  color: ;
+  font-size: 160px;
   font-weight: bold;
   display: inline-block;
   /* padding: 5px 10px; */
