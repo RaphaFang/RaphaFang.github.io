@@ -318,6 +318,7 @@ p {
     box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
     z-index: 10;
   }
+
   .overlay {
     position: absolute;
     top: 0;
