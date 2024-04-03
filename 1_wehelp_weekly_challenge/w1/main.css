@@ -107,7 +107,7 @@ body {
   right: 5px;
 }
 .background-image-container {
-  background-image: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/Adventurer RPG.card.png");
+  background-image: url("https://RaphaFang.github.io/1_wehelp_weekly_challenge/w1/pic/Adventurer.png");
   background-size: cover;
   background-position: center center;
 }
@@ -225,7 +225,6 @@ p {
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(1, 1fr);
-    /* grid-template-rows: repeat(3, 1fr); */
   }
   .promotion-1 {
     grid-column: 1 / 2;
@@ -272,9 +271,10 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    img {
+    background-color: whitesmoke;
+    button {
       display: inline-block;
-      margin-right: 4px;
+      margin-right: 10px;
     }
   }
   /* .modal {
@@ -283,9 +283,6 @@ p {
     position: relative;
   } */
   .show-modal {
-    position: absolute;
-    top: 1.2rem;
-    right: 2rem;
     font-size: 35px;
     color: #333;
     cursor: pointer;
@@ -302,5 +299,33 @@ p {
     cursor: pointer;
     border: none;
     background: none;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+
+    background-color: white;
+    padding: 6rem;
+    border-radius: 5px;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 5;
   }
 }
