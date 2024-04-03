@@ -277,4 +277,30 @@ p {
       margin-right: 4px;
     }
   }
+  /* .modal {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  } */
+  .show-modal {
+    position: absolute;
+    top: 1.2rem;
+    right: 2rem;
+    font-size: 35px;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 1.2rem;
+    right: 2rem;
+    font-size: 35px;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
 }
