@@ -292,8 +292,8 @@ p {
 
   .close-modal {
     position: absolute;
-    top: 1.2rem;
-    right: 2rem;
+    top: 0px;
+    right: 0px;
     font-size: 35px;
     color: #333;
     cursor: pointer;
