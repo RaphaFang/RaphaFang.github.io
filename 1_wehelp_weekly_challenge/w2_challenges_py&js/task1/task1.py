@@ -15,7 +15,16 @@ def find_and_print(messages, current_station):
     relative_position_dict = dict(zip(messages.keys(), position_list))   # >>> {'Leslie': 2.9, 'Bob': 6, 'Mary': 1, 'Copper': 11, 'Vivian': 5}
         
     
-
+def findMax(nums):
+    max = nums[0]
+    for _ in nums:
+        if  _ > max:
+            max = _
+    return max
+        
+nums = [0]
+# nums = []
+findMax(nums)
 
 
 messages={
