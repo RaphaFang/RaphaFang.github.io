@@ -1,4 +1,4 @@
-def find_and_print(messages, current_station):
+def find_and_print(messages, current_station):  # >>> given current_station = "Wanlong"
     rebuild_messages_dict = {}
     message_loc_list=[]
     for k in messages.values():
@@ -12,20 +12,13 @@ def find_and_print(messages, current_station):
     current_station_num = stations[current_station]   # >>> 6
     for n in rebuild_messages_dict:
         position_list.append(abs(current_station_num - rebuild_messages_dict[n]))  # >>>[2.9, 6, 1, 11, 5]
-    relative_position_dict = dict(zip(messages.keys(), position_list))   # >>> {'Leslie': 2.9, 'Bob': 6, 'Mary': 1, 'Copper': 11, 'Vivian': 5}
-        
+    relative_position_dict = dict(zip(position_list, messages.keys()))   # >>> {'Leslie': 2.9, 'Bob': 6, 'Mary': 1, 'Copper': 11, 'Vivian': 5}
     
-def findMax(nums):
-    max = nums[0]
-    for _ in nums:
-        if  _ > max:
-            max = _
-    return max
-        
-nums = [0]
-# nums = []
-findMax(nums)
-
+    min = position_list[0]
+    for _ in position_list:
+        if  _ < min:
+            min = _
+    print(relative_position_dict[min])
 
 messages={
 "Leslie":"I'm at home near Xiaobitan station.",
@@ -37,10 +30,7 @@ messages={
 stations={"Songshan":19,"Nanjing Sanmin":18,"Taipei Arena":17,"Nanjing Fuxing":16,"Songjiang Nanjing":15,"Zhongshan":14,"Beimen":13,"Ximen":12,"Xiaonanmen":11,"Chiang Kai-Shek Memorial Hall":10,"Guting":9,"Taipower Building":8,"Gongguan":7,"Wanlong":6,"Jingmei":5,"Dapinglin":4,"Xiaobitan":3.1,"Qizhang":3,"Xindian City Hall":2,"Xindian":1
 }
 
-
-
-find_and_print(messages, "Wanlong") 
-
+find_and_print(messages, "Xindian City Hall") 
 print("====Task1 in py====")
 
 
@@ -64,7 +54,7 @@ print("====Task1 in py====")
 #       絕對值：
 #       https://runoob.com/python/func-number-abs.html
 # Ｏ解決：處理捷運綠線，注意有分岔出去的小碧潭站
-#       把小碧潭編列成3.2
+#       把小碧潭編列成3.1
 
 
 # 合併成一個大檔案提供老師
