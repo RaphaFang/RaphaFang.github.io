@@ -1,15 +1,18 @@
 def find_and_print(messages, current_station):
-    sta_num = stations[current_station]
-    rebuild_messages = {}
+    rebuild_messages_dict = {}
+    list=[]
     for k in messages.values():
         for i in stations.keys():
             if i in k:
-                rebuild_messages[messages.keys()]=stations[i]
-                print(stations[i])
-            print(rebuild_messages)
-                # rebuild_messages={stations[i]:names for (names, station) in messages.items()}
+                list.append(stations[i])
+    rebuild_messages_dict = dict(zip(messages.keys(), list))
 
-    # print(rebuild_messages)
+    sta_num = stations[current_station]
+    for n in rebuild_messages_dict:
+        rebuild_messages_dict[n]
+
+    print(rebuild_messages)
+
 
 messages={
 "Leslie":"I'm at home near Xiaobitan station.",
@@ -23,8 +26,7 @@ stations={"Songshan":19,"Nanjing Sanmin":18,"Taipei Arena":17,"Nanjing Fuxing":1
 
 
 
-# find_and_print(messages, "Wanlong") 
-
+find_and_print(messages, "Wanlong") 
 
 print("====Task1 in py====")
 
@@ -41,7 +43,10 @@ print("====Task1 in py====")
 #       dict comprehensive :
 #       https://ithelp.ithome.com.tw/articles/10203788
 #       https://www.udemy.com/course/100-days-of-code/learn/lecture/20763744#overview
-# 處理讀字典的功能，並且重新編寫
+#       https://www.datacamp.com/tutorial/python-dictionary-comprehension
+# Ｏ解決：處理讀字典的功能，並且重新編寫
+#       透過map功能解決
+#       https://www.atatus.com/blog/python-converting-lsts-to-dictionaries/
 # 處理捷運斬「尋找」功能
 # Ｏ解決：處理捷運綠線，注意有分岔出去的小碧潭站
 #       把小碧潭編列成3.2
