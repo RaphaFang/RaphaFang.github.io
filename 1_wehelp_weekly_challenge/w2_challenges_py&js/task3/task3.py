@@ -10,7 +10,8 @@ def func(*data):
     counting_dict={}
     counting_list = [n for n in name_dict.values()]  # >>> ['宣', '藍', '宣']
     for n in counting_list:
-       counting_dict[n]= counting_list.count(n)  # >>> {'宣': 2, '藍': 1}
+       counting_dict[n]= counting_list.count(n)  
+    print(counting_dict)   # >>> {'宣': 2, '藍': 1}
 
     the_one_dict={}
     for n in counting_dict:
@@ -18,13 +19,14 @@ def func(*data):
         for i in counting_dict:
             if counting_dict[i] < min:
                 min = counting_dict[i]
-                the_one_dict[i]= min
-    # print(the_one_dict)    # >>> {'藍': 1}
+                the_one_dict[i]= min # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!這裡一定有大問題
+    print(the_one_dict)    # >>> {'藍': 1}
 
     reverse_name_dict={y:x for (x,y) in name_dict.items()}  # >>> {'宣': '郭宣恆', '藍': '夏曼藍波安'}，重複的key會被洗掉，但是不影響我們只要抓出最unique的全名
     # print(the_one_dict.items())
-
+    print(the_one_dict.items())
     for keys, value in the_one_dict.items():
+        print(keys)         # >>> !!!!!!!!!!!!!!!!!!!!!!!!!!!! 這裡可以有正確答案，是因為運氣好，key這變數被洗掉
         the_key = keys      # >>> 藍
 
     try:
@@ -36,8 +38,8 @@ def func(*data):
 
 # func("彭大牆", "陳王明雅", "吳明") # print 彭大牆
 # func("郭靜雅", "王立強", "郭林靜宜", "郭立恆", "林花花") # print 林花花
-# func("郭宣雅", "林靜宜", "郭宣恆", "林靜花") # print 沒有
-func("郭宣雅", "夏曼藍波安", "郭宣恆") # print 夏曼藍波安
+func("大宣雅","一一一","郭宣雅", "林靜宜", "郭宣恆", "林靜花") # print 沒有
+# func("郭宣雅", "夏曼藍波安", "郭宣恆") # print 夏曼藍波安
 
 
 
