@@ -1,17 +1,21 @@
 def find_and_print(messages, current_station):
     rebuild_messages_dict = {}
-    list=[]
+    message_loc_list=[]
     for k in messages.values():
         for i in stations.keys():
             if i in k:
-                list.append(stations[i])
-    rebuild_messages_dict = dict(zip(messages.keys(), list))
+                message_loc_list.append(stations[i])
+    rebuild_messages_dict = dict(zip(messages.keys(), message_loc_list))  # >>> {'Leslie': 3.1, 'Bob': 12, 'Mary': 5, 'Copper': 17, 'Vivian': 1}
 
-    sta_num = stations[current_station]
+    relative_position_dict = {}
+    position_list=[]
+    current_station_num = stations[current_station]   # >>> 6
     for n in rebuild_messages_dict:
-        rebuild_messages_dict[n]
+        position_list.append(abs(current_station_num - rebuild_messages_dict[n]))  # >>>[2.9, 6, 1, 11, 5]
+    relative_position_dict = dict(zip(messages.keys(), position_list))   # >>> {'Leslie': 2.9, 'Bob': 6, 'Mary': 1, 'Copper': 11, 'Vivian': 5}
+        
+    
 
-    print(rebuild_messages)
 
 
 messages={
@@ -48,6 +52,8 @@ print("====Task1 in py====")
 #       透過map功能解決
 #       https://www.atatus.com/blog/python-converting-lsts-to-dictionaries/
 # 處理捷運斬「尋找」功能
+#       絕對值：
+#       https://runoob.com/python/func-number-abs.html
 # Ｏ解決：處理捷運綠線，注意有分岔出去的小碧潭站
 #       把小碧潭編列成3.2
 
