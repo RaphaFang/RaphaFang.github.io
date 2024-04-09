@@ -1,57 +1,78 @@
-Jenny=[]
-Bob=[]
-Jenny=[]
-
-
-
 def get_price(ele):
     return ele["price"]
 def get_rate(ele):
     return ele["rate"]
-def return_list(ele):
-    consultants.sort(key=ele)
-    return  [p['name'] for p in consultants]
-
 def book(consultants, hour, duration, criteria):
-    available_time_dict = {}
-    price_order_list = return_list(get_price)
-    rate_order_list = return_list(get_rate)[::-1]
-
-    if criteria=="price":
-        pass
-        for n in price_order_list:
-            print(type(n))
-            # if str(hour) not in n:
-            #     n.append(hour)
-            #     print(n)
-            #     return
-    else:
-        pass
-
-
-
-
-    
+    try:
+        bool(consultants[0]["time"])
+    except KeyError:
+        for n in consultants:
+            n["time"] = []    # >>> [{'name': 'John', 'rate': 4.5, 'price': 1000, 'time': []}, {'name': 'Bob', 'rate': 3, 'price': 1200, 'time': []}, {'name': 'Jenny', 'rate': 3.8, 'price': 800, 'time': []}]
         
+    if criteria=="price":
+        consultants.sort(key=get_price)
+        # print(consultants)
+        count = 0
+        for n in consultants:
+            if hour and hour+duration not in n["time"]:
+                for t in range(duration):
+                    n["time"].append(hour+t)
+                n["time"].sort()
+                break
+            else:
+                count+=1
+        print(count)
+        if count ==3:
+            print("No Service")
+
+        # for n in consultants:
+        #     for h in range(hour, hour+duration):
+        #         if hour and hour+duration not in n["time"]:
+        #             for t in range(duration):
+        #                 n["time"].append(hour+t)
+        #             n["time"].sort()
+        #         else:
+        #             print("No Service")
+        #     break
+
+    elif criteria=="rate":
+        consultants.sort(key=get_rate)
+        # print(consultants)
+        count = 0
+        for n in consultants[::-1]:
+            if hour and hour+duration not in n["time"]:
+                for t in range(duration):
+                    n["time"].append(hour+t)
+                n["time"].sort()
+                break
+            else:
+                count+=1
+        print(count)
+        if count ==3:
+            print("No Service")
+
+
+    # return consultants
 
 consultants=[
-{"name":"John", "rate":4.5, "price":1000},
+{"name":"John", "rate":4.5, "price":1000,},
 {"name":"Bob", "rate":3, "price":1200},
 {"name":"Jenny", "rate":3.8, "price":800}
 ]
 
 
-
-# print(consultants)
-
-book(consultants, 15, 1, "price") # Jenny
-# book(consultants, 11, 2, "price") # Jenny
-# book(consultants, 10, 2, "price") # John
-# book(consultants, 20, 2, "rate") # John
-# book(consultants, 11, 1, "rate") # Bob
+# Jenny 11 12 15 16 17 
+# John 10 11 14 15 16 20 21
+# Bob 11
+book(consultants, 15, 3, "price") # Jenny 
+book(consultants, 11, 2, "price") # Jenny
+book(consultants, 10, 2, "price") # John
+book(consultants, 20, 2, "rate") # John
+book(consultants, 11, 1, "rate") # Bob
 # book(consultants, 11, 2, "rate") # No Service
 # book(consultants, 14, 3, "price") # John
 
+print(consultants)
 
 
 # 條件順序：諮詢者名單順位、price/rate作為順序機制檢查空餘時間
@@ -62,3 +83,5 @@ book(consultants, 15, 1, "price") # Jenny
     #       注意，如果直接print(consultants.sort(key=get_price))，會得出none
     # Ｏ解決：反轉列印出rate list。Slicing Operator
     #       https://www.programiz.com/python-programming/methods/list/reverse
+# Ｘ錯誤：還是需要透過外部txt
+#       try:重新寫資料進去consultants dict內
