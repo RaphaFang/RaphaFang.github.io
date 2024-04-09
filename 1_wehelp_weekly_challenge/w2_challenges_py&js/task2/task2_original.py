@@ -2,44 +2,69 @@ def get_price(ele):
     return ele["price"]
 def get_rate(ele):
     return ele["rate"]
+
 def book(consultants, hour, duration, criteria):
     try:
         bool(consultants[0]["time"])
     except KeyError:
         for n in consultants:
             n["time"] = []    # >>> [{'name': 'John', 'rate': 4.5, 'price': 1000, 'time': []}, {'name': 'Bob', 'rate': 3, 'price': 1200, 'time': []}, {'name': 'Jenny', 'rate': 3.8, 'price': 800, 'time': []}]
-        
+    
     if criteria=="price":
         consultants.sort(key=get_price)
-        # print(consultants)
         count = 0
         for n in consultants:
-            if hour and hour+duration-1 not in n["time"]:
+            # # print(hour,hour+duration-1)
+            hour_list = []
+            for b in range(hour,hour+duration):
+                hour_list.append(b)
+
+            occupied_list=[]
+            for k in hour_list:
+                if k in n["time"]:
+                    occupied_list.append(True)
+                else:
+                    occupied_list.append(False)
+            occupied_TF = any(occupied_list)
+            
+
+            if occupied_TF:
+                count+=1
+            else:
                 for t in range(duration):
                     n["time"].append(hour+t)
                 n["time"].sort()
+                print(n["name"])
                 break
-            else:
-                count+=1
         # print(count)
         if count ==3:
             print("No Service")
 
     elif criteria=="rate":
         consultants.sort(key=get_rate)
-        print(consultants)
-        # print(consultants)
         count = 0
         for n in consultants[::-1]:
-            for l in [k for k in range(hour, hour+duration)]:
-                if l not in n["time"]:
-                    for t in range(duration):
-                        n["time"].append(hour+t)
-                    n["time"].sort()
-                    break
+            hour_list = []
+            for b in range(hour,hour+duration):
+                hour_list.append(b)
+
+            occupied_list=[]
+            for k in hour_list:
+                if k in n["time"]:
+                    occupied_list.append(True)
                 else:
-                    count+=1
-        print(count)
+                    occupied_list.append(False)
+            occupied_TF = any(occupied_list)
+
+            if occupied_TF:
+                count+=1
+            else:
+                for t in range(duration):
+                    n["time"].append(hour+t)
+                n["time"].sort()
+                print(n["name"])
+                break
+        # print(count)
         if count ==3:
             print("No Service")
 
@@ -59,7 +84,7 @@ book(consultants, 10, 2, "price") # John
 book(consultants, 20, 2, "rate") # John
 book(consultants, 11, 1, "rate") # Bob
 book(consultants, 11, 2, "rate") # No Service
-# book(consultants, 14, 3, "price") # John
+book(consultants, 14, 3, "price") # John
 
 print(consultants)
 
@@ -74,4 +99,8 @@ print(consultants)
     #       https://www.programiz.com/python-programming/methods/list/reverse
 # Ｘ錯誤：還是需要透過外部txt
 #       try:重新寫資料進去consultants dict內
-# 一小時持續時間的，編寫進入字典會有問題
+# Ｏ解決：一小時持續時間的 or 2小時頭部沒重複但尾部重複，檢查條件是否滿足時，會有問題
+#       透過any()解決
+#       https://www.geeksforgeeks.org/python-any-function/
+# Ｏ解決：斷開，滿足一次就離開（break、continue、pass）
+#       https://medium.com/@chiayinchen/1-%E5%88%86%E9%90%98%E6%90%9E%E6%87%82-python-%E8%BF%B4%E5%9C%88%E6%8E%A7%E5%88%B6-break-continue-pass-be290cd1f9d8
