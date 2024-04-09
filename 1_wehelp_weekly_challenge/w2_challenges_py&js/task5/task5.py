@@ -26,9 +26,13 @@ find([4, 6, 5, 8], [0, 1, 1, 1], 4) # print 2 [0, 6, 5, 8]
 
 # Ｏ解決：處理兩個list合併問題
 #       注意range 的計算是從 0 開始到 n-1
+#       處理兩個list合併的 comprehension， if else
+#       https://www.geeksforgeeks.org/python-list-comprehension-using-if-else/
 # Ｘ錯誤：寫一個dict，處理index對應數值
 #       沒必要這麼複雜，因為只是指數，透過list更快
         # index_dict={n:ava_minus_passenger_list[n] for n in range(len(ava_minus_passenger_list))}
 # Ｏ解決：須滿足條件：>=0 and >=0數值裡最小的
 # Ｏ解決：透過字典呼叫指數的index?或是list？
 #       發現用list可以更快的比大小，可以略過max/min功能，但情況是"keys"只是指數，若是第3題的字，則須要透過dict
+# Ｏ解決：解決是否為數字？
+#       https://www.toppr.com/guides/python-guide/references/methods-and-functions/methods/string/isnumeric/python-string-isnumeric/
