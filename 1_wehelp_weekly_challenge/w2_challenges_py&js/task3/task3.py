@@ -14,17 +14,19 @@ def func(*data):
     print(counting_dict)   # >>> {'宣': 2, '藍': 1}
 
     the_one_dict={}
-    for n in counting_dict:
-        min = counting_dict[n]
-        for i in counting_dict:
-            if counting_dict[i] < min:
-                min = counting_dict[i]
-                the_one_dict[i]= min # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!這裡一定有大問題
-    print(the_one_dict)    # >>> {'藍': 1}
+    # for n in counting_dict:
+    #     min = counting_dict[n]
+    #     for i in counting_dict:
+    #         if counting_dict[i] < min:
+    #             min = counting_dict[i]
+    #             the_one_dict[i]= min # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!這裡一定有大問題
+    # print(the_one_dict)    # >>> {'藍': 1}
 
+    aaa = min(counting_dict,key=counting_dict.get)
+    print(aaa)
     reverse_name_dict={y:x for (x,y) in name_dict.items()}  # >>> {'宣': '郭宣恆', '藍': '夏曼藍波安'}，重複的key會被洗掉，但是不影響我們只要抓出最unique的全名
     # print(the_one_dict.items())
-    print(the_one_dict.items())
+    # print(the_one_dict.items())
     for keys, value in the_one_dict.items():
         print(keys)         # >>> !!!!!!!!!!!!!!!!!!!!!!!!!!!! 這裡可以有正確答案，是因為運氣好，key這變數被洗掉
         the_key = keys      # >>> 藍

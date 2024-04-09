@@ -10,13 +10,15 @@ def find(spaces, stat, n):   # >>> given find([3, 1, 5, 4, 3, 2], [0, 1, 0, 1, 1
     index_dict={n:index_list[n] for n in range(len(index_list))}
     print(index_dict)   # >>> {0: -2, 1: -1, 2: -2, 3: 2, 4: 1, 5: 0;}
 
-    the_one_dict={}
-    for n in index_dict:
-        most_fitted = index_dict[n]
-        for i in index_dict:
-            if index_dict[i] >=0 and index_dict[i] < most_fitted:
-                most_fitted = index_dict[i]
-    print(most_fitted)
+    print(max(index_dict, key=index_dict.get))
+
+    # the_one_dict={}
+    # for n in index_dict:
+    #     most_fitted = index_dict[n]
+    #     for i in index_dict:
+    #         if index_dict[i] >=0 and index_dict[i] < most_fitted:
+    #             most_fitted = index_dict[i]
+    # print(most_fitted)
 
     # print(the_one_dict)
 
