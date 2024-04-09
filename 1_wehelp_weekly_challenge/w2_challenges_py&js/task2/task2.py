@@ -14,45 +14,34 @@ def book(consultants, hour, duration, criteria):
         # print(consultants)
         count = 0
         for n in consultants:
-            if hour and hour+duration not in n["time"]:
+            if hour and hour+duration-1 not in n["time"]:
                 for t in range(duration):
                     n["time"].append(hour+t)
                 n["time"].sort()
                 break
             else:
                 count+=1
-        print(count)
+        # print(count)
         if count ==3:
             print("No Service")
-
-        # for n in consultants:
-        #     for h in range(hour, hour+duration):
-        #         if hour and hour+duration not in n["time"]:
-        #             for t in range(duration):
-        #                 n["time"].append(hour+t)
-        #             n["time"].sort()
-        #         else:
-        #             print("No Service")
-        #     break
 
     elif criteria=="rate":
         consultants.sort(key=get_rate)
+        print(consultants)
         # print(consultants)
         count = 0
         for n in consultants[::-1]:
-            if hour and hour+duration not in n["time"]:
-                for t in range(duration):
-                    n["time"].append(hour+t)
-                n["time"].sort()
-                break
-            else:
-                count+=1
+            for l in [k for k in range(hour, hour+duration)]:
+                if l not in n["time"]:
+                    for t in range(duration):
+                        n["time"].append(hour+t)
+                    n["time"].sort()
+                    break
+                else:
+                    count+=1
         print(count)
         if count ==3:
             print("No Service")
-
-
-    # return consultants
 
 consultants=[
 {"name":"John", "rate":4.5, "price":1000,},
@@ -61,15 +50,15 @@ consultants=[
 ]
 
 
-# Jenny 11 12 15 16 17 
+# Jenny 11 12 15
 # John 10 11 14 15 16 20 21
-# Bob 11
-book(consultants, 15, 3, "price") # Jenny 
+# Bob  11
+book(consultants, 15, 1, "price") # Jenny
 book(consultants, 11, 2, "price") # Jenny
 book(consultants, 10, 2, "price") # John
 book(consultants, 20, 2, "rate") # John
 book(consultants, 11, 1, "rate") # Bob
-# book(consultants, 11, 2, "rate") # No Service
+book(consultants, 11, 2, "rate") # No Service
 # book(consultants, 14, 3, "price") # John
 
 print(consultants)
@@ -85,3 +74,4 @@ print(consultants)
     #       https://www.programiz.com/python-programming/methods/list/reverse
 # Ｘ錯誤：還是需要透過外部txt
 #       try:重新寫資料進去consultants dict內
+# 一小時持續時間的，編寫進入字典會有問題

@@ -84,15 +84,40 @@
 
 
 # # ________________________________________________________________________________________
-def testing(ele):
-    ele.append(1)
+# def testing(ele):
+#     ele.append(1)
 
-listing = [{3,6,9}]
-testing(listing)
-testing(listing)
-testing(listing)
-testing(listing)
+# listing = [{3,6,9}]
+# testing(listing)
+# testing(listing)
+# testing(listing)
+# testing(listing)
 
 
+# # print(listing)
 # print(listing)
-print(listing)
+
+# # ________________________________________________________________________________________
+list1=[1,2,3]
+list2=[2]
+
+# print(bool(list2[0] in list1))
+
+
+# # ________________________________________________________________________________________
+
+count=0
+hour=11
+duration=2
+for l in [k for k in range(hour, hour+duration)]:    
+    if l not in n["time"]:
+        for t in range(duration):
+            n["time"].append(hour+t)
+        n["time"].sort()
+        break
+    else:
+        count+=1
+         
+print(count)
+if count ==3:
+    print("No Service")
