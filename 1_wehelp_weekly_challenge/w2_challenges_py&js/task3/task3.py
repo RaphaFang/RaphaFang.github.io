@@ -7,14 +7,11 @@ def func(*data):
             name_dict[n] = list(n)[1]   
     # print(name_dict)   # >>> {'郭宣雅': '宣', '夏曼藍波安': '藍', '郭宣恆': '宣'}
 
-    counting_dict={}
     counting_list = [n for n in name_dict.values()]  # >>> ['宣', '藍', '宣']
-    for n in counting_list:
-       counting_dict[n]= counting_list.count(n)  
-    # print(counting_dict)   # >>> {'宣': 2, '藍': 1}
+    counting_dict={k:counting_list.count(k) for k in counting_list }   # >>> {'宣': 2, '藍': 1}
 
     min_name = min(counting_dict.values())
-    check_min_list =  [k for k in counting_dict if counting_dict.get(k) == min_name]   # >>> ['藍'] 且不存在同為最小，因此list中僅有一個
+    check_min_list =  [k for k in counting_dict if counting_dict.get(k) == min_name]   # >>> ['藍'] 若出現兩個最小，在下方會剔除
 
     reverse_name_dict={y:x for (x,y) in name_dict.items()}  # >>> {'宣': '郭宣恆', '藍': '夏曼藍波安'}，重複的key會被洗掉，但是不影響我們只要抓出最unique的全名
     if len(check_min_list) == 1:
