@@ -2,16 +2,15 @@ def find(spaces, stat, n):   # >>> given find([3, 1, 5, 4, 3, 2], [0, 1, 0, 1, 1
     available = [spaces[i] if stat[i]>0 and spaces[i]>0 else 0 for i in range(len(spaces))]
     # print(available)   # >>> [0, 1, 0, 4, 3, 2]
 
-    ava_minus_passenger_list=[]
-    for k in available:
-        ava_minus_passenger_list.append(k-n) 
+    ava_minus_passenger_list = [k-n for k in available]
     # print(ava_minus_passenger_list)  # >>> [-2, -1, -2, 2, 1, 0]
-    
+        
     fit = None
     for n in range(len(ava_minus_passenger_list)):
         for i in ava_minus_passenger_list:
             if ava_minus_passenger_list[n] >= 0 and ava_minus_passenger_list[n] < i:
                 fit = n
+    # print(fit)   # >>> 5 / None / 2
     
     if str(fit).isnumeric():
         print(fit)
