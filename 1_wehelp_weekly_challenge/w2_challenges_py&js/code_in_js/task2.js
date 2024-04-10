@@ -114,3 +114,5 @@ book(consultants, 14, 3, "price"); // John
 // Bob
 // No Service
 // John
+
+console.log("========task2 end========");

@@ -16,3 +16,5 @@ getNumber(30); // print 70
 // 15
 // 25
 // 70
+
+console.log("========task4 end========");
