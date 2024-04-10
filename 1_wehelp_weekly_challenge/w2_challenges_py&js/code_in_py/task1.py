@@ -5,15 +5,19 @@ def find_and_print(messages, current_station):  # >>> given current_station = "W
         for i in stations.keys():
             if i in k:
                 message_loc_list.append(stations[i])
+
+    
     rebuild_messages_dict = dict(zip(messages.keys(), message_loc_list))  # >>> {'Leslie': 3.1, 'Bob': 12, 'Mary': 5, 'Copper': 17, 'Vivian': 1}
+    # it contain a list and a dict, dict comprehension won't work
 
     relative_position_dict = {}
-    position_list=[]
     current_station_num = stations[current_station]   # >>> 6
-    for n in rebuild_messages_dict:
-        position_list.append(abs(current_station_num - rebuild_messages_dict[n]))  # >>>[2.9, 6, 1, 11, 5]
-    relative_position_dict = dict(zip(position_list, messages.keys()))   # >>> {'Leslie': 2.9, 'Bob': 6, 'Mary': 1, 'Copper': 11, 'Vivian': 5}
+    position_list = [abs(current_station_num - rebuild_messages_dict[n]) for n in rebuild_messages_dict]
+    #  >>>[2.9, 6, 1, 11, 5]
     
+    relative_position_dict = dict(zip(position_list, messages.keys()))   
+    # print(relative_position_dict)  # >>> {2.9: 'Leslie', 6: 'Bob', 1: 'Mary', 11: 'Copper', 5: 'Vivian'}
+
     min = position_list[0]
     for _ in position_list:
         if  _ < min:
@@ -35,7 +39,6 @@ find_and_print(messages, "Songshan") # print Copper
 find_and_print(messages, "Qizhang") # print Leslie
 find_and_print(messages, "Ximen") # print Bob
 find_and_print(messages, "Xindian City Hall") # print Vivian
-print("====Task1 in py====")
 
 
 

@@ -1,12 +1,15 @@
 def get_price(ele):
     return ele["price"]
+
 def get_rate(ele):
     return ele["rate"]
+
 def book_hour_list(hour,duration):
     hour_list = []
     for b in range(hour,hour+duration):
         hour_list.append(b)
     return hour_list
+
 def time_occupied_or_not_list(n, hour_list):
     occupied_list=[]
     for k in hour_list:
@@ -15,6 +18,7 @@ def time_occupied_or_not_list(n, hour_list):
         else:
             occupied_list.append(False)
     return any(occupied_list)
+
 def print_name_and_break(n, hour, duration):
     for t in range(duration):
         n["time"].append(hour+t)

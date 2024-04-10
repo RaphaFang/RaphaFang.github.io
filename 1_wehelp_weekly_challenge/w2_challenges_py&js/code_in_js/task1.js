@@ -1,4 +1,5 @@
 function findAndPrint(messages, current_station) {
+  // >>> given current_station = "Wanlong"
   const rebuildMessagesDict = {};
   const messageLocList = [];
   for (const k in messages) {
@@ -8,16 +9,22 @@ function findAndPrint(messages, current_station) {
       }
     }
   }
-  Object.keys(messages).forEach((key, index) => {
-    rebuildMessagesDict[key] = messageLocList[index];
-  });
+  for (const [key, value] of Object.entries(messages)) {
+    rebuildMessagesDict[key] = messageLocList.shift();
+  }
+  // console.log(rebuildMessagesDict); // >>> { Leslie: 3.1, Bob: 12, Mary: 5, Copper: 17, Vivian: 1 }
 
   const relativePositionDict = {};
   const positionList = [];
-  const currentStationNum = stations[current_station];
+  // this 2 part can't be displace by the Object.keys func below
+  // even use announce "const relativePositionDict = ..." won't work
+
+  const currentStationNum = stations[current_station]; // >>> 6
+
   Object.keys(rebuildMessagesDict).forEach((key) => {
     positionList.push(Math.abs(currentStationNum - rebuildMessagesDict[key]));
   });
+
   Object.keys(messages).forEach((key, index) => {
     relativePositionDict[positionList[index]] = key;
   });
@@ -67,4 +74,6 @@ findAndPrint(messages, "Songshan"); // print Copper
 findAndPrint(messages, "Qizhang"); // print Leslie
 findAndPrint(messages, "Ximen"); // print Bob
 findAndPrint(messages, "Xindian City Hall"); // print Vivian
-console.log("====Task1 in JS====");
+
+// Ｏ解決：js dictionary comprehension
+//    https://stackoverflow.com/questions/11068247/in-javascript-a-dictionary-comprehension-or-an-object-map
