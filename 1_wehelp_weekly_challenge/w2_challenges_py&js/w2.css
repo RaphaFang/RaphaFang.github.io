@@ -80,3 +80,15 @@ body .gist .gist-meta {
 .anchor {
   display: block;
 }
+a {
+  text-decoration: underline;
+}
+
+.task {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.bigger-p {
+  font-size: 40px;
+}
