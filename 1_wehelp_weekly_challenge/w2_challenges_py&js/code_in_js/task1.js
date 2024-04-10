@@ -77,3 +77,10 @@ findAndPrint(messages, "Xindian City Hall"); // print Vivian
 
 // Ｏ解決：js dictionary comprehension
 //    https://stackoverflow.com/questions/11068247/in-javascript-a-dictionary-comprehension-or-an-object-map
+
+// terminal:--------------------------------------------------------------------
+// Mary
+// Copper
+// Leslie
+// Bob
+// Vivian

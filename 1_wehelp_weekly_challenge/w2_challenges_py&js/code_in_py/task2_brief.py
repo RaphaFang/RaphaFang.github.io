@@ -92,3 +92,15 @@ book(consultants, 14, 3, "price") # John
 #       https://www.geeksforgeeks.org/python-any-function/
 # Ｏ解決：斷開，滿足一次就離開（break、continue、pass）
 #       https://medium.com/@chiayinchen/1-%E5%88%86%E9%90%98%E6%90%9E%E6%87%82-python-%E8%BF%B4%E5%9C%88%E6%8E%A7%E5%88%B6-break-continue-pass-be290cd1f9d8
+
+
+# terminal:--------------------------------------------------------------------
+# Jenny
+# Jenny
+# John
+# John
+# Bob
+# No Service
+# John
+
+print("========task2 end========")

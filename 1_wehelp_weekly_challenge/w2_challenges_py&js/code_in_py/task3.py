@@ -43,3 +43,12 @@ func("郭宣雅", "夏曼藍波安", "郭宣恆") # print 夏曼藍波安
 # Ｏ解決：找到最小值，但是存在多個的情況？？
 #       https://stackoverflow.com/questions/23967702/finding-max-value-in-a-dictionary-if-two-or-more-keys-have-same-values
 # Ｏ解決：反轉name_dict，check_min_list為list，不需要解決叫出dict key的問題
+
+
+# terminal:--------------------------------------------------------------------
+# 彭大牆
+# 林花花
+# 沒有
+# 夏曼藍波安
+
+print("========task3 end========")

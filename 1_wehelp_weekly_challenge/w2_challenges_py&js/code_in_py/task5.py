@@ -35,3 +35,11 @@ find([4, 6, 5, 8], [0, 1, 1, 1], 4) # print 2 [0, 6, 5, 8]
 #       發現用list可以更快的比大小，可以略過max/min功能，但情況是"keys"只是指數，若是第3題的字，則須要透過dict
 # Ｏ解決：解決是否為數字？
 #       https://www.toppr.com/guides/python-guide/references/methods-and-functions/methods/string/isnumeric/python-string-isnumeric/
+
+
+# terminal:--------------------------------------------------------------------
+# 5
+# -1
+# 2
+
+print("========task5 end========")

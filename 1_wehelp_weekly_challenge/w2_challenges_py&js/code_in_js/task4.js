@@ -10,3 +10,9 @@ getNumber(30); // print 70
 
 // Ｏ解決：js的divmod
 //      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor
+
+// terminal:--------------------------------------------------------------------
+// 4
+// 15
+// 25
+// 70

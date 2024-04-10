@@ -105,3 +105,12 @@ book(consultants, 14, 3, "price"); // John
 
 // Ｏ解決：py中使用的 try expect, didn't work
 //    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
+
+// terminal:--------------------------------------------------------------------
+// Jenny
+// Jenny
+// John
+// John
+// Bob
+// No Service
+// John
