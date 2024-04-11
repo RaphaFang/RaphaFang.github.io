@@ -1,28 +1,40 @@
 def find_and_print(messages, current_station):  # >>> given current_station = "Wanlong"
-    rebuild_messages_dict = {}
-    message_loc_list=[]
+    stations=["Songshan","Nanjing Sanmin","Taipei Arena","Nanjing Fuxing","Songjiang Nanjing","Zhongshan","Beimen","Ximen","Xiaonanmen","Chiang Kai-Shek Memorial Hall","Guting","Taipower Building","Gongguan","Wanlong","Jingmei","Dapinglin","Xiaobitan","Qizhang","Xindian City Hall","Xindian"]
+
+    message_sta_list=[]
     for k in messages.values():
-        for i in stations.keys():
+        for i in stations:
             if i in k:
-                message_loc_list.append(stations[i])
+                message_sta_list.append(i)  # >>> ['Xiaobitan', 'Ximen', 'Jingmei', 'Taipei Arena', 'Xindian']
+    message_sta_dict = dict(zip(messages.keys(), message_sta_list))  # >>> {'Leslie': 'Xiaobitan', 'Bob': 'Ximen', 'Mary': 'Jingmei', 'Copper': 'Taipei Arena', 'Vivian': 'Xindian'}
 
-    
-    rebuild_messages_dict = dict(zip(messages.keys(), message_loc_list))  # >>> {'Leslie': 3.1, 'Bob': 12, 'Mary': 5, 'Copper': 17, 'Vivian': 1}
-    # it contain a list and a dict, dict comprehension won't work
+    base_on_current_sta_distance ={}
+    stations_without_Xiaobitan=["Songshan","Nanjing Sanmin","Taipei Arena","Nanjing Fuxing","Songjiang Nanjing","Zhongshan","Beimen","Ximen","Xiaonanmen","Chiang Kai-Shek Memorial Hall","Guting","Taipower Building","Gongguan","Wanlong","Jingmei","Dapinglin","Qizhang","Xindian City Hall","Xindian"]
 
-    relative_position_dict = {}
-    current_station_num = stations[current_station]   # >>> 6
-    position_list = [abs(current_station_num - rebuild_messages_dict[n]) for n in rebuild_messages_dict]
-    #  >>>[2.9, 6, 1, 11, 5]
-    
-    relative_position_dict = dict(zip(position_list, messages.keys()))   
-    # print(relative_position_dict)  # >>> {2.9: 'Leslie', 6: 'Bob', 1: 'Mary', 11: 'Copper', 5: 'Vivian'}
+    if current_station != 'Xiaobitan':
+        fix = stations_without_Xiaobitan.index(current_station)
+        message_sta_index_dict = {}
+        for n in message_sta_dict:
+            if message_sta_dict[n]=="Xiaobitan":
+                message_sta_index_dict[n]= abs(fix-stations_without_Xiaobitan.index("Qizhang"))+1
+            else:
+                absolute_loc = stations_without_Xiaobitan.index(message_sta_dict[n])
+                relative_loc = abs(fix-absolute_loc)
+                message_sta_index_dict[n]=relative_loc
+    else:
+        fix = stations_without_Xiaobitan.index("Qizhang")
+        message_sta_index_dict = {}
+        for n in message_sta_dict:
+            if message_sta_dict[n]=="Xiaobitan":
+                message_sta_index_dict[n]= 0
+            else:
+                absolute_loc = stations_without_Xiaobitan.index(message_sta_dict[n])
+                relative_loc = abs(fix-absolute_loc) +1
+                message_sta_index_dict[n]=relative_loc
+    # print(message_sta_index_dict)     # >>>{'Leslie': 4, 'Bob': 6, 'Mary': 1, 'Copper': 11, 'Vivian': 5}
 
-    min = position_list[0]
-    for _ in position_list:
-        if  _ < min:
-            min = _
-    print(relative_position_dict[min])
+    person = min(message_sta_index_dict, key=message_sta_index_dict.get)
+    print(person)
 
 messages={
 "Leslie":"I'm at home near Xiaobitan station.",
@@ -31,8 +43,6 @@ messages={
 "Copper":"I just saw a concert at Taipei Arena.",
 "Vivian":"I'm at Xindian station waiting for you."
 }
-stations={"Songshan":19,"Nanjing Sanmin":18,"Taipei Arena":17,"Nanjing Fuxing":16,"Songjiang Nanjing":15,"Zhongshan":14,"Beimen":13,"Ximen":12,"Xiaonanmen":11,"Chiang Kai-Shek Memorial Hall":10,"Guting":9,"Taipower Building":8,"Gongguan":7,"Wanlong":6,"Jingmei":5,"Dapinglin":4,"Xiaobitan":3.1,"Qizhang":3,"Xindian City Hall":2,"Xindian":1
-}
 
 find_and_print(messages, "Wanlong") # print Mary
 find_and_print(messages, "Songshan") # print Copper
@@ -40,6 +50,7 @@ find_and_print(messages, "Qizhang") # print Leslie
 find_and_print(messages, "Ximen") # print Bob
 find_and_print(messages, "Xindian City Hall") # print Vivian
 
+find_and_print(messages, "Dapinglin")  # print Mary 
 
 
 # 找到我車站的數值(dict, 站名:數值)、檢查messages中（編譯dict, 數值:人名）、
@@ -61,7 +72,7 @@ find_and_print(messages, "Xindian City Hall") # print Vivian
 #       https://runoob.com/python/func-number-abs.html
 #       最大最小：
 #       透過先前wehelp code的紀錄
-# Ｏ解決：處理捷運綠線，注意有分岔出去的小碧潭站
+# Ｘ錯誤：處理捷運綠線，注意有分岔出去的小碧潭站
 #       把小碧潭編列成3.1
 
 # terminal:--------------------------------------------------------------------
@@ -70,6 +81,8 @@ find_and_print(messages, "Xindian City Hall") # print Vivian
 # Leslie
 # Bob
 # Vivian
+
+print("========task1 end========")
 
 print("========task1 end========")
 

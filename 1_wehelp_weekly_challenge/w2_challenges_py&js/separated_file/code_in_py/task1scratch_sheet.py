@@ -87,9 +87,17 @@ for k in messages.values():
         # rebuild_messages[j] = n
             
 # 4. zip 大成功！！
-rebuild_messages = dict(zip(messages.keys(), list))
+# rebuild_messages = dict(zip(messages.keys(), list))
 
-# print(list)
-# print(rebuild_messages)
-for n in rebuild_messages:
-    print(rebuild_messages[n])
+# # print(list)
+# # print(rebuild_messages)
+# for n in rebuild_messages:
+#     print(rebuild_messages[n])
+            
+stations=["Songshan","Nanjing Sanmin","Taipei Arena","Nanjing Fuxing","Songjiang Nanjing","Zhongshan","Beimen","Ximen","Xiaonanmen","Chiang Kai-Shek Memorial Hall","Guting","Taipower Building","Gongguan","Wanlong","Jingmei","Dapinglin","Xiaobitan","Qizhang","Xindian City Hall","Xindian"]
+
+print(stations.index("Songshan"))
+
+message_sta_dict = {'Leslie': 'Xiaobitan', 'Bob': 'Ximen', 'Mary': 'Jingmei', 'Copper': 'Taipei Arena', 'Vivian': 'Xindian'}
+for n in message_sta_dict:
+    print(message_sta_dict[n])
