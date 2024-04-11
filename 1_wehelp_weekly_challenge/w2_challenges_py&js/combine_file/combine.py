@@ -8,7 +8,6 @@ def find_and_print(messages, current_station):  # >>> given current_station = "W
                 message_sta_list.append(i)  # >>> ['Xiaobitan', 'Ximen', 'Jingmei', 'Taipei Arena', 'Xindian']
     message_sta_dict = dict(zip(messages.keys(), message_sta_list))  # >>> {'Leslie': 'Xiaobitan', 'Bob': 'Ximen', 'Mary': 'Jingmei', 'Copper': 'Taipei Arena', 'Vivian': 'Xindian'}
 
-    base_on_current_sta_distance ={}
     stations_without_Xiaobitan=["Songshan","Nanjing Sanmin","Taipei Arena","Nanjing Fuxing","Songjiang Nanjing","Zhongshan","Beimen","Ximen","Xiaonanmen","Chiang Kai-Shek Memorial Hall","Guting","Taipower Building","Gongguan","Wanlong","Jingmei","Dapinglin","Qizhang","Xindian City Hall","Xindian"]
 
     if current_station != 'Xiaobitan':
@@ -81,6 +80,7 @@ find_and_print(messages, "Dapinglin")  # print Mary
 # Leslie
 # Bob
 # Vivian
+# Mary 
 
 print("========task1 end========")
 

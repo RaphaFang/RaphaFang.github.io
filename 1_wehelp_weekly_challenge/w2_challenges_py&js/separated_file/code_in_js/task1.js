@@ -1,41 +1,93 @@
-function findAndPrint(messages, current_station) {
+function findAndPrint(messages, currentStation) {
   // >>> given current_station = "Wanlong"
-  const rebuildMessagesDict = {};
-  const messageLocList = [];
-  for (const k in messages) {
-    for (const i in stations) {
-      if (messages[k].includes(i)) {
-        messageLocList.push(stations[i]);
+  const stations = [
+    "Songshan",
+    "Nanjing Sanmin",
+    "Taipei Arena",
+    "Nanjing Fuxing",
+    "Songjiang Nanjing",
+    "Zhongshan",
+    "Beimen",
+    "Ximen",
+    "Xiaonanmen",
+    "Chiang Kai-Shek Memorial Hall",
+    "Guting",
+    "Taipower Building",
+    "Gongguan",
+    "Wanlong",
+    "Jingmei",
+    "Dapinglin",
+    "Xiaobitan",
+    "Qizhang",
+    "Xindian City Hall",
+    "Xindian",
+  ];
+
+  const messageStaList = [];
+  for (const k of Object.values(messages)) {
+    for (const i of stations) {
+      if (k.includes(i)) {
+        messageStaList.push(i);
       }
     }
   }
-  for (const [key, value] of Object.entries(messages)) {
-    rebuildMessagesDict[key] = messageLocList.shift();
-  }
-  // console.log(rebuildMessagesDict); // >>> { Leslie: 3.1, Bob: 12, Mary: 5, Copper: 17, Vivian: 1 }
+  const messageStaDict = Object.fromEntries(
+    Object.keys(messages).map((key, index) => [key, messageStaList[index]])
+  );
 
-  const relativePositionDict = {};
-  const positionList = [];
-  // this 2 part can't be displace by the Object.keys func below
-  // even use announce "const relativePositionDict = ..." won't work
+  const stationsWithoutXiaobitan = [
+    "Songshan",
+    "Nanjing Sanmin",
+    "Taipei Arena",
+    "Nanjing Fuxing",
+    "Songjiang Nanjing",
+    "Zhongshan",
+    "Beimen",
+    "Ximen",
+    "Xiaonanmen",
+    "Chiang Kai-Shek Memorial Hall",
+    "Guting",
+    "Taipower Building",
+    "Gongguan",
+    "Wanlong",
+    "Jingmei",
+    "Dapinglin",
+    "Qizhang",
+    "Xindian City Hall",
+    "Xindian",
+  ];
+  let messageStaIndexDict = {};
+  if (currentStation !== "Xiaobitan") {
+    const fix = stationsWithoutXiaobitan.indexOf(currentStation);
 
-  const currentStationNum = stations[current_station]; // >>> 6
-
-  Object.keys(rebuildMessagesDict).forEach((key) => {
-    positionList.push(Math.abs(currentStationNum - rebuildMessagesDict[key]));
-  });
-
-  Object.keys(messages).forEach((key, index) => {
-    relativePositionDict[positionList[index]] = key;
-  });
-
-  let min = positionList[0];
-  positionList.forEach((item) => {
-    if (item < min) {
-      min = item;
+    for (const [name, station] of Object.entries(messageStaDict)) {
+      if (station === "Xiaobitan") {
+        messageStaIndexDict[name] =
+          Math.abs(fix - stationsWithoutXiaobitan.indexOf("Qizhang")) + 1;
+      } else {
+        const absoluteLoc = stationsWithoutXiaobitan.indexOf(station);
+        const relativeLoc = Math.abs(fix - absoluteLoc);
+        messageStaIndexDict[name] = relativeLoc;
+      }
     }
-  });
-  console.log(relativePositionDict[min]);
+  } else {
+    const fix = stationsWithoutXiaobitan.indexOf("Qizhang");
+
+    for (const [name, station] of Object.entries(messageStaDict)) {
+      if (station === "Xiaobitan") {
+        messageStaIndexDict[name] = 0;
+      } else {
+        const absoluteLoc = stationsWithoutXiaobitan.indexOf(station);
+        const relativeLoc = Math.abs(fix - absoluteLoc) + 1;
+        messageStaIndexDict[name] = relativeLoc;
+      }
+    }
+  }
+
+  const person = Object.keys(messageStaIndexDict).reduce((a, b) =>
+    messageStaIndexDict[a] < messageStaIndexDict[b] ? a : b
+  );
+  console.log(person);
 }
 
 const messages = {
@@ -46,34 +98,13 @@ const messages = {
   Vivian: "I'm at Xindian station waiting for you.",
 };
 
-const stations = {
-  Songshan: 19,
-  "Nanjing Sanmin": 18,
-  "Taipei Arena": 17,
-  "Nanjing Fuxing": 16,
-  "Songjiang Nanjing": 15,
-  Zhongshan: 14,
-  Beimen: 13,
-  Ximen: 12,
-  Xiaonanmen: 11,
-  "Chiang Kai-Shek Memorial Hall": 10,
-  Guting: 9,
-  "Taipower Building": 8,
-  Gongguan: 7,
-  Wanlong: 6,
-  Jingmei: 5,
-  Dapinglin: 4,
-  Xiaobitan: 3.1,
-  Qizhang: 3,
-  "Xindian City Hall": 2,
-  Xindian: 1,
-};
-
 findAndPrint(messages, "Wanlong"); // print Mary
 findAndPrint(messages, "Songshan"); // print Copper
 findAndPrint(messages, "Qizhang"); // print Leslie
 findAndPrint(messages, "Ximen"); // print Bob
 findAndPrint(messages, "Xindian City Hall"); // print Vivian
+
+findAndPrint(messages, "Dapinglin"); // print Mary
 
 // Ｏ解決：js dictionary comprehension
 //    https://stackoverflow.com/questions/11068247/in-javascript-a-dictionary-comprehension-or-an-object-map
