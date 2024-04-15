@@ -42,12 +42,15 @@ name_to_mrt={k["MRT"]:k["address"] for k in data2["data"]}  # >>>  處理data2�
 # with open('RaphaFang.github.io/w3_import_urllib_request/mrt.csv', 'w', newline='') as file:
 #     writer = csv.writer(file)
 
-mrt_dict = {}
-
-
+mrt_dict = {n:[] for n in station}
 for s in station:
-    if s+"站" in data1["data"]["results"][0]["info"]:
+    for n in range(len(data1["data"]["results"])):
+        if s+"站" in data1["data"]["results"][n]["info"]:
+            mrt_dict[s].append(data1["data"]["results"][n]["stitle"])
 
-        print(s)
-        # District = name_to_mrt[s][5:7]+"區"
-        # break
+# print(mrt_dict)
+
+for n in mrt_dict:
+    StationName = n
+    AttractionTitle= ', '.join(mrt_dict[n])
+    print(StationName,AttractionTitle)
