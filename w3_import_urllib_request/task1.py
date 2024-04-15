@@ -15,24 +15,24 @@ station = [x for n, x in enumerate(station) if x not in station[:n]]  # >>> 絕�
 name_to_mrt={k["MRT"]:k["address"] for k in data2["data"]}  # >>>  處理data2中站名是values的問題，並且組成[{站明：地址}}
 
 
-# with open('RaphaFang.github.io/w3_import_urllib_request/spot.csv', 'w', newline='') as file:
-#     writer = csv.writer(file)
+with open('RaphaFang.github.io/w3_import_urllib_request/spot.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
 
-#     for n in range(len(data1["data"]["results"])):
-#         SpotTitle = data1["data"]["results"][n]["stitle"]
-#         for s in station:
-#             if s+"站" in data1["data"]["results"][n]["info"]:
-#                 District = name_to_mrt[s][5:7]+"區"
-#                 break
-#         Longitude = data1["data"]["results"][n]["longitude"]
-#         Latitude = data1["data"]["results"][n]["latitude"]
-#         if data1["data"]["results"][n]["filelist"].find(".jpg")==-1:
-#             jpg = data1["data"]["results"][n]["filelist"].find(".JPG")
-#         else:
-#             jpg = data1["data"]["results"][n]["filelist"].find(".jpg" or ".JPG")
-#         ImageURL = data1["data"]["results"][n]["filelist"][0:jpg+4]
+    for n in range(len(data1["data"]["results"])):
+        SpotTitle = data1["data"]["results"][n]["stitle"]
+        for s in station:
+            if s+"站" in data1["data"]["results"][n]["info"]:
+                District = name_to_mrt[s][5:7]+"區"
+                break
+        Longitude = data1["data"]["results"][n]["longitude"]
+        Latitude = data1["data"]["results"][n]["latitude"]
+        if data1["data"]["results"][n]["filelist"].find(".jpg")==-1:
+            jpg = data1["data"]["results"][n]["filelist"].find(".JPG")
+        else:
+            jpg = data1["data"]["results"][n]["filelist"].find(".jpg" or ".JPG")
+        ImageURL = data1["data"]["results"][n]["filelist"][0:jpg+4]
 
-#         writer.writerow([SpotTitle,District,Longitude,Latitude,ImageURL])
+        writer.writerow([SpotTitle,District,Longitude,Latitude,ImageURL])
 
 
 # O解決：解決ssl讀取阻擋：透過 Install Certificates.command
