@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: black;
+}
+@import url("https://fonts.googleapis.com/css?family=Droid+Sans+Mono");
+
+.container {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  margin-top: 40px;
+  margin-bottom: 200px;
+
+  /* width: 80%; */
+}
+body {
+  font-family: sans-serif;
+  line-height: 1.4;
+  background-color: lightgray;
+}
+
+/* ________________________________________________ */
+/* the setup from : */
+/* https://codersblock.com/blog/customizing-github-gists/ */
+/* 
+body .gist .gist-file {
+  margin-bottom: 0;
+  border: 1px white;
+  border-radius: 0;
+} */
+
+body .gist .gist-data {
+  border-bottom: none;
+  border-radius: 0;
+  background-color: black;
+}
+
+body .gist .blob-wrapper {
+  border-radius: 0;
+}
+
+body .gist .highlight {
+  background-color: transparent;
+  font-family: "Droid Sans Mono", monospace;
+  font-size: 14px;
+}
+
+body .gist .highlight td {
+  padding: 5px 15px !important;
+  line-height: 1;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+body .gist tr:first-child td {
+  padding-top: 15px !important;
+}
+
+body .gist tr:last-child td {
+  padding-bottom: 15px !important;
+}
+
+body .gist .blob-num {
+  color: white;
+  background-color: black;
+  pointer-events: none;
+}
+
+body .gist .gist-meta {
+  display: none;
+}
+
+/* body .gist .blob-code {
+  filter: brightness(91%) contrast(102%) saturate(200%);
+} */
+
+.anchor {
+  display: block;
+}
+a {
+  text-decoration: underline;
+}
+
+.task {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.bigger-p {
+  font-size: 40px;
+}
