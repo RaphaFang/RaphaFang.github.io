@@ -10,9 +10,8 @@ with request.urlopen(src1) as response:
 with request.urlopen(src2) as response:
     data2 = json.load(response)
 
-# print(len(data1["data"]["results"]))
 station = [n['MRT'] for n in data2["data"]]
-station = [x for n, x in enumerate(station) if x not in station[:n]]
+station = [x for n, x in enumerate(station) if x not in station[:n]]  # >>> 絕佳的方式！要好好複習
 name_to_mrt={k["MRT"]:k["address"] for k in data2["data"]}  # >>>  處理data2中站名是values的問題，並且組成[{站明：地址}}
 
 
@@ -36,9 +35,9 @@ name_to_mrt={k["MRT"]:k["address"] for k in data2["data"]}  # >>>  處理data2�
 #         writer.writerow([SpotTitle,District,Longitude,Latitude,ImageURL])
 
 
-# 解決ssl讀取阻擋：透過 Install Certificates.command
+# O解決：解決ssl讀取阻擋：透過 Install Certificates.command
 #       https://support.chainstack.com/hc/en-us/articles/9117198436249-Common-SSL-Issues-on-Python-and-How-to-Fix-it
-# 解決地區名＼XX區＼經緯度＼第一張照片
+# O解決：解決地區名＼XX區＼經緯度＼第一張照片
         
 
 with open('RaphaFang.github.io/w3_import_urllib_request/mrt.csv', 'w', newline='') as file:
@@ -52,9 +51,12 @@ with open('RaphaFang.github.io/w3_import_urllib_request/mrt.csv', 'w', newline='
     
     for n in mrt_dict:
         StationName = n
-        AttractionTitle= ', '.join(mrt_dict[n])
+        writer_list = [StationName]
+        for a in mrt_dict[n]:
+            writer_list.append(a)
         # print(StationName,AttractionTitle)
-        writer.writerow([StationName,AttractionTitle])
+        
+        writer.writerow(writer_list)
 
-# 處理上方list 表單重複問題
+# O解決：處理上方list 表單重複問題
 # 處理AttractionTitle 是list問題
