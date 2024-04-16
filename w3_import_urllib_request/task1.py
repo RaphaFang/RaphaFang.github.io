@@ -53,9 +53,7 @@ with open('RaphaFang.github.io/w3_import_urllib_request/mrt.csv', 'w', newline='
         StationName = n
         writer_list = [StationName]
         for a in mrt_dict[n]:
-            writer_list.append(a)
-        # print(StationName,AttractionTitle)
-        
+            writer_list.append(a)        
         writer.writerow(writer_list)
 
 # O解決：處理上方list 表單重複問題
