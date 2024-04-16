@@ -38,44 +38,17 @@ def get_page_title_url(url):
     nextpage = webpage.find("a", string="‹ 上頁")
     return nextpage["href"]
 
-    # for title in titles:
-    #     sub_webpage_data_list=[]
-    #     if title.a != None:
-    #         sub_webpage_data_list.append(title.a.string)
-
-    #         title_url =  "https://www.ptt.cc"+title.a["href"]
-    #         req = Request(
-    #             title_url, headers={'User-Agent': 'Mozilla/5.0','cookie':'over18=1'}
-    #         )
-    #         sub_webpage = bs4.BeautifulSoup(urlopen(req).read().decode('utf-8'), features="html.parser")
-            
-
-    #         article_meta_value_list = sub_webpage.find_all("span", class_="article-meta-value")
-    #         if article_meta_value_list !=[]:
-    #             sub_webpage_data_list.append(article_meta_value_list[-1].string)
-
-
-
-
-
 webpage_data_list=[]
 url = "https://www.ptt.cc/bbs/Lottery/index.html"
 count=0
 while count<3:
     url = "https://www.ptt.cc"+get_page_title_url(url)
     count+=1
-# print(webpage_data_list)
 
 with open('RaphaFang.github.io/w3_import_urllib_request/article.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     for n in webpage_data_list:
         writer.writerow(n)
-
-
-
-
-
-
 
 
 # ---------------------------------------------------------------------------------
@@ -85,4 +58,4 @@ with open('RaphaFang.github.io/w3_import_urllib_request/article.csv', 'w', newli
 #       req = Request(
 #           url='https://www.ptt.cc/bbs/Lottery/index.html',
 #           headers={'User-Agent': 'Mozilla/5.0','cookie':'over18=1'}}
-# 解決本文刪除過長的字串問題
+# 解決本文刪除過長的字串問題：發現直接刪掉就好...
