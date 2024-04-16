@@ -50,7 +50,9 @@ for s in station:
 
 # print(mrt_dict)
 
-for n in mrt_dict:
-    StationName = n
-    AttractionTitle= ', '.join(mrt_dict[n])
-    print(StationName,AttractionTitle)
+# for n in mrt_dict:
+#     StationName = n
+#     AttractionTitle= ', '.join(mrt_dict[n])
+#     print(StationName,AttractionTitle)
+            
+find_all
