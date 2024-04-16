@@ -1,5 +1,6 @@
 from urllib.request import Request, urlopen
 import bs4
+import json
 import csv
 
 def get_page_title_url(url):
@@ -8,19 +9,14 @@ def get_page_title_url(url):
     )
     webpage = bs4.BeautifulSoup(urlopen(req).read().decode('utf-8'), features="html.parser")
 
-    blocks = webpage.find_all("div", class_="r-ent")
+    
+    titles = webpage.find_all("div", class_="title")
+    number_count = webpage.find_all("div", class_="nrec")
 
-    for block in blocks:
+    for title in titles:
         sub_webpage_data_list=[]
-        title = block.find("div", class_="title")
-        number_count = block.find("div", class_="nrec")
         if title.a != None:
             sub_webpage_data_list.append(title.a.string)
-
-            if number_count.span != None:
-                sub_webpage_data_list.append(number_count.span.string)
-            else:
-                sub_webpage_data_list.append(0)
 
             title_url =  "https://www.ptt.cc"+title.a["href"]
             req = Request(
@@ -28,33 +24,28 @@ def get_page_title_url(url):
             )
             sub_webpage = bs4.BeautifulSoup(urlopen(req).read().decode('utf-8'), features="html.parser")
             
+            # push_count = len(sub_webpage.find_all('span', string = '推 '))
+            # dispush_count = len(sub_webpage.find_all('span', string = '噓 '))
+            # arrow_count = len(sub_webpage.find_all('span', string = '→ '))
+            # sub_webpage_data_list.append(push_count-dispush_count-arrow_count)
+
             article_meta_value_list = sub_webpage.find_all("span", class_="article-meta-value")
             if article_meta_value_list !=[]:
                 sub_webpage_data_list.append(article_meta_value_list[-1].string)
 
-        if sub_webpage_data_list != []:
-            webpage_data_list.append(sub_webpage_data_list)
+        # Parse every article data in the first 3 pages, excluding deleted ones.
+        # else:
+        #     title_name = title.string[title.string.find("("):title.string.find("]")+1]
+        #     sub_webpage_data_list.append(title_name)
+                
+    for number in number_count:
+        if number.string != None:
+            pass
 
+    if sub_webpage_data_list != []:
+        webpage_data_list.append(sub_webpage_data_list)
     nextpage = webpage.find("a", string="‹ 上頁")
     return nextpage["href"]
-
-    # for title in titles:
-    #     sub_webpage_data_list=[]
-    #     if title.a != None:
-    #         sub_webpage_data_list.append(title.a.string)
-
-    #         title_url =  "https://www.ptt.cc"+title.a["href"]
-    #         req = Request(
-    #             title_url, headers={'User-Agent': 'Mozilla/5.0','cookie':'over18=1'}
-    #         )
-    #         sub_webpage = bs4.BeautifulSoup(urlopen(req).read().decode('utf-8'), features="html.parser")
-            
-
-    #         article_meta_value_list = sub_webpage.find_all("span", class_="article-meta-value")
-    #         if article_meta_value_list !=[]:
-    #             sub_webpage_data_list.append(article_meta_value_list[-1].string)
-
-
 
 
 
@@ -64,7 +55,6 @@ count=0
 while count<3:
     url = "https://www.ptt.cc"+get_page_title_url(url)
     count+=1
-# print(webpage_data_list)
 
 with open('RaphaFang.github.io/w3_import_urllib_request/article.csv', 'w', newline='') as file:
     writer = csv.writer(file)
