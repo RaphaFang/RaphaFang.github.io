@@ -1,6 +1,12 @@
 const src1 =
   "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1";
-
+function shortedText(text) {
+  if (text.length > 7) {
+    return text.substring(0, 7) + "...";
+  } else {
+    return text;
+  }
+}
 fetch(src1)
   .then((response) => {
     if (response.ok) {
@@ -28,7 +34,7 @@ fetch(src1)
     let titleArray = Array.from(title);
     for (let i = 0; i < 13; i += 1) {
       const elementP = titleArray[i];
-      elementP.textContent = titleList[i];
+      elementP.textContent = shortedText(titleList[i]);
     }
 
     // 修改 jpg (上方3個小的)
@@ -46,6 +52,19 @@ fetch(src1)
       elementP.style.backgroundImage = `url(${urlList[i + 3]})`;
     }
     // 修改字過長問題
+    (function () {
+      var len = 50; // 超過50個字以"..."取代
+      $(".JQellipsis").each(function (i) {
+        if ($(this).text().length > len) {
+          $(this).attr("title", $(this).text());
+          var text =
+            $(this)
+              .text()
+              .substring(0, len - 1) + "...";
+          $(this).text(text);
+        }
+      });
+    });
   });
 
 //------------------------------------------------------------------------------------
