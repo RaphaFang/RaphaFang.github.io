@@ -1,5 +1,7 @@
 const src1 =
   "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1";
+
+// 修改字過長問題
 function shortedText(text) {
   if (text.length > 7) {
     return text.substring(0, 7) + "...";
@@ -7,6 +9,7 @@ function shortedText(text) {
     return text;
   }
 }
+
 fetch(src1)
   .then((response) => {
     if (response.ok) {
@@ -51,20 +54,6 @@ fetch(src1)
       const elementP = imgBigArray[i];
       elementP.style.backgroundImage = `url(${urlList[i + 3]})`;
     }
-    // 修改字過長問題
-    (function () {
-      var len = 50; // 超過50個字以"..."取代
-      $(".JQellipsis").each(function (i) {
-        if ($(this).text().length > len) {
-          $(this).attr("title", $(this).text());
-          var text =
-            $(this)
-              .text()
-              .substring(0, len - 1) + "...";
-          $(this).text(text);
-        }
-      });
-    });
   });
 
 //------------------------------------------------------------------------------------
