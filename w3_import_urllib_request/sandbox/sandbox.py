@@ -65,11 +65,23 @@
 
 
 # "
-list = ['\n', '\t', '\t', '\t', '\n', '\t', '\t', '\t', '\t', '(', '本', '文', '已', '被', '刪', '除', ')', '[', 's', 'a', 'q', 'u', 'c', 'h', 'h', 'h', ']', '\n', '\t', '\t', '\t', '\n', '\t', '\t', '\t']
-aaa = ''
-for n in list:
-    aaa+=n
+# list = ['\n', '\t', '\t', '\t', '\n', '\t', '\t', '\t', '\t', '(', '本', '文', '已', '被', '刪', '除', ')', '[', 's', 'a', 'q', 'u', 'c', 'h', 'h', 'h', ']', '\n', '\t', '\t', '\t', '\n', '\t', '\t', '\t']
+# aaa = ''
+# for n in list:
+#     aaa+=n
 
-bbb = aaa.find("(")
-print(bbb)
+# bbb = aaa.find("(")
+# print(bbb)
 
+
+# -----------------
+import urllib.request as request
+import json
+import csv
+
+src1 = "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1"
+src2 = 'https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-2'
+
+with request.urlopen(src1) as response:
+    data1 = json.load(response)
+print(data1)
