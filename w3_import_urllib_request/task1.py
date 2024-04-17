@@ -26,10 +26,11 @@ with open('RaphaFang.github.io/w3_import_urllib_request/spot.csv', 'w', newline=
                 break
         Longitude = data1["data"]["results"][n]["longitude"]
         Latitude = data1["data"]["results"][n]["latitude"]
-        if data1["data"]["results"][n]["filelist"].find(".jpg")==-1:
-            jpg = data1["data"]["results"][n]["filelist"].find(".JPG")
-        else:
-            jpg = data1["data"]["results"][n]["filelist"].find(".jpg" or ".JPG")
+
+        # if data1["data"]["results"][n]["filelist"].find(".jpg")==-1:
+        #     jpg = data1["data"]["results"][n]["filelist"].find(".JPG")
+        # else:
+        jpg = data1["data"]["results"][n]["filelist"][4:].find("https")
         ImageURL = data1["data"]["results"][n]["filelist"][0:jpg+4]
 
         writer.writerow([SpotTitle,District,Longitude,Latitude,ImageURL])
