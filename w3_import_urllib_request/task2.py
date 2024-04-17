@@ -1,13 +1,18 @@
-from urllib.request import Request, urlopen
+import urllib.request as request
 import bs4
 import csv
 
 def get_page_title_url(url):
-    req = Request(
+    req = request.Request(
         url, headers={'User-Agent': 'Mozilla/5.0','cookie':'over18=1'}
     )
-    webpage = bs4.BeautifulSoup(urlopen(req).read().decode('utf-8'), features="html.parser")
 
+    with request.urlopen(req) as response:
+        webpage = bs4.BeautifulSoup(response.read().decode('utf-8'), features="html.parser")
+
+    # webpage = bs4.BeautifulSoup(request.urlopen(req).read().decode('utf-8'), features="html.parser")
+    # rewrite it in a formal way
+        
     blocks = webpage.find_all("div", class_="r-ent")
 
     for block in blocks:
@@ -23,11 +28,15 @@ def get_page_title_url(url):
                 sub_webpage_data_list.append(0)
 
             title_url =  "https://www.ptt.cc"+title.a["href"]
-            req = Request(
+            req = request.Request(
                 title_url, headers={'User-Agent': 'Mozilla/5.0','cookie':'over18=1'}
             )
-            sub_webpage = bs4.BeautifulSoup(urlopen(req).read().decode('utf-8'), features="html.parser")
-            
+            with request.urlopen(req) as response:
+                sub_webpage = bs4.BeautifulSoup(response.read().decode('utf-8'), features="html.parser")
+
+            # sub_webpage = bs4.BeautifulSoup(request.urlopen(req).read().decode('utf-8'), features="html.parser")
+            # rewrite it in a formal way
+
             article_meta_value_list = sub_webpage.find_all("span", class_="article-meta-value")
             if article_meta_value_list !=[]:
                 sub_webpage_data_list.append(article_meta_value_list[-1].string)
