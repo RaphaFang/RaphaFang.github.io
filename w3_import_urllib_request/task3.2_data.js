@@ -59,3 +59,5 @@ fetch(src1)
 //------------------------------------------------------------------------------------
 // 解決url叫不出來問題
 //      elementP.style.backgroundImage = `url(${urlList[i + 3]})`;
+// slice
+//      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
