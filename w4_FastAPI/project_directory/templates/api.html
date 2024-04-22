@@ -3,20 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <title>login page</title>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="{{ url_for('static_css', path='style.css') }}"
-    />
+    /> -->
+    <link href="style.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container">
-      <div>
-        <h1 class="title">歡迎光臨，請輸入帳號密碼</h1>
+      <div class="title">
+        <h1>歡迎光臨，請輸入帳號密碼</h1>
       </div>
       <!-- https://www.fooish.com/html/form.html -->
-      <div>
-        <p>登入系統</p>
-        <form action="/" method="get">
+      <p>登入系統</p>
+      <div class="input-block">
+        <form action="/label/" method="get">
           <label for="username">帳號</label>
           <input type="text" id="username" name="username" required /><br />
 

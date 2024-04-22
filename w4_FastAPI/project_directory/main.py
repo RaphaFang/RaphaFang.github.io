@@ -21,7 +21,7 @@ app.mount("/static_css", StaticFiles(directory="static_css"), name="static_css")
 # mount css file
 
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
-@app.get("/")
+@app.get("/login/")
 async def login(username: str = Form(), password:str = Form(), accept: bool = Form()):
     # Your login logic here
     return {"username": username, "password": password, "accept": accept}
