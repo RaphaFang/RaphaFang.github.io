@@ -26,3 +26,7 @@ async def login(username: str = Form(), password:str = Form(), accept: bool = Fo
     return {"username": username, "password": password, "accept": accept}
 
 # uvicorn main:app --reload
+
+# 明天的代作事項
+# js要處理好阻擋送資料
+# py 要處理應該是收到數據資料，而不是 detal : no found
