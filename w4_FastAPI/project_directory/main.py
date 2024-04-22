@@ -13,12 +13,11 @@ async def display_html(request: Request):
 # https://fastapi.tiangolo.com/advanced/templates/
 
 
-# mount css file
-app.mount("/static_css", StaticFiles(directory="static_css"), name="static_css")
+# mount static directory for CSS and js
+app.mount("/static", StaticFiles(directory="static"), name="static_css")
+# app.mount("/static_js", StaticFiles(directory="static"), name="static_js")
 # https://fastapi.tiangolo.com/tutorial/static-files/
-# Mount the static directory for CSS and JavaScript files
 
-# mount js file
 
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 @app.get("/login/")
