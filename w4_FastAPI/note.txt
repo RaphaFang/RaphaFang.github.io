@@ -1,0 +1,10 @@
+cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w4_FastAPI/project_directory
+
+先前幾次的
+ERROR:    Error loading ASGI app. Could not import module "main".
+
+是因為沒有讀到正確的檔案位置
+
+cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w4_FastAPI/learning_API
+
+learn_main.py
