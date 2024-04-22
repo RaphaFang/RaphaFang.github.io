@@ -18,7 +18,7 @@ app.mount("/static_css", StaticFiles(directory="static_css"), name="static_css")
 # https://fastapi.tiangolo.com/tutorial/static-files/
 # Mount the static directory for CSS and JavaScript files
 
-# mount css file
+# mount js file
 
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 @app.get("/login/")

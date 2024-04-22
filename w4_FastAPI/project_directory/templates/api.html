@@ -3,33 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <title>login page</title>
-    <!-- <link
+    <link
       rel="stylesheet"
       href="{{ url_for('static_css', path='style.css') }}"
-    /> -->
-    <link href="style.css" rel="stylesheet" />
+    />
+    <!-- <link href="style.css" rel="stylesheet" /> -->
   </head>
   <body>
-    <div class="container">
-      <div class="title">
-        <h1>歡迎光臨，請輸入帳號密碼</h1>
+    <div class="login-container">
+      <div class="login-header">
+        <p>歡迎光臨，請輸入帳號密碼</p>
       </div>
-      <!-- https://www.fooish.com/html/form.html -->
-      <p>登入系統</p>
-      <div class="input-block">
-        <form action="/label/" method="get">
+      <p class = "login-text">登入系統</p></br></p>
+      <form action="/label/" method="get">
+        <div class="form-group">
           <label for="username">帳號</label>
-          <input type="text" id="username" name="username" required /><br />
-
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
           <label for="password">密碼</label>
-          <input type="password" id="password" name="password" required /><br />
-
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="checkbox-group">
+          <label for="accept">同意條款</label>
           <input type="checkbox" id="accept" name="accept" />
-          <label for="accept">同意條款</label><br /><br />
-
-          <input type="submit" value="Sign In" />
-        </form>
-      </div>
+        </div>
+        <div class="form-group-last">
+          <input type="submit" value="登入" />
+        </div>
+      </form>
     </div>
   </body>
 </html>
