@@ -19,9 +19,11 @@ app.mount("/static_css", StaticFiles(directory="static_css"), name="static_css")
 # Mount the static directory for CSS and JavaScript files
 
 # mount css file
+
+# https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 @app.get("/")
-async def login(username: str = Form(...), password: str = Form(...), remember: bool = Form(...)):
+async def login(username: str = Form(), password:str = Form(), accept: bool = Form()):
     # Your login logic here
-    return {"username": username, "password": password, "remember": remember}
+    return {"username": username, "password": password, "accept": accept}
 
 # uvicorn main:app --reload

@@ -2,29 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Sign In</title>
+    <title>login page</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static_css', path='/style.css') }}"
+      href="{{ url_for('static_css', path='style.css') }}"
     />
   </head>
   <body>
     <div class="container">
-      <h1>Sign In</h1>
-      <form action="/login/" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required /><br /><br />
-        <label for="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-        /><br /><br />
-        <input type="checkbox" id="remember" name="remember" />
-        <label for="remember">Remember me</label><br /><br />
-        <input type="submit" value="Sign In" />
-      </form>
+      <div>
+        <h1 class="title">歡迎光臨，請輸入帳號密碼</h1>
+      </div>
+      <!-- https://www.fooish.com/html/form.html -->
+      <div>
+        <p>登入系統</p>
+        <form action="/" method="get">
+          <label for="username">帳號</label>
+          <input type="text" id="username" name="username" required /><br />
+
+          <label for="password">密碼</label>
+          <input type="password" id="password" name="password" required /><br />
+
+          <input type="checkbox" id="accept" name="accept" />
+          <label for="accept">同意條款</label><br /><br />
+
+          <input type="submit" value="Sign In" />
+        </form>
+      </div>
     </div>
   </body>
 </html>

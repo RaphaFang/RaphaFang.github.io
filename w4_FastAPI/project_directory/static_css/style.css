@@ -1,13 +1,15 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: red;
 }
-
+.title {
+  background: red;
+}
 .container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: black;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -23,5 +25,5 @@ input[type="submit"] {
 }
 
 input[type="checkbox"] {
-  margin-right: 5px;
+  margin-right: 50px;
 }
