@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form 
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -21,9 +21,9 @@ async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 # https://fastapi.tiangolo.com/advanced/templates/
 
-@app.get("/member", response_class=HTMLResponse)
-async def redirect_successful_html(request: Request):
-    return templates.TemplateResponse(name = "successful.html", request = request)
+# @app.get("/member", response_class=HTMLResponse)
+# async def redirect_successful_html(request: Request):
+#     return templates.TemplateResponse(name = "successful.html", request = request)
 
 
 
@@ -35,7 +35,7 @@ async def login(username: Annotated[str, Form()] , password:Annotated[str, Form(
     user_info =  {"username": username, "password": password, "accept": accept}
     if user_info["username"] == "test" and user_info["password"] == "test":
         print("you are at 31")
-        return RedirectResponse('http://127.0.0.1:8000/member')
+        # return RedirectResponse('http://127.0.0.1:8000/member')
 
 
                     # return {"message": "登入成功"}
@@ -46,6 +46,14 @@ async def login(username: Annotated[str, Form()] , password:Annotated[str, Form(
 
 
 # uvicorn main:app --reload
+# from fastapi import logger
+
+# @app.middleware("http")
+# async def log_requests(request: Request, call_next):
+#     logger.info(f"Incoming request: {request.url.path}")
+#     response = await call_next(request)
+#     logger.info(f"Request completed: {response.status_code}")
+#     return response
 
 
 # -------------------------------------------------------------------------------------------
@@ -53,3 +61,5 @@ async def login(username: Annotated[str, Form()] , password:Annotated[str, Form(
 # O 解決：js要處理好阻擋送資料，如果未打溝
 # O 解決：py 要處理應該是收到數據資料，而不是 detal : no found
 #       改成 post 解可以收到資訊
+# -------------------------------------------------------------------------------------------
+# 處理css檔案被讀錯，這到底是怎麼發生的？？？？？？
