@@ -37,17 +37,17 @@ document.addEventListener("DOMContentLoaded", function () {
 // Ineffective Event Handling:
 // Since the new submit listeners are added during each button click when the checkbox is unchecked, they remain active and execute their logic every time the form is attempted to be submitted. This includes times when the checkbox might actually be checked after initially being unchecked, because the listeners were added before and were never removed.
 
-function checkCheckbox() {
-  var checkbox = document.getElementById("accept");
-  var form = document.getElementById("signin-form");
-  if (!checkbox.checked) {
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      console.log("submission canceled");
-      alert("Please check the checkbox first");
-    });
-  }
-}
+// function checkCheckbox() {
+//   var checkbox = document.getElementById("accept");
+//   var form = document.getElementById("signin-form");
+//   if (!checkbox.checked) {
+//     form.addEventListener("submit", function (event) {
+//       event.preventDefault();
+//       console.log("submission canceled");
+//       alert("Please check the checkbox first");
+//     });
+//   }
+// }
 
 // 錯誤嘗試1. --------------------------------------------------------------------------------
 // form.removeAttribute("action");

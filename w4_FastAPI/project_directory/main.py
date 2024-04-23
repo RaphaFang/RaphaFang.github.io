@@ -3,6 +3,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 
+from typing import Annotated
+from fastapi.responses import ORJSONResponse
+
 app = FastAPI()
 
 # import html file
@@ -22,9 +25,15 @@ app.mount("/static", StaticFiles(directory="static"), name="static_css")
 
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 @app.post("/signin")
-async def login(username: str = Form(), password:str = Form(), accept: bool = Form()):
-    # Your login logic here
-    return {"username": username, "password": password, "accept": accept}
+async def login(username: Annotated[str, Form()] , password:Annotated[str, Form()], accept: Annotated[bool, Form()]):
+    user_info =  {"username": username, "password": password, "accept": accept}
+    if user_info["username"] != "test" and user_info["password"] != "test":
+        return {"message": "登入成功"}
+
+# @app.get("/member")
+
+# @app.get("/error?message=自訂的錯誤訊息")
+
 
 # uvicorn main:app --reload
 
