@@ -13,9 +13,10 @@ async def display_html(request: Request):
 # https://fastapi.tiangolo.com/advanced/templates/
 
 
-# mount static directory for CSS and js
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# mount static for CSS and js
+app.mount("/static", StaticFiles(directory="static"), name="static_css")
 # app.mount("/static_js", StaticFiles(directory="static"), name="static_js")
+# 第一个 "/static" 是 URL 路径前缀。directory="static" 是服务器上的文件夹路径。name="static" 是这个挂载点的内部名称，用于应用程序内部引用。
 # https://fastapi.tiangolo.com/tutorial/static-files/
 
 

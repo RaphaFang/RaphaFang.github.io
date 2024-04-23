@@ -2,8 +2,11 @@
 
 function checkCheckbox() {
   var checkbox = document.getElementById("accept");
+  var form = document.getElementById("signin-form");
   if (!checkbox.checked) {
+    form.removeAttribute("action");
     alert("Please check the checkbox first");
-    // 要想辦法阻擋進入才對
+  } else {
+    form.setAttribute("action", "/signin");
   }
 }
