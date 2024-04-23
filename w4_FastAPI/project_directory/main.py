@@ -14,7 +14,7 @@ async def display_html(request: Request):
 
 
 # mount static directory for CSS and js
-app.mount("/static", StaticFiles(directory="static"), name="static_css")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 # app.mount("/static_js", StaticFiles(directory="static"), name="static_js")
 # https://fastapi.tiangolo.com/tutorial/static-files/
 
@@ -30,6 +30,7 @@ async def login(username: str = Form(), password:str = Form(), accept: bool = Fo
 
 # -------------------------------------------------------------------------------------------
 # 明天的代作事項
-# js要處理好阻擋送資料
+# js要處理好阻擋送資料，如果未打溝
+
 # O 解決：py 要處理應該是收到數據資料，而不是 detal : no found
 #       改成 post 解可以收到資訊
