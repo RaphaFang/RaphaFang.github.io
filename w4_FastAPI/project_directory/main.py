@@ -20,13 +20,16 @@ app.mount("/static", StaticFiles(directory="static"), name="static_css")
 
 
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
-@app.get("/login/")
+@app.post("/signin")
 async def login(username: str = Form(), password:str = Form(), accept: bool = Form()):
     # Your login logic here
     return {"username": username, "password": password, "accept": accept}
 
 # uvicorn main:app --reload
 
+
+# -------------------------------------------------------------------------------------------
 # 明天的代作事項
 # js要處理好阻擋送資料
-# py 要處理應該是收到數據資料，而不是 detal : no found
+# O 解決：py 要處理應該是收到數據資料，而不是 detal : no found
+#       改成 post 解可以收到資訊
