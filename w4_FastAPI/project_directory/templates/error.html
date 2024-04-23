@@ -12,10 +12,9 @@
         <p>失敗頁面</p>
       </div>
       <p class = "text">{{ message }}</p></br>
+      <!-- {{aaa}} 這個方式寫在
+      https://fastapi.tiangolo.com/advanced/templates/ 
+      Template Context Values-->
     </div>
-    <!-- At the end of your error.html -->
-    <pre>{{ request | safe }}</pre>  <!-- Shows the request object -->
-    <pre>{{ context | safe }}</pre>  <!-- If you passed a context variable, which isn't necessary here -->
-
   </body>
 </html>
