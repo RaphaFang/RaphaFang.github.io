@@ -47,9 +47,9 @@ async def display_html(request: Request):
 async def redirect_successful_html(request: Request):
     return templates.TemplateResponse(name = "successful.html", request = request)
 
-# @app.get("/error", response_class=HTMLResponse)
-# async def redirect_successful_html(request: Request):
-#     return templates.TemplateResponse(name = "error.html", request = request)
+@app.get("/error", response_class=HTMLResponse)
+async def show_error_page(request: Request,  message: str = ""):
+    return templates.TemplateResponse(name = "error.html", request= request, message= message)
 
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 @app.post("/signin")
@@ -58,13 +58,12 @@ async def login(username: Optional[str] = Form(None) , password:Optional[str] = 
     if user_info["username"] == "test" and user_info["password"] == "test":
         return RedirectResponse(url='/member', status_code=303)
         # status_code=303, the server tells the client to redirect to /member but to use the GET method instead of POST.
-    elif user_info["username"] == None or user_info["password"] == None:
-        return html_generator("Please enter username or password")
-        # return RedirectResponse(url='/error', status_code=303)
+    elif user_info["username"] is None or user_info["password"] is None:
+        return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
+        # return html_generator("Please enter username or password")
     else:
-        {"message":"idorpassword_error"}
-        # return RedirectResponse(url='/error', status_code=303)
-        return html_generator("Username or password is not correct")
+        return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
+        # return html_generator("Username or password is not correct")
 
 
 
