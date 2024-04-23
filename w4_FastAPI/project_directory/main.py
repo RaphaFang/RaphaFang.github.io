@@ -1,12 +1,13 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from typing import Annotated
-# from fastapi.responses import ORJSONResponse
+from flask import request
 
 app = FastAPI()
+
 
 # import html file
 templates = Jinja2Templates(directory="templates")
@@ -14,6 +15,10 @@ templates = Jinja2Templates(directory="templates")
 async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 # https://fastapi.tiangolo.com/advanced/templates/
+
+# @app.get("/member", response_class=HTMLResponse)
+# async def redirect_successful_html():
+#     return templates.TemplateResponse(name = "successful.html", request = request)
 
 
 # mount static for CSS and js
@@ -27,9 +32,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static_css")
 @app.post("/signin")
 async def login(username: Annotated[str, Form()] , password:Annotated[str, Form()], accept: Annotated[bool, Form()]):
     user_info =  {"username": username, "password": password, "accept": accept}
-    if user_info["username"] != "test" and user_info["password"] != "test":
-        return {"message": "登入成功"}
+    if user_info["username"] == "test" and user_info["password"] == "test":
+        print("you are at 31")
+        # return RedirectResponse('http://127.0.0.1:8000/member')
 
+
+                    # return {"message": "登入成功"}
+# successful
 # @app.get("/member")
 
 # @app.get("/error?message=自訂的錯誤訊息")
