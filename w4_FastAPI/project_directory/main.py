@@ -9,10 +9,21 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="whats_secret_key")
+# from your_application.middleware import AuthMiddleware
+# app.add_middleware(AuthMiddleware)
 
-
-
+class AuthMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # 阻擋未從指定端口進來
+        if request.url.path not in ["/", "/signin", "/error", "/member", "/static"]:
+            # 阻擋如果['sign_in']是True
+            if 'sign_in' in request.session:
+                # not request.session['sign_in']，這會得到 KeyError: 'sign_in'
+                # 若為True，則回到主頁面
+                return RedirectResponse(url='/')
+        response = await call_next(request)
+        return response
+    
 # mount static for CSS and js
 app.mount("/static", StaticFiles(directory="static"), name="style")
 # app.mount("/static", StaticFiles(directory="static"), name="successful")
@@ -46,16 +57,6 @@ app.mount("/static", StaticFiles(directory="static"), name="style")
 user_info = {
     "test": "test"
 }
-class Middleware_check(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        # 阻擋未從指定端口進來
-        if request.url.path not in ["/", "/signin", "/error"]:
-            # 阻擋如果['sign_in']是True
-            if not request.session['sign_in']:
-                # 若為True，則回到主頁面
-                return RedirectResponse(url='/')
-        response = await call_next(request)
-        return response
 
 # import html file
 templates = Jinja2Templates(directory="templates")
@@ -95,10 +96,13 @@ async def login(request: Request, username: Optional[str] = Form(None) , passwor
 async def signout(request: Request):
     # 寫一個登入條件為 false的request調整
     request.session.pop('user', None)
-    request.session.pop('SIGNED-IN', None)
+    request.session.pop('sign_in', None)
     return RedirectResponse(url='/', status_code=303)
 
-app.add_middleware(Middleware_check)
+
+app.add_middleware(AuthMiddleware)
+app.add_middleware(SessionMiddleware, secret_key="whats_secret_key")
+# 這要在最後一行，才不會報錯 ：AssertionError: SessionMiddleware must be installed to access request.session
 
 
 
@@ -114,3 +118,4 @@ app.add_middleware(Middleware_check)
 #       改成 post 解可以收到資訊
 # -------------------------------------------------------------------------------------------
 # O 解決：處理css檔案被讀錯，這到底是怎麼發生的？？？？？？
+# 又又又又又又又又又又又又又又又又又又發生css連結斷掉的問題... 近乎崩潰...
