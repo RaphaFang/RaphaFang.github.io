@@ -35,6 +35,11 @@ app.mount("/static", StaticFiles(directory="static"), name="style")
     # """
     # return HTMLResponse(content=html_content, status_code=200)
 
+# user information data
+user_info = {
+    "test": "test"
+}
+
 # import html file
 templates = Jinja2Templates(directory="templates")
 
@@ -56,11 +61,12 @@ async def show_error_page(request: Request,  message: str = ""):
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 @app.post("/signin")
 async def login(username: Optional[str] = Form(None) , password:Optional[str] = Form(None), accept: bool = Form()):
-    user_info =  {"username": username, "password": password, "accept": accept}
-    if user_info["username"] == "test" and user_info["password"] == "test":
+    # user_input =  {"username": username, "password": password, "accept": accept}
+
+    if username in user_info and password == user_info[username]:
         return RedirectResponse(url='/member', status_code=303)
         # status_code=303, the server tells the client to redirect to /member but to use the GET method instead of POST.
-    elif user_info["username"] is None or user_info["password"] is None:
+    elif username is None or password is None:
         return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
         # return html_generator("Please enter username or password")
     else:
