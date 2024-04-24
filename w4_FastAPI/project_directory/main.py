@@ -107,7 +107,7 @@ async def signout(request: Request):
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key")
 # 這要在最後一行，才不會報錯 ：AssertionError: SessionMiddleware must be installed to access request.session
-
+# https://github.com/tiangolo/fastapi/issues/4746
 
 
 
