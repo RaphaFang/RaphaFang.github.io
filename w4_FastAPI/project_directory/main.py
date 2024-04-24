@@ -4,7 +4,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
 from typing import Annotated , Optional
 
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+
 app = FastAPI()
+app.add_middleware(SessionMiddleware, secret_key="whats_secret_key")
+
 
 # mount static for CSS and js
 app.mount("/static", StaticFiles(directory="static"), name="style")
@@ -49,16 +55,15 @@ async def display_html(request: Request):
 # https://fastapi.tiangolo.com/advanced/templates/
 
 @app.get("/member", response_class=HTMLResponse)
-async def redirect_successful_html(request: Request):
+async def show_successful_page(request: Request):
     return templates.TemplateResponse(name = "successful.html", context={"request" : request},request = request)
     # return templates.TemplateResponse(name = "successful.html", request = request)
-
 
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = ""):
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message},request = request)
-
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
+
 @app.post("/signin")
 async def login(username: Optional[str] = Form(None) , password:Optional[str] = Form(None), accept: bool = Form()):
     # user_input =  {"username": username, "password": password, "accept": accept}
@@ -72,6 +77,11 @@ async def login(username: Optional[str] = Form(None) , password:Optional[str] = 
     else:
         return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
         # return html_generator("Username or password is not correct")
+    
+@app.get("/signout")
+async def signout():
+    # 寫一個登入條件為 false的
+    return RedirectResponse(url='/', status_code=303)
 
 
 
