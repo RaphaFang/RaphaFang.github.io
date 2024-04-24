@@ -19,7 +19,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
             response = await call_next(request)
             return response
         # 阻擋未從指定端口進來
-        if request.url.path not in ["/", "/signin", "/error", "/member"]:
+        if request.url.path not in ["/", "/signin", "/error", "/member", "/square"] or request.url.path.startswith("/square/"):
             # 阻擋如果['sign_in']是True
             if 'sign_in' in request.session:
                 # not request.session['sign_in']，這會得到 KeyError: 'sign_in'
@@ -76,9 +76,17 @@ async def show_successful_page(request: Request):
     # return templates.TemplateResponse(name = "successful.html", request = request)
 
 @app.get("/error", response_class=HTMLResponse)
-async def show_error_page(request: Request,  message: str = ""):
-    return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message},request = request)
+async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"):
+    return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
+
+@app.get("/square/{message}" , response_class=HTMLResponse)
+async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
+    message = posit_num**2
+    return templates.TemplateResponse(url='/square/message',name = "error.html", context={"request": request, "message": message, "title": title},request = request)
+    # 沒辦法用 patd parameters 去給尾部的質，因為這個用法是url >>> dict ，而不是反方向
+    # {"message":message}
+
 
 @app.post("/signin")
 async def login(request: Request, username: Optional[str] = Form(None) , password:Optional[str] = Form(None), accept: bool = Form()):
