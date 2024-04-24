@@ -88,6 +88,14 @@ button {
   /* margin-top: 20px; */
   border: 1px #f4f4f4 solid;
 }
+
+.form-group input[id="posit_num"] {
+  width: 50%;
+  padding: 7px;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
 /* 按鈕機制------------------- */
 /* .hidden {
   display: none;

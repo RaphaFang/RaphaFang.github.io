@@ -24,6 +24,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+function squareCounter() {
+  var posit_num = document.getElementById("posit_num").value;
+  if (posit_num < 1) {
+    alert("Please enter a positive number");
+  } else {
+    window.location.href = "/square/" + posit_num;
+  }
+}
+
 // 錯誤嘗試2. --------------------------------------------------------------------------------
 
 // 這func的問題是，1. 他無法回到預設狀態（即便勾選accept）

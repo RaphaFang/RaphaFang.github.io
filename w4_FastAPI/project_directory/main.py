@@ -18,13 +18,19 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path.startswith("/static/"):
             response = await call_next(request)
             return response
+        
+        if request.url.path.startswith("/square/"):
+            response = await call_next(request)
+            return response
+        
         # 阻擋未從指定端口進來
-        if request.url.path not in ["/", "/signin", "/error", "/member", "/square"] or request.url.path.startswith("/square/"):
+        if request.url.path not in ["/", "/signin", "/error", "/member", "/square"]:
             # 阻擋如果['sign_in']是True
-            if 'sign_in' in request.session:
+            if request.session.get('sign_in', True):
                 # not request.session['sign_in']，這會得到 KeyError: 'sign_in'
                 # 若為True，則回到主頁面
                 return RedirectResponse(url='/')
+        
         response = await call_next(request)
         return response
     
@@ -80,12 +86,14 @@ async def show_error_page(request: Request,  message: str = "", title:str = "失
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 
-@app.get("/square/{message}" , response_class=HTMLResponse)
+@app.get("/square/{posit_num}" , response_class=HTMLResponse)
 async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
     message = posit_num**2
-    return templates.TemplateResponse(url='/square/message',name = "error.html", context={"request": request, "message": message, "title": title},request = request)
-    # 沒辦法用 patd parameters 去給尾部的質，因為這個用法是url >>> dict ，而不是反方向
-    # {"message":message}
+    return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
+    # 前提一：沒辦法用 path parameters 去給尾部的質，因為這個用法是url >>> dict ，而不是反方向
+    # 前提二：html那邊的<form action="/square/{posit_num}"> 只能導入非變數的str
+    # 所以，要透過js 轉一手資料，先變出一串url
+    # 再把url 讀成一個網頁，也就是app.get("/square/{posit_num}") 得出的網頁
 
 
 @app.post("/signin")

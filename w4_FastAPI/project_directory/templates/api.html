@@ -43,10 +43,11 @@
 
       <div class="lower_div">
         <p class="text">計算正整數的平方<br /><br /></p>
-        <form action="/square" method="get" id="square-form">
+        <form onsubmit="squareCounter(); return false;" id="square-form">
+          <!-- action="/square/{{posit_num}}"  -->
           <div class="form-group">
             <label for="posit_num">正整數</label>
-            <input type="text" id="posit_num" name="posit_num" />
+            <input id="posit_num" name="posit_num" />
           </div>
           <div class="form-group-last">
             <button type="submit">計算</button>
