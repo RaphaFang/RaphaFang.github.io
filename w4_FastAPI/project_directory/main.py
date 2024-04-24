@@ -12,6 +12,7 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key")
 
 
+
 # mount static for CSS and js
 app.mount("/static", StaticFiles(directory="static"), name="style")
 # app.mount("/static", StaticFiles(directory="static"), name="successful")
@@ -45,6 +46,16 @@ app.mount("/static", StaticFiles(directory="static"), name="style")
 user_info = {
     "test": "test"
 }
+class Middleware_check(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # 阻擋未從指定端口進來
+        if request.url.path not in ["/", "/signin", "/error"]:
+            # 阻擋如果['sign_in']是True
+            if not request.session['sign_in']:
+                # 若為True，則回到主頁面
+                return RedirectResponse(url='/')
+        response = await call_next(request)
+        return response
 
 # import html file
 templates = Jinja2Templates(directory="templates")
@@ -65,10 +76,12 @@ async def show_error_page(request: Request,  message: str = ""):
 # https://fastapi.tiangolo.com/zh-hant/tutorial/request-forms-and-files/?h=form
 
 @app.post("/signin")
-async def login(username: Optional[str] = Form(None) , password:Optional[str] = Form(None), accept: bool = Form()):
+async def login(request: Request, username: Optional[str] = Form(None) , password:Optional[str] = Form(None), accept: bool = Form()):
     # user_input =  {"username": username, "password": password, "accept": accept}
 
     if username in user_info and password == user_info[username]:
+        request.session['user'] = username
+        request.session['sign_in'] = True
         return RedirectResponse(url='/member', status_code=303)
         # status_code=303, the server tells the client to redirect to /member but to use the GET method instead of POST.
     elif username is None or password is None:
@@ -79,10 +92,13 @@ async def login(username: Optional[str] = Form(None) , password:Optional[str] = 
         # return html_generator("Username or password is not correct")
     
 @app.get("/signout")
-async def signout():
-    # 寫一個登入條件為 false的
+async def signout(request: Request):
+    # 寫一個登入條件為 false的request調整
+    request.session.pop('user', None)
+    request.session.pop('SIGNED-IN', None)
     return RedirectResponse(url='/', status_code=303)
 
+app.add_middleware(Middleware_check)
 
 
 
