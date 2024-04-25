@@ -21,9 +21,10 @@ class AuthMiddleware(BaseHTTPMiddleware):
             if not request.session.get('sign_in'): # 若user "sign_in" != True, 返回主頁面
                 return RedirectResponse(url='/')
             
-        if request.url.path not in ["/", "/signin", "/error","/square","/member"]:
+        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout"]:
             return RedirectResponse(url='/')
             # 換句話說，上方這串，意味著若是在 ["/", "/signin", "/error","/square","/member"] 這list中，便不需要檢查條件，直接進入該頁面
+            # 解決下方"/signout" 一直被跳出的問題，原來是path auth 認證沒加上他，導致他的功能（清除cookie沒辦法運作），
         return await call_next(request)
          
     
@@ -66,35 +67,14 @@ async def login(request: Request, username: Optional[str] = Form(None) , passwor
  
 @app.get("/signout")
 async def signout(request: Request):
-    # # request.session.pop('user', None)
-    # # request.session.pop('sign_in', None)
-    # print(dict(request.session))
-    # request.session.clear() # (X)並不是這裡沒清除，而是cookies ## 這裡確實沒有清除掉，因為html的<a>寫錯了
-    # print(dict(request.session))
-    # # 嘗試print(dict)，發現兩個都沒有印出來，推測應該是整個@app.get("/signout")沒運作，導致cookie沒有清除
-    # return RedirectResponse(url='/', status_code=303)
+    # response.delete_cookie("session")
+    request.session.clear() 
+    # (X)並不是這裡沒清除，而是cookies ## 這裡確實沒有清除掉，「不是」因為html的<a>寫錯了
+    # 嘗試print(dict)，發現兩個都沒有印出來，推測應該是整個@app.get("/signout")沒運作，導致cookie沒有清除
+    ### 解決"/signout" 一直被跳出的問題，原來是path auth 認證沒加上他，導致他的功能（清除cookie沒辦法運作）
+    ### cookie 沒有清除，導致我認為是上方/member的 auth條件沒寫好，怎麼每次登入完後在從url 打 /member都可以進入頁面
 
-    print("Accessed signout endpoint")
-    print("Current session data before clearing:", dict(request.session))
-    request.session.clear()
-    print("Session data after clearing:", dict(request.session))
-    response = RedirectResponse(url='/')
-    response.delete_cookie("session")
-    print("Redirecting to home with cleared session")
-    return response
+    return RedirectResponse(url='/', status_code=303)
 
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=3600)
-
-
-# max_age=5
-# 沒有設置這個，導致if request.url.path == "/member": 條件一直無法觸發
-# 以及導致，我試圖移除list的member，導致form登入也進不去，if request.url.path not in ["/", "/signin", "/error","/square","/member"]:
-        # if request.url.path == "/member":
-        #     if not request.session.get('sign_in'): # 若user "sign_in" != True, 返回主頁面
-        #         return RedirectResponse(url='/')
-            
-        # if request.url.path not in ["/", "/signin", "/error","/square","/member"]:
-        #     return RedirectResponse(url='/')
-        #     # 換句話說，上方這串，意味著若是在 ["/", "/signin", "/error","/square"] 這list中，便不需要檢查條件，直接進入該頁面
-        # return await call_next(request)
