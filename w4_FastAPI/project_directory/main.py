@@ -8,7 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
 # uvicorn main:app --reload
-# max_age=5 僅有5秒的登入cookies
+# max_age=3600 一小時的登入cookies
 
 app = FastAPI()
 
@@ -66,13 +66,25 @@ async def login(request: Request, username: Optional[str] = Form(None) , passwor
  
 @app.get("/signout")
 async def signout(request: Request):
-    # request.session.pop('user', None)
-    # request.session.pop('sign_in', None)
-    request.session.clear() #並不是這裡沒清除，而是cookies
-    return RedirectResponse(url='/', status_code=303)
+    # # request.session.pop('user', None)
+    # # request.session.pop('sign_in', None)
+    # print(dict(request.session))
+    # request.session.clear() # (X)並不是這裡沒清除，而是cookies ## 這裡確實沒有清除掉，因為html的<a>寫錯了
+    # print(dict(request.session))
+    # # 嘗試print(dict)，發現兩個都沒有印出來，推測應該是整個@app.get("/signout")沒運作，導致cookie沒有清除
+    # return RedirectResponse(url='/', status_code=303)
+
+    print("Accessed signout endpoint")
+    print("Current session data before clearing:", dict(request.session))
+    request.session.clear()
+    print("Session data after clearing:", dict(request.session))
+    response = RedirectResponse(url='/')
+    response.delete_cookie("session")
+    print("Redirecting to home with cleared session")
+    return response
 
 app.add_middleware(AuthMiddleware)
-app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=5)
+app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=3600)
 
 
 # max_age=5
