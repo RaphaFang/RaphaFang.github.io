@@ -8,21 +8,24 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
 # uvicorn main:app --reload
+# max_age=5 僅有5秒的登入cookies
 
 app = FastAPI()
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         if request.url.path.startswith("/static/") or request.url.path.startswith("/square/"):
-            response = await call_next(request)
-            return response
+            return await call_next(request)
 
-        if request.url.path not in ["/", "/signin", "/error", "/member", "/square"]:
-            if request.session.get('sign_in'):
+        if request.url.path == "/member":
+            if not request.session.get('sign_in'): # 若user "sign_in" != True, 返回主頁面
                 return RedirectResponse(url='/')
-        
-        response = await call_next(request)
-        return response
+            
+        if request.url.path not in ["/", "/signin", "/error","/square","/member"]:
+            return RedirectResponse(url='/')
+            # 換句話說，上方這串，意味著若是在 ["/", "/signin", "/error","/square","/member"] 這list中，便不需要檢查條件，直接進入該頁面
+        return await call_next(request)
+         
     
 user_info = {
     "test": "test"
@@ -54,17 +57,32 @@ async def login(request: Request, username: Optional[str] = Form(None) , passwor
     if username in user_info and password == user_info[username]:
         request.session['user'] = username
         request.session['sign_in'] = True
+        print("Login successful, session:", dict(request.session))
         return RedirectResponse(url='/member', status_code=303)
     elif username is None or password is None:
         return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
     else:
         return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
-    
+ 
 @app.get("/signout")
 async def signout(request: Request):
-    request.session.pop('user', None)
-    request.session.pop('sign_in', None)
+    # request.session.pop('user', None)
+    # request.session.pop('sign_in', None)
+    request.session.clear() #並不是這裡沒清除，而是cookies
     return RedirectResponse(url='/', status_code=303)
 
 app.add_middleware(AuthMiddleware)
-app.add_middleware(SessionMiddleware, secret_key="whats_secret_key")
+app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=5)
+
+
+# max_age=5
+# 沒有設置這個，導致if request.url.path == "/member": 條件一直無法觸發
+# 以及導致，我試圖移除list的member，導致form登入也進不去，if request.url.path not in ["/", "/signin", "/error","/square","/member"]:
+        # if request.url.path == "/member":
+        #     if not request.session.get('sign_in'): # 若user "sign_in" != True, 返回主頁面
+        #         return RedirectResponse(url='/')
+            
+        # if request.url.path not in ["/", "/signin", "/error","/square","/member"]:
+        #     return RedirectResponse(url='/')
+        #     # 換句話說，上方這串，意味著若是在 ["/", "/signin", "/error","/square"] 這list中，便不需要檢查條件，直接進入該頁面
+        # return await call_next(request)
