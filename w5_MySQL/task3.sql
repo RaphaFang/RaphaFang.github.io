@@ -8,16 +8,16 @@ DESCRIBE member;
 SELECT * FROM member;
 
 -- 3.1. 增加table data 資訊
-INSERT INTO member (name, username, password)
+INSERT INTO member (name, username, password, follower_count)
 VALUES ('test', 'test', 'test');
-INSERT INTO member (name, username, password)
-VALUES ('arbitrary_1', 'ab1', '1234');
-INSERT INTO member (name, username, password)
-VALUES ('arbitrary_2', 'ab2', '1234');
-INSERT INTO member (name, username, password)
-VALUES ('arbitrary_3', 'ab3', '1234');
-INSERT INTO member (name, username, password)
-VALUES ('arbitrary_4', 'ab4', '1234');
+INSERT INTO member (name, username, password, follower_count)
+VALUES ('arbitrary_1', 'ab1', '1234',"10");
+INSERT INTO member (name, username, password, follower_count)
+VALUES ('arbitrary_2', 'ab2', '1234',"20");
+INSERT INTO member (name, username, password, follower_count)
+VALUES ('arbitrary_3', 'ab3', '1234',"30");
+INSERT INTO member (name, username, password, follower_count)
+VALUES ('arbitrary_4', 'ab4', '1234',"40");
 
 -- 3.2. 全選資料
 SELECT * FROM member;
