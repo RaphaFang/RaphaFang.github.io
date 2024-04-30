@@ -1,5 +1,5 @@
 USE website;
-CREATE TABLE users (
+CREATE TABLE member (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'Unique ID',
     name VARCHAR(255) NOT NULL COMMENT 'Name',
     username VARCHAR(255) NOT NULL COMMENT 'Username',
