@@ -23,6 +23,7 @@ VALUES ('arbitrary_4', 'ab4', '1234',"40");
 SELECT * FROM member;
 
 -- 3.3. 選擇全部data，且降序排列
+SELECT all rows from the member table, in descending order of time.
 SELECT * FROM member ORDER BY time DESC;
 
 -- 3.4. 降序排列，且選擇2~4(排除1), 這邊換行可以不用加上";"
