@@ -106,6 +106,43 @@ WHERE name = "test";
 
 ### task 4
 
+-- 4.1. how many rows
+
+```ruby
+SELECT COUNT(*) FROM member;
+```
+
+-- 4.2. sum the value of followers
+
+```ruby
+SELECT SUM(follower_count) FROM member;
+```
+
+-- 4.3. the average of follower_count of all the rows
+
+```ruby
+SELECT @count_member INT;
+SELECT COUNT(*) INTO @count_member FROM member;
+SELECT @sum_follower INT;
+SELECT SUM(follower_count) INTO @sum_follower FROM member;
+SELECT @average_follower DECIMAL(10,2);
+SELECT @average_follower:=FLOOR(@sum_follower/@count_member);
+```
+
+-- 4.4. the average of follower_count of the first 2 rows, in descending order of follower_count, from the member table.
+
+```ruby
+SELECT @count_member_2 := 2;
+SELECT @sum_follower_2 := SUM(follower_count) FROM (
+SELECT follower_count
+FROM member
+ORDER BY follower_count DESC
+LIMIT 2
+) AS top_two_followers_alias;
+
+SELECT @average_follower_2 := FLOOR(@sum_follower_2/@count_member_2);
+```
+
 ===================================================================================================
 
 ### task 5
