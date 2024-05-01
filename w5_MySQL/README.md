@@ -12,7 +12,7 @@ time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Signup Time'
 );
 ```
 
-![Alt text](/w5_MySQL/img/mysql> DESCRIBE member.png?raw=true "Optional Title")
+![Alt text](w5_MySQL/img/DESCRIBE_member.png?raw=true "Optional Title")
 
 ### task 3
 
