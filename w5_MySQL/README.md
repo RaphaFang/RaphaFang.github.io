@@ -12,18 +12,7 @@ time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Signup Time'
 );
 ```
 
-mysql> DESCRIBE member;
-+----------------+--------------+------+-----+-------------------+-------------------+
-| Field | Type | Null | Key | Default | Extra |
-+----------------+--------------+------+-----+-------------------+-------------------+
-| id | bigint | NO | PRI | NULL | auto_increment |
-| name | varchar(255) | NO | | NULL | |
-| username | varchar(255) | NO | | NULL | |
-| password | varchar(255) | NO | | NULL | |
-| follower_count | int unsigned | NO | | 0 | |
-| time | datetime | NO | | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+----------------+--------------+------+-----+-------------------+-------------------+
-6 rows in set (0.01 sec)
+![Alt text](/RaphaFang.github.io/w5_MySQL/img/mysql> DESCRIBE member.png?raw=true "Optional Title")
 
 ### task 3
 
@@ -50,18 +39,7 @@ SELECT all rows from the member table.
 SELECT \* FROM member;
 ```
 
-mysql> SELECT \* FROM member;
-
-|----|------|-------|----------|----------|----------------|---------------------|
-| id | name | username | password | follower_count | time |
-|----|------|-------|----------|----------|----------------|---------------------|
-| 1 | test2 | test | test | 0 | 2024-04-29 15:54:39 ||
-| 2 | arbitrary_1 | ab1 | 1234 | 10 | 2024-04-29 16:00:22 ||
-| 3 | arbitrary_2 | ab2 | 1234 | 20 | 2024-04-29 16:00:22 ||
-| 4 | arbitrary_3 | ab3 | 1234 | 30 | 2024-04-29 16:00:22 ||
-| 5 | arbitrary_4 | ab4 | 1234 | 40 | 2024-04-29 16:00:22 ||
-|----|-------|------|----------|----------|----------------|---------------------|
-5 rows in set (0.00 sec)
+![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
 
 -- 3.3. 選擇全部 data，且降序排列
 SELECT all rows from the member table, in descending order of time.
