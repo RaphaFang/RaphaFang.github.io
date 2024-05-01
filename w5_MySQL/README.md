@@ -12,8 +12,7 @@ time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Signup Time'
 );
 ```
 
-![Alt text](RaphaFang.github.io/w5_MySQL/img
-/DESCRIBE_member.png?raw=true "Optional Title")
+![Alt text](/RaphaFang.github.io/w5_MySQL/img/DESCRIBE_member.png?raw=true "Optional Title")
 
 ### task 3
 
