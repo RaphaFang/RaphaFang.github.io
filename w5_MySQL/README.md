@@ -12,7 +12,9 @@ time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Signup Time'
 );
 ```
 
-![Alt text](/RaphaFang.github.io/w5_MySQL/img/DESCRIBE_member.png?raw=true "Optional Title")
+<!-- RaphaFang.github.io/w5_MySQL/img/DESCRIBE_member.png -->
+
+![Alt text](/RaphaFang.github.io/w5_MySQL/img/DESCRIBE_member.jpg?raw=true "Optional Title")
 
 ### task 3
 
@@ -38,8 +40,6 @@ SELECT all rows from the member table.
 ```ruby
 SELECT \* FROM member;
 ```
-
-![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
 
 -- 3.3. 選擇全部 data，且降序排列
 SELECT all rows from the member table, in descending order of time.
