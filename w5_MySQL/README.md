@@ -125,12 +125,12 @@ SELECT SUM(follower_count) FROM member;
 -- 4.3. the average of follower_count of all the rows
 
 ```ruby
-SELECT @count_member INT;
-SELECT COUNT(*) INTO @count_member FROM member;
-SELECT @sum_follower INT;
-SELECT SUM(follower_count) INTO @sum_follower FROM member;
-SELECT @average_follower DECIMAL(10,2);
-SELECT @average_follower:=FLOOR(@sum_follower/@count_member);
+SET @count_member := (SELECT COUNT(*) FROM member);
+SET @sum_follower := (SELECT SUM(follower_count) FROM member);
+SET @average_follower := FLOOR(@sum_follower / @count_member);
+
+SELECT @average_follower AS average_follower;
+
 ```
 
 ![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/4.3.png)
