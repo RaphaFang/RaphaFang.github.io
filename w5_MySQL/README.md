@@ -12,9 +12,9 @@ time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Signup Time'
 );
 ```
 
-<!-- RaphaFang.github.io/w5_MySQL/img/DESCRIBE_member.png -->
-
 ![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/DESCRIBE_member.jpg)
+
+===================================================================================================
 
 ### task 3
 
@@ -34,12 +34,16 @@ INSERT INTO member (name, username, password, follower_count)
 VALUES ('arbitrary_4', 'ab4', '1234',"40");
 ```
 
+見 3.2. 一次呈現
+
 -- 3.2. 全選資料
 SELECT all rows from the member table.
 
 ```ruby
-SELECT \* FROM member;
+SELECT * FROM member;
 ```
+
+![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/SELECT*FROM_member.png)
 
 -- 3.3. 選擇全部 data，且降序排列
 SELECT all rows from the member table, in descending order of time.
@@ -48,18 +52,60 @@ SELECT all rows from the member table, in descending order of time.
 SELECT * FROM member ORDER BY time DESC;
 ```
 
-mysql> SELECT \* FROM member ORDER BY time DESC;
-|----+-------------+----------+----------+----------------+---------------------+
-| id | name | username | password | follower_count | time |
-+----+-------------+----------+----------+----------------+---------------------+
-| 2 | arbitrary_1 | ab1 | 1234 | 10 | 2024-04-29 16:00:22 |
-| 3 | arbitrary_2 | ab2 | 1234 | 20 | 2024-04-29 16:00:22 |
-| 4 | arbitrary_3 | ab3 | 1234 | 30 | 2024-04-29 16:00:22 |
-| 5 | arbitrary_4 | ab4 | 1234 | 40 | 2024-04-29 16:00:22 |
-| 1 | test2 | test | test | 0 | 2024-04-29 15:54:39 |
-+----+-------------+----------+----------+----------------+---------------------+
-5 rows in set (0.00 sec)
+![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/timeDESC.png)
+
+-- 3.4. 降序排列，且選擇 2~4(排除 1), 這邊換行可以不用加上";"
+SELECT total 3 rows, second to fourth, from the member table, in descending order of time.
+
+```ruby
+SELECT * FROM member ORDER BY time DESC
+LIMIT 3 OFFSET 1;
+```
+
+![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/3.4.png)
+
+-- 3.5. 透過 username 篩選
+SELECT rows where username equals to test.
+
+```ruby
+SELECT * FROM member
+WHERE username = 'test';
+```
+
+![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/3.5.png)
+
+-- 3.6. 選擇 name 中包含 'es'
+
+```ruby
+SELECT * FROM member
+WHERE name LIKE '%es%';
+```
+
+![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/3.6.png)
+
+-- 3.7. username and password equal to test
+
+```ruby
+SELECT * FROM member
+WHERE username = "test" AND password = "test"
+```
+
+![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/3.7.png)
+
+-- 3.8. UPDATE data in name column to test2 where username equals to test.
+
+```ruby
+UPDATE member
+SET name="test2"
+WHERE name = "test";
+```
+
+![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/3.8.png)
+
+===================================================================================================
 
 ### task 4
+
+===================================================================================================
 
 ### task 5
