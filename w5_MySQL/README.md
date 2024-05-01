@@ -14,7 +14,7 @@ time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Signup Time'
 
 <!-- RaphaFang.github.io/w5_MySQL/img/DESCRIBE_member.png -->
 
-![Alt text](w5_MySQL/img/DESCRIBE_member.jpg?raw=true "Optional Title")
+![Optional Title](w5_MySQL/img/DESCRIBE_member.jpg)
 
 ### task 3
 
