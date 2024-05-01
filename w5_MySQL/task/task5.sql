@@ -54,16 +54,29 @@ WHERE username = 'test';
 
 -- 5.4. Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like count of messages where sender username equals to test.
 -- -- SELECT FLOOR((SELECT SUM(like_count) FROM message)/ (SELECT COUNT(*) FROM member WHERE username = 'test')) AS average_like_count
-SELECT member.username, FLOOR((SELECT SUM(like_count) FROM joined_table WHERE username = 'test') / (SELECT COUNT(*) FROM member WHERE username = 'test')) AS average_like_count
+-- SELECT 
+--     member.username,
+--     FLOOR((SELECT SUM(like_count) FROM joined_table WHERE username = 'test') / (SELECT COUNT(*) FROM member WHERE username = 'test')) AS average_like_count
+-- FROM member member
+-- JOIN message message ON member.id = message.member_id
+-- WHERE member.username = 'test';
+
+SELECT
+    member.username,
+    FLOOR(SUM(message.like_count) / COUNT(message.id)) AS average_like_count
 FROM member member
-JOIN message message ON member.id = message.member_id
+JOIN message ON member.id = message.member_id
 WHERE member.username = 'test';
+
 -- >>> 10
+
 
 
 -- 5.5. GROUP BY sender username
 -- -- SELECT FLOOR((SELECT SUM(follower_count) FROM member) / (SELECT COUNT(*) FROM member)) AS average_like_count
-SELECT member.username,  FLOOR((SELECT SUM(like_count) FROM message)/(SELECT COUNT(*) FROM member)) AS average_like_count
+SELECT
+    member.username,
+    FLOOR(SUM(message.like_count)/(COUNT(message.id))) AS average_like_count
 FROM member member
 JOIN message message ON member.id = message.member_id
 

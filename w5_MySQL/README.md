@@ -130,7 +130,6 @@ SET @sum_follower := (SELECT SUM(follower_count) FROM member);
 SET @average_follower := FLOOR(@sum_follower / @count_member);
 
 SELECT @average_follower AS average_follower;
-
 ```
 
 ![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/4.3.png)
@@ -221,9 +220,11 @@ WHERE username = 'test';
 -- 5.4. Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like count of messages where sender username equals to test.
 
 ```ruby
-SELECT member.username, FLOOR((SELECT SUM(like_count) FROM joined_table WHERE username = 'test') / (SELECT COUNT(*) FROM member WHERE username = 'test')) AS average_like_count
+SELECT
+    member.username,
+    FLOOR(SUM(message.like_count) / COUNT(message.id)) AS average_like_count
 FROM member member
-JOIN message message ON member.id = message.member_id
+JOIN message ON member.id = message.member_id
 WHERE member.username = 'test';
 ```
 
@@ -232,7 +233,9 @@ WHERE member.username = 'test';
 -- 5.5. GROUP BY sender username
 
 ```ruby
-SELECT member.username,  FLOOR((SELECT SUM(like_count) FROM message)/(SELECT COUNT(*) FROM member)) AS average_like_count
+SELECT
+    member.username,
+    FLOOR(SUM(message.like_count)/(COUNT(message.id))) AS average_like_count
 FROM member member
 JOIN message message ON member.id = message.member_id
 

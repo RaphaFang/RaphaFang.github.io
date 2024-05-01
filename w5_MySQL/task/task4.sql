@@ -12,12 +12,18 @@ SELECT SUM(follower_count) FROM member;   -- can add specific condition by using
 
 
 -- 4.3.  the average of follower_count of all the rows
-SELECT @count_member INT;  -- 有加上INT 意味著重新宣告，這就會報錯
-SELECT COUNT(*) INTO @count_member FROM member;
-SELECT @sum_follower INT;
-SELECT SUM(follower_count) INTO @sum_follower FROM member;
-SELECT @average_follower DECIMAL(10,2);  -- 可以加上DECIMAL(10,5) 10 只左邊的位數，5指小數點位數 
-SELECT @average_follower:=FLOOR(@sum_follower/@count_member);
+-- SELECT @count_member INT;  -- 有加上INT 意味著重新宣告，這就會報錯
+-- SELECT COUNT(*) INTO @count_member FROM member;
+-- SELECT @sum_follower INT;
+-- SELECT SUM(follower_count) INTO @sum_follower FROM member;
+-- SELECT @average_follower DECIMAL(10,2);  -- 可以加上DECIMAL(10,5) 10 只左邊的位數，5指小數點位數 
+-- SELECT @average_follower:=FLOOR(@sum_follower/@count_member);
+
+SET @count_member := (SELECT COUNT(*) FROM member);
+SET @sum_follower := (SELECT SUM(follower_count) FROM member);
+SET @average_follower := FLOOR(@sum_follower / @count_member);
+
+SELECT @average_follower AS average_follower;
 
 -- SELECT @count_member;  -- >>> 5
 -- SELECT @sum_follower;  -- >>> 100
