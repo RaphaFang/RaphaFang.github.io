@@ -97,7 +97,7 @@ WHERE username = "test" AND password = "test"
 ```ruby
 UPDATE member
 SET name="test2"
-WHERE name = "test";
+WHERE username = "test";
 ```
 
 ![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/3.8.png)

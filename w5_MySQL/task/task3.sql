@@ -46,6 +46,6 @@ WHERE username = "test" AND password = "test"
 -- 3.8. UPDATE data in name column to test2 where username equals to test.
 UPDATE member
 SET name="test2"
-WHERE name = "test";
+WHERE username = "test";
 
 SELECT * FROM member
