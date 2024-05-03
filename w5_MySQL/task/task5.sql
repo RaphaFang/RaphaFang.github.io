@@ -61,27 +61,38 @@ WHERE username = 'test';
 -- JOIN message message ON member.id = message.member_id
 -- WHERE member.username = 'test';
 
-SELECT
-    member.username,
-    FLOOR(SUM(message.like_count) / COUNT(message.id)) AS average_like_count
-FROM member member
-JOIN message ON member.id = message.member_id
-WHERE member.username = 'test';
+-- SELECT
+--     member.username,
+--     FLOOR(SUM(message.like_count) / COUNT(message.id)) AS average_like_count
+-- FROM member member
+-- JOIN message ON member.id = message.member_id
+-- WHERE member.username = 'test';
 
 -- >>> 10
-
+SELECT
+    username,
+    FLOOR(SUM(like_count) / COUNT(message.id)) FROM member
+JOIN message ON member.id = message.member_id
+WHERE member.username = 'test';
 
 
 -- 5.5. GROUP BY sender username
 -- -- SELECT FLOOR((SELECT SUM(follower_count) FROM member) / (SELECT COUNT(*) FROM member)) AS average_like_count
+-- SELECT
+--     member.username,
+--     FLOOR(SUM(message.like_count)/(COUNT(message.id))) AS average_like_count
+-- FROM member member
+-- JOIN message message ON member.id = message.member_id
+
+-- GROUP BY member.username
+-- ORDER BY member.username;
+--  >>> 30
+
 SELECT
     member.username,
-    FLOOR(SUM(message.like_count)/(COUNT(message.id))) AS average_like_count
-FROM member member
-JOIN message message ON member.id = message.member_id
-
+    FLOOR(SUM(message.like_count)/(COUNT(message.id))) FROM member
+JOIN message ON member.id = message.member_id
 GROUP BY member.username
 ORDER BY member.username;
---  >>> 30
 
 -- SELECT * FROM member ORDER BY time DESC

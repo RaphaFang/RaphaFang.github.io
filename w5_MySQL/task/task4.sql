@@ -19,11 +19,14 @@ SELECT SUM(follower_count) FROM member;   -- can add specific condition by using
 -- SELECT @average_follower DECIMAL(10,2);  -- 可以加上DECIMAL(10,5) 10 只左邊的位數，5指小數點位數 
 -- SELECT @average_follower:=FLOOR(@sum_follower/@count_member);
 
-SET @count_member := (SELECT COUNT(*) FROM member);
-SET @sum_follower := (SELECT SUM(follower_count) FROM member);
-SET @average_follower := FLOOR(@sum_follower / @count_member);
+-- SET @count_member := (SELECT COUNT(*) FROM member);
+-- SET @sum_follower := (SELECT SUM(follower_count) FROM member);
+-- SET @average_follower := FLOOR(@sum_follower / @count_member);
 
-SELECT @average_follower AS average_follower;
+-- SELECT @average_follower AS average_follower;
+
+SELECT FLOOR(SUM(follower_count) / COUNT(*)) FROM member;
+
 
 -- SELECT @count_member;  -- >>> 5
 -- SELECT @sum_follower;  -- >>> 100

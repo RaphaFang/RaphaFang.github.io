@@ -125,11 +125,13 @@ SELECT SUM(follower_count) FROM member;
 -- 4.3. the average of follower_count of all the rows
 
 ```ruby
-SET @count_member := (SELECT COUNT(*) FROM member);
-SET @sum_follower := (SELECT SUM(follower_count) FROM member);
-SET @average_follower := FLOOR(@sum_follower / @count_member);
+# SET @count_member := (SELECT COUNT(*) FROM member);
+# SET @sum_follower := (SELECT SUM(follower_count) FROM member);
+# SET @average_follower := FLOOR(@sum_follower / @count_member);
 
-SELECT @average_follower AS average_follower;
+# SELECT @average_follower AS average_follower;
+
+SELECT FLOOR(SUM(follower_count) / COUNT(*)) FROM member;
 ```
 
 ![Optional Title](https://raw.githubusercontent.com/RaphaFang/RaphaFang.github.io/main/w5_MySQL/img/4.3.png)
@@ -221,9 +223,8 @@ WHERE username = 'test';
 
 ```ruby
 SELECT
-    member.username,
-    FLOOR(SUM(message.like_count) / COUNT(message.id)) AS average_like_count
-FROM member member
+    username,
+    FLOOR(SUM(like_count) / COUNT(message.id)) FROM member
 JOIN message ON member.id = message.member_id
 WHERE member.username = 'test';
 ```
@@ -235,10 +236,8 @@ WHERE member.username = 'test';
 ```ruby
 SELECT
     member.username,
-    FLOOR(SUM(message.like_count)/(COUNT(message.id))) AS average_like_count
-FROM member member
-JOIN message message ON member.id = message.member_id
-
+    FLOOR(SUM(message.like_count)/(COUNT(message.id))) FROM member
+JOIN message ON member.id = message.member_id
 GROUP BY member.username
 ORDER BY member.username;
 ```
