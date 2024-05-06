@@ -10,11 +10,11 @@ mydb = mysql.connector.connect(
 
 cursor = mydb.cursor()
 
-# cursor.execute("CREATE TABLE employees (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), position VARCHAR(255))")
+cursor.execute("CREATE TABLE login (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), position VARCHAR(255))")
 
 
-cursor.execute("USE website")
-cursor.execute("SELECT * FROM member")
-result = cursor.fetchall()
-for x in result:
-    print(x)
+# cursor.execute("USE website")
+# cursor.execute("SELECT * FROM member")
+# result = cursor.fetchall()
+# for x in result:
+#     print(x)

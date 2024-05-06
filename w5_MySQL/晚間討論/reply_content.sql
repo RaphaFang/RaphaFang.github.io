@@ -10,7 +10,7 @@ select * from member;
 -- 第5題
 select * from message;
 
--- build new colimn, 'first_content_id',  'reply_content_id'
+-- build new column, 'first_content_id',  'reply_content_id'
 ALTER TABLE message
 ADD COLUMN first_content_id INT NULL;
 ALTER TABLE message
