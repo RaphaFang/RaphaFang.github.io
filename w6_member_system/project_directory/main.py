@@ -6,9 +6,10 @@ sql_username = os.getenv('SQL_USER')
 mydb = mysql.connector.connect(
   host="localhost",
   user=sql_username,
-  password=sql_password)
+  password=sql_password,
+  database="website")
 
-# cursor = mydb.cursor()
+cursor = mydb.cursor()
 
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
@@ -31,7 +32,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path == "/member":
             if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
-        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout"]:
+        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup"]:
             return RedirectResponse(url='/')
         return await call_next(request)
          
@@ -57,7 +58,7 @@ async def show_successful_page(request: Request, message: str = ""):
 
 
 @app.get("/error", response_class=HTMLResponse)
-async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"):
+async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
 
 
@@ -89,9 +90,17 @@ async def signout(request: Request):
 
 @app.post("/signup")
 async def login(request: Request, signup_username: Optional[str] = Form(None) ,signup_user_id : Optional[str] = Form(None) ,signup_password:Optional[str] = Form(None)):
-    print(signup_username)
-    print(signup_user_id)
-    print(signup_password)
+    if signup_username:
+        cursor.execute("SELECT * FROM member WHERE username = %s", (signup_username,)) # signup_username, ，這個逗號一定要加上
+        existing_user = cursor.fetchone()
+        print(existing_user)
+        # 這一步驟，做到檢索、讀取檢索答案的第一行
+        if existing_user:
+            return RedirectResponse(url='/error?message=Repeated+username', status_code=303)
+        else:
+            pass
+
+
     # if username in user_info and password == user_info[username]:
     #     request.session['user'] = username
     #     request.session['sign_in'] = True

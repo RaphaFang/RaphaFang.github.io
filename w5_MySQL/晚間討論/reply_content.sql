@@ -45,3 +45,5 @@ WHERE  member_id=1 AND first_content_id = 1;
 
 -- select the specific tag
 SELECT * FROM message WHERE tag = 'python';
+
+-- 這樣的設計無法解決一個問題，如果存在多個以上的tag?
