@@ -28,14 +28,11 @@ class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         if request.url.path.startswith("/static/") or request.url.path.startswith("/square/"):
             return await call_next(request)
-
         if request.url.path == "/member":
-            if not request.session.get('sign_in'): # 若user "sign_in" != True, 返回主頁面
+            if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
-            
         if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout"]:
             return RedirectResponse(url='/')
- 
         return await call_next(request)
          
     
@@ -44,25 +41,33 @@ user_info = {
 }
 
 app.mount("/static", StaticFiles(directory="static"), name="style")
-
 templates = Jinja2Templates(directory="templates")
-
 @app.get("/", response_class=HTMLResponse) 
 async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 
-@app.get("/member", response_class=HTMLResponse)
-async def show_successful_page(request: Request):
-    return templates.TemplateResponse(name = "successful.html", context={"request" : request},request = request)
 
-@app.get("/error", response_class=HTMLResponse)
+
+
+
+@app.get("/member", response_class=HTMLResponse)
+async def show_successful_page(request: Request, message: str = ""):
+    message= "aabbcc"
+    return templates.TemplateResponse(name = "successful.html", context={"request" : request, "message": message},request = request)
+
+
+@app.get("/error?message={message}", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"):
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
 
-# @app.get("/square/{posit_num}" , response_class=HTMLResponse)
-# async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
-#     message = posit_num**2
-#     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
+
+
+@app.get("/square/{posit_num}" , response_class=HTMLResponse)
+async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
+    message = posit_num**2
+    return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
+
+
 
 @app.post("/signin")
 async def login(request: Request, username: Optional[str] = Form(None) , password:Optional[str] = Form(None)):
@@ -80,6 +85,11 @@ async def login(request: Request, username: Optional[str] = Form(None) , passwor
 async def signout(request: Request):
     request.session.clear() 
     return RedirectResponse(url='/', status_code=303)
+
+
+
+
+
 
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=3600)

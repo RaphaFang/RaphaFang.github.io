@@ -10,19 +10,19 @@
 // the different from "DOMContentLoaded"
 //The DOMContentLoaded event is a special type of event that fires once when the HTML document has been completely loaded and parsed. This event does not fire multiple times for a single page load; it's designed to run only once as the page finishes loading the initial HTML before it moves on to load external resources like images and stylesheets.
 
-document.addEventListener("DOMContentLoaded", function () {
-  // DOMContentLoaded, 檢查網頁完整loaded
-  var form = document.getElementById("signin-form");
-  var checkbox = document.getElementById("accept");
+// document.addEventListener("DOMContentLoaded", function () {
+//   // DOMContentLoaded, 檢查網頁完整loaded
+//   var form = document.getElementById("signin-form");
+//   var checkbox = document.getElementById("accept");
 
-  form.addEventListener("submit", function (event) {
-    if (!checkbox.checked) {
-      event.preventDefault();
-      alert("Please check the checkbox first");
-      console.log("submission canceled");
-    }
-  });
-});
+//   form.addEventListener("submit", function (event) {
+//     if (!checkbox.checked) {
+//       event.preventDefault();
+//       alert("Please check the checkbox first");
+//       console.log("submission canceled");
+//     }
+//   });
+// });
 
 function squareCounter() {
   var posit_num = document.getElementById("posit_num").value;
