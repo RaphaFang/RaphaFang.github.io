@@ -17,6 +17,28 @@
       </div>
 
       <div class="upper_div">
+        <p class="text">註冊帳號<br /><br /></p>
+        <form action="/signin" method="post" id="signin-form">
+          <div class="form-group">
+            <label for="username">姓名</label>
+            <input type="text" id="username" name="username" />
+          </div>
+          <div class="form-group">
+            <label for="user_id">帳號</label>
+            <input type="text" id="user_id" name="user_id" />
+          </div>
+          <div class="form-group">
+            <label for="password">密碼</label>
+            <input type="text" id="password" name="password" />
+          </div>
+
+          <div class="form-group-last">
+            <button type="submit">註冊</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="upper_div">
         <p class="text">登入系統<br /><br /></p>
         <form action="/signin" method="post" id="signin-form">
           <div class="form-group">
@@ -30,27 +52,13 @@
             <!-- 在input 可以放type="text" 會變成圓形隱藏密碼 -->
             <!-- 在input 裡面可以放 equired -->
           </div>
-          <div class="checkbox-group">
+          <!-- <div class="checkbox-group">
             <label for="accept">同意條款</label>
             <input type="checkbox" id="accept" name="accept" />
-          </div>
+          </div> -->
           <div class="form-group-last">
             <button type="submit">登入</button>
             <!-- onclick="checkCheckbox()" -->
-          </div>
-        </form>
-      </div>
-
-      <div class="lower_div">
-        <p class="text">計算正整數的平方<br /><br /></p>
-        <form onsubmit="squareCounter(); return false;" id="square-form">
-          <!-- action="/square/{{posit_num}}"  -->
-          <div class="form-group">
-            <label for="posit_num">正整數</label>
-            <input id="posit_num" name="posit_num" />
-          </div>
-          <div class="form-group-last">
-            <button type="submit">計算</button>
           </div>
         </form>
       </div>

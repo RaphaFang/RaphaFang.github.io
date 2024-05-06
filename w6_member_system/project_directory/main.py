@@ -8,12 +8,7 @@ mydb = mysql.connector.connect(
   user=sql_username,
   password=sql_password)
 
-cursor = mydb.cursor()
-cursor.execute("USE website")
-cursor.execute("SELECT * FROM member")
-result = cursor.fetchall()
-for x in result:
-    print(x)
+# cursor = mydb.cursor()
 
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
@@ -40,8 +35,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
             
         if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout"]:
             return RedirectResponse(url='/')
-            # 換句話說，上方這串，意味著若是在 ["/", "/signin", "/error","/square","/member"] 這list中，便不需要檢查條件，直接進入該頁面
-            # 解決下方"/signout" 一直被跳出的問題，原來是path auth 認證沒加上他，導致他的功能（清除cookie沒辦法運作），
+ 
         return await call_next(request)
          
     
@@ -65,13 +59,13 @@ async def show_successful_page(request: Request):
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"):
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
 
-@app.get("/square/{posit_num}" , response_class=HTMLResponse)
-async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
-    message = posit_num**2
-    return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
+# @app.get("/square/{posit_num}" , response_class=HTMLResponse)
+# async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
+#     message = posit_num**2
+#     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
 
 @app.post("/signin")
-async def login(request: Request, username: Optional[str] = Form(None) , password:Optional[str] = Form(None), accept: bool = Form()):
+async def login(request: Request, username: Optional[str] = Form(None) , password:Optional[str] = Form(None)):
     if username in user_info and password == user_info[username]:
         request.session['user'] = username
         request.session['sign_in'] = True
@@ -84,13 +78,7 @@ async def login(request: Request, username: Optional[str] = Form(None) , passwor
  
 @app.get("/signout")
 async def signout(request: Request):
-    # response.delete_cookie("session")
     request.session.clear() 
-    # (X)並不是這裡沒清除，而是cookies ## 這裡確實沒有清除掉，「不是」因為html的<a>寫錯了
-    # 嘗試print(dict)，發現兩個都沒有印出來，推測應該是整個@app.get("/signout")沒運作，導致cookie沒有清除
-    ### 解決"/signout" 一直被跳出的問題，原來是path auth 認證沒加上他，導致他的功能（清除cookie沒辦法運作）
-    ### cookie 沒有清除，導致我認為是上方/member的 auth條件沒寫好，怎麼每次登入完後在從url 打 /member都可以進入頁面
-
     return RedirectResponse(url='/', status_code=303)
 
 app.add_middleware(AuthMiddleware)
