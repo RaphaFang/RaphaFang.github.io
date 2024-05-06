@@ -2,10 +2,7 @@ USE website;
 CREATE INDEX username_password_index ON member(username, password);
 EXPLAIN SELECT * FROM member WHERE username='test' AND password='test';
 
-select * from member;
-DROP INDEX email_tel_index ON member;
 
-select * from member;
 
 -- 第5題
 select * from message;
@@ -30,6 +27,21 @@ SELECT * FROM message WHERE first_content_id = 1 OR reply_content_id = 1;
 -- the omission that have to deal
 -- 1. reply's reply
 -- 2. (done)different content from the same user(might occur while adopting member_id as the key)
+
+
+
+-- 第6題
+ALTER TABLE message
+ADD COLUMN tag VARCHAR(255) NULL;
+
+-- UPDATE new tag content
 UPDATE message
-SET reply_content_id=1
-WHERE member_id = 3 AND content = 'the second piece of reply msg, to msg_1';
+SET tag="python"
+WHERE  member_id=3 AND reply_content_id = 1;
+
+UPDATE message
+SET tag="js"
+WHERE  member_id=1 AND first_content_id = 1;
+
+-- select the specific tag
+SELECT * FROM message WHERE tag = 'python';
