@@ -56,16 +56,16 @@ async def show_successful_page(request: Request, message: str = ""):
     return templates.TemplateResponse(name = "successful.html", context={"request" : request, "message": message},request = request)
 
 
-@app.get("/error?message={message}", response_class=HTMLResponse)
+@app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"):
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
 
 
 
-@app.get("/square/{posit_num}" , response_class=HTMLResponse)
-async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
-    message = posit_num**2
-    return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
+# @app.get("/square/{posit_num}" , response_class=HTMLResponse)
+# async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
+#     message = posit_num**2
+#     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
 
 
 
@@ -74,7 +74,7 @@ async def login(request: Request, username: Optional[str] = Form(None) , passwor
     if username in user_info and password == user_info[username]:
         request.session['user'] = username
         request.session['sign_in'] = True
-        print("Login successful, session:", dict(request.session))
+        # print("Login successful, session:", dict(request.session))
         return RedirectResponse(url='/member', status_code=303)
     elif username is None or password is None:
         return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
@@ -87,7 +87,21 @@ async def signout(request: Request):
     return RedirectResponse(url='/', status_code=303)
 
 
+@app.post("/signup")
+async def login(request: Request, signup_username: Optional[str] = Form(None) ,signup_user_id : Optional[str] = Form(None) ,signup_password:Optional[str] = Form(None)):
+    print(signup_username)
+    print(signup_user_id)
+    print(signup_password)
+    # if username in user_info and password == user_info[username]:
+    #     request.session['user'] = username
+    #     request.session['sign_in'] = True
+    #     print("Login successful, session:", dict(request.session))
+    #     return RedirectResponse(url='/member', status_code=303)
 
+    # elif username is None or password is None:
+    #     return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
+    # else:
+    #     return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
 
 
 
