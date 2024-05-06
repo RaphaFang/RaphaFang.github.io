@@ -235,7 +235,7 @@ WHERE member.username = 'test';
 
 ```ruby
 SELECT
-    member.username,
+    username,
     FLOOR(SUM(message.like_count)/(COUNT(message.id))) FROM member
 JOIN message ON member.id = message.member_id
 GROUP BY member.username
