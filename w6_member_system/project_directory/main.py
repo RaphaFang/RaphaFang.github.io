@@ -44,13 +44,10 @@ async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 
 @app.get("/member", response_class=HTMLResponse)
-async def show_successful_page(request: Request, message:str = Cookie(None)):
-    # cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) # signup_username, ，這個逗號一定要加上
-    # existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行       
-    # correct_password = existing_user[3]
-    message = request.cookies.get('message', "hehre???")
-
-    return templates.TemplateResponse(name = "successful.html", context={"request": request, "message": message},request = request)
+async def show_successful_page(request: Request):
+    message =request.session['message'] 
+    print(message)
+    return templates.TemplateResponse(name = "successful.html", context={"request": request, "message": message})
     
 
 @app.get("/error", response_class=HTMLResponse)
@@ -63,17 +60,17 @@ async def show_error_page(request: Request,  message: str = "", title:str = "失
 #     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
 
 @app.post("/signin")
-async def login(request: Request, response: Response,username: Optional[str] = Form(None) , password:Optional[str] = Form(None)):
+async def login(request: Request, response: Response,username:Optional[str] = Form(None) , password:Optional[str] = Form(None)):
     cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) # signup_username, ，這個逗號一定要加上
     existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行       
     correct_password = existing_user[3]
     if correct_password == password:
         request.session['user'] = username
         request.session['sign_in'] = True
-        message="testing meg"   #existing_user[1]
-        response.set_cookie(key="message", value = message, secure=False, httponly=True,path='/')
-
-        return RedirectResponse(url='/member', status_code=303 )
+        request.session['message'] = existing_user[1]
+        # return response
+        return RedirectResponse(url="/member", status_code=303 )
+    
     elif username is None or password is None:
         return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
     else:
