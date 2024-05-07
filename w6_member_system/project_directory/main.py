@@ -11,7 +11,7 @@ mydb = mysql.connector.connect(
 
 cursor = mydb.cursor()
 
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, Cookie, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -35,11 +35,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup"]:
             return RedirectResponse(url='/')
         return await call_next(request)
-         
     
-user_info = {
-    "test": "test"
-}
 
 app.mount("/static", StaticFiles(directory="static"), name="style")
 templates = Jinja2Templates(directory="templates")
@@ -47,36 +43,37 @@ templates = Jinja2Templates(directory="templates")
 async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 
-
-
-
-
 @app.get("/member", response_class=HTMLResponse)
-async def show_successful_page(request: Request, message: str = ""):
-    message= "aabbcc"
-    return templates.TemplateResponse(name = "successful.html", context={"request" : request, "message": message},request = request)
+async def show_successful_page(request: Request, message:str = Cookie(None)):
+    # cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) # signup_username, ，這個逗號一定要加上
+    # existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行       
+    # correct_password = existing_user[3]
+    message = request.cookies.get('message', "hehre???")
 
+    return templates.TemplateResponse(name = "successful.html", context={"request": request, "message": message},request = request)
+    
 
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
-
-
 
 # @app.get("/square/{posit_num}" , response_class=HTMLResponse)
 # async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
 #     message = posit_num**2
 #     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
 
-
-
 @app.post("/signin")
-async def login(request: Request, username: Optional[str] = Form(None) , password:Optional[str] = Form(None)):
-    if username in user_info and password == user_info[username]:
+async def login(request: Request, response: Response,username: Optional[str] = Form(None) , password:Optional[str] = Form(None)):
+    cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) # signup_username, ，這個逗號一定要加上
+    existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行       
+    correct_password = existing_user[3]
+    if correct_password == password:
         request.session['user'] = username
         request.session['sign_in'] = True
-        # print("Login successful, session:", dict(request.session))
-        return RedirectResponse(url='/member', status_code=303)
+        message="testing meg"   #existing_user[1]
+        response.set_cookie(key="message", value = message, secure=False, httponly=True,path='/')
+
+        return RedirectResponse(url='/member', status_code=303 )
     elif username is None or password is None:
         return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
     else:
@@ -90,15 +87,16 @@ async def signout(request: Request):
 
 @app.post("/signup")
 async def login(request: Request, signup_username: Optional[str] = Form(None) ,signup_user_id : Optional[str] = Form(None) ,signup_password:Optional[str] = Form(None)):
-    if signup_username:
-        cursor.execute("SELECT * FROM member WHERE username = %s", (signup_username,)) # signup_username, ，這個逗號一定要加上
-        existing_user = cursor.fetchone()
-        print(existing_user)
-        # 這一步驟，做到檢索、讀取檢索答案的第一行
+    if signup_user_id:
+        cursor.execute("SELECT * FROM member WHERE username = %s", (signup_user_id,)) # signup_username, ，這個逗號一定要加上
+        existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行        
         if existing_user:
             return RedirectResponse(url='/error?message=Repeated+username', status_code=303)
         else:
-            pass
+            build_user_sql = "INSERT INTO member (name, username, password) VALUES (%s, %s, %s)"
+            cursor.execute(build_user_sql,(signup_username, signup_user_id, signup_password))
+            mydb.commit() # 這步驟一定要作，不然資料寫不進去
+            return RedirectResponse(url='/', status_code=303)
 
 
     # if username in user_info and password == user_info[username]:

@@ -10,7 +10,7 @@ mydb = mysql.connector.connect(
   database="website" )
 
 # 創建新的表
-# cursor = mydb.cursor()
+cursor = mydb.cursor()
 # sql = """
 # CREATE TABLE login_data (
 #     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -22,8 +22,8 @@ mydb = mysql.connector.connect(
 # cursor.execute(sql)
 
 
-# cursor.execute("USE website")
-# cursor.execute("SELECT * FROM login_data")
-# result = cursor.fetchall()
-# for x in result:
-#     print(x)
+cursor.execute("USE website")
+cursor.execute("SELECT * FROM member")
+result = cursor.fetchall()
+for x in result:
+    print(x)
