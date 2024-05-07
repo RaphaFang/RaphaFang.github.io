@@ -62,7 +62,9 @@ async def show_error_page(request: Request,  message: str = "", title:str = "失
 @app.post("/signin")
 async def login(request: Request, response: Response,username:Optional[str] = Form(None) , password:Optional[str] = Form(None)):
     cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) # signup_username, ，這個逗號一定要加上
-    existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行       
+    existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行      
+    if existing_user == None:
+        return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
     correct_password = existing_user[3]
     if correct_password == password:
         request.session['user'] = username
@@ -70,9 +72,6 @@ async def login(request: Request, response: Response,username:Optional[str] = Fo
         request.session['message'] = existing_user[1]
         # return response
         return RedirectResponse(url="/member", status_code=303 )
-    
-    elif username is None or password is None:
-        return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
     else:
         return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
  

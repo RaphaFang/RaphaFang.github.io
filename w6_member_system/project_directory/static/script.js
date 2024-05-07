@@ -20,6 +20,24 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  var form = document.getElementById("signin-form");
+  var username = document.getElementById("username");
+  var password = document.getElementById("password");
+
+  form.addEventListener("submit", function (event) {
+    if (
+      username.value.trim() === "" ||
+      password.value.trim() === ""
+      // trim(), 用來去除space的func，可以避免用戶只輸入空白
+    ) {
+      event.preventDefault();
+      alert("Please make sure all fields are filled out.");
+      console.log("submission canceled, found empty field");
+    }
+  });
+});
+
 // function squareCounter() {
 //   var posit_num = document.getElementById("posit_num").value;
 //   if (posit_num < 1) {
