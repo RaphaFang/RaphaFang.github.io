@@ -24,7 +24,6 @@ from starlette.requests import Request
 # max_age=3600 一小時的登入cookies
 
 app = FastAPI()
-
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         if request.url.path.startswith("/static/") or request.url.path.startswith("/square/"):
@@ -53,11 +52,6 @@ async def show_successful_page(request: Request):
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
-
-# @app.get("/square/{posit_num}" , response_class=HTMLResponse)
-# async def get_square(request: Request, posit_num:Optional[int]= None, message: str = "", title:str = "正整數平方計算結果"):
-#     message = posit_num**2
-#     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title": title},request = request)
 
 @app.post("/signin")
 async def login(request: Request, response: Response,username:Optional[str] = Form(None) , password:Optional[str] = Form(None)):
@@ -93,19 +87,6 @@ async def login(request: Request, signup_username: Optional[str] = Form(None) ,s
             cursor.execute(build_user_sql,(signup_username, signup_user_id, signup_password))
             mydb.commit() # 這步驟一定要作，不然資料寫不進去
             return RedirectResponse(url='/', status_code=303)
-
-
-    # if username in user_info and password == user_info[username]:
-    #     request.session['user'] = username
-    #     request.session['sign_in'] = True
-    #     print("Login successful, session:", dict(request.session))
-    #     return RedirectResponse(url='/member', status_code=303)
-
-    # elif username is None or password is None:
-    #     return RedirectResponse(url='/error?message=Please+enter+username+or+password', status_code=303)
-    # else:
-    #     return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
-
 
 
 app.add_middleware(AuthMiddleware)
