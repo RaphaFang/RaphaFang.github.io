@@ -3,16 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <title>login page</title>
-    <link rel="stylesheet" href="/static/successful.css" />
+    <link rel="stylesheet" href="/static/truely_successful.css" />
     <!-- <script src="/static/script.js"></script> -->
   </head>
   <body>
     <div class="container">
-      <div class="login-header">
-        <p>歡迎光臨，這是會員頁</p>
+      <div class="logout_section">
+        <div class="login-header">
+          <p>歡迎光臨，這是會員頁</p>
+        </div>
+
+        <p class="text">{{message}}，歡迎登入系統</p>
+        <a href="/signout" class="signout_a">登出系統</a>
       </div>
-      <p class="text">{{message}}，歡迎登入系統</p>
-      <a href="/signout">登出系統</a>
+      <div class="form_section">
+        <div class="message-header">
+          <p>快來留言吧</p>
+        </div>
+        <form
+          class="form"
+          action="/createMessage"
+          method="post"
+          id="message-form"
+        >
+          <div class="form-group">
+            <label for="input_message">內容</label>
+            <input type="text" id="input_message" name="input_message" />
+          </div>
+          <div class="form-group-last">
+            <button type="submit">送出</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="message_section">
+        <p>aaa</p>
+        <p>aaa</p>
+        <p>aaa</p>
+        <p>aaa</p>
+        <p>aaa</p>
+      </div>
     </div>
   </body>
 </html>

@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body,
+html {
+  height: 100%;
+  font-family: "Noto Sans TC", sans-serif;
+  /* https://hackmd.io/@judyyutong/notes-breakFrame */
+  /* 未啥能至中？？我也很好奇 */
+}
+
+body {
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  background-color: #fff;
+  width: 450px;
+  height: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.login-header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0px;
+  font-size: 25px;
+  margin-bottom: 30px;
+}
+.text {
+  /* font-weight: bold; */
+  margin-bottom: 10px;
+}
+
+.logout_section {
+  /* background-color: aqua; */
+  border: 1px solid #bebebe;
+  /* border-radius: 4px; */
+}
+.signout_a {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.form_section {
+  border-left: 1px solid #bebebe;
+  border-right: 1px solid #bebebe;
+  border-bottom: 1px solid #bebebe;
+}
+
+.message_section {
+  border-left: 1px solid #bebebe;
+  border-right: 1px solid #bebebe;
+  border-bottom: 1px solid #bebebe;
+}
+
+.form {
+  /* display: inline-block; */
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.form-group-last {
+  margin-top: 20px;
+}
+button {
+  padding: 6px 18px;
+  /* border: none; */
+  /* border-radius: 4px; */
+  /* color: white; */
+  font-size: 14px;
+  cursor: pointer;
+}
+/* .form-group label {
+  display: flex;
+  /* text-align: left; */
+/* margin-bottom: 5px;
+  margin-right: 10px;
+} */
+.message-header {
+  display: inline-block;
+  margin-top: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.form-group input[type="text"] {
+  width: 40%;
+  padding: 7px;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.message_section > :first-child {
+  display: inline-block;
+  margin-top: 25px;
+}
+.message_section > :last-child {
+  display: inline-block;
+  margin-bottom: 25px;
+}

@@ -57,7 +57,7 @@ body {
   border: 1px solid black;
   border-radius: 4px;
 }
-.checkbox-group {
+/* .checkbox-group {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,7 +69,7 @@ body {
 
 .checkbox-group input[type="checkbox"] {
   margin-right: 5px;
-}
+} */
 
 button {
   padding: 8px 20px;

@@ -26,12 +26,15 @@ from starlette.requests import Request
 app = FastAPI()
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        if request.url.path.startswith("/static/") or request.url.path.startswith("/square/"):
+        if request.url.path.startswith("/static/"):
             return await call_next(request)
         if request.url.path == "/member":
             if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
-        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup"]:
+        if request.url.path == "/createMessage":
+            if not request.session.get('sign_in'): 
+                return RedirectResponse(url='/')
+        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage']:
             return RedirectResponse(url='/')
         return await call_next(request)
     
@@ -47,7 +50,6 @@ async def show_successful_page(request: Request):
     message =request.session['message'] 
     print(message)
     return templates.TemplateResponse(name = "successful.html", context={"request": request, "message": message})
-    
 
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
@@ -74,7 +76,6 @@ async def signout(request: Request):
     request.session.clear() 
     return RedirectResponse(url='/', status_code=303)
 
-
 @app.post("/signup")
 async def login(request: Request, signup_username: Optional[str] = Form(None) ,signup_user_id : Optional[str] = Form(None) ,signup_password:Optional[str] = Form(None)):
     if signup_user_id:
@@ -87,6 +88,10 @@ async def login(request: Request, signup_username: Optional[str] = Form(None) ,s
             cursor.execute(build_user_sql,(signup_username, signup_user_id, signup_password))
             mydb.commit() # 這步驟一定要作，不然資料寫不進去
             return RedirectResponse(url='/', status_code=303)
+        
+# @app.post('/createMessage')
+# async def create_message(request: Request, input_message: Optional[str] = Form(None)):
+#     # if request.session['sign_in'] = True:
 
 
 app.add_middleware(AuthMiddleware)
