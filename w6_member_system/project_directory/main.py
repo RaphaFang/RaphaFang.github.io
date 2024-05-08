@@ -100,8 +100,9 @@ async def create_message(request: Request, input_message: Optional[str] = Form(N
     mydb.commit()
     return RedirectResponse(url='/member', status_code=303)
     
-# @app.post("/deleteMessage")
-# async def create_message(request: Request, input_message: Optional[str] = Form(None)):
+@app.post("/deleteMessage")
+async def delete_message(request: Request):
+    print(111)
 
         
 app.add_middleware(AuthMiddleware)

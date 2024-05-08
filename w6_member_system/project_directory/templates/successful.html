@@ -40,7 +40,15 @@
         {% for message in user_messages %}
         <p class="msg_p">
           <strong>{{ message['name'] }}</strong>：{{ message['content'] }}
-          <button class="msg_btn"><strong>X</strong></button>
+          <button
+            class="msg_delete_btn"
+            type="submit"
+            action="/deleteMessage"
+            method="post"
+            onclick="deleteMessage()"
+          >
+            <strong>X</strong>
+          </button>
         </p>
         <br />
         {% endfor %}
