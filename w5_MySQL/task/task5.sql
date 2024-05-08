@@ -31,22 +31,19 @@ JOIN message message ON member.id = message.member_id;
 
 
 -- 5.3. SELECT all messages, including sender names, where sender username equals to test. We have to JOIN the member table to filter and get that.
-CREATE temporary TABLE joined_table AS
+-- CREATE temporary TABLE joined_table AS
 SELECT
     member.id,
     member.name,
     member.username,
     member.password,
-    member.follower_count,
-    member.time AS member_time,
 
-    message.id AS message_id,
     message.member_id,
     message.content,
-    message.like_count,
     message.time AS message_time
-FROM member member
-LEFT JOIN message message ON member.id = message.member_id;
+FROM member
+LEFT JOIN message message ON member.id = message.member_id
+ORDER BY message.time DESC;
 
 SELECT * from joined_table
 WHERE username = 'test';

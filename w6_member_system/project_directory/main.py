@@ -49,7 +49,16 @@ async def display_html(request: Request):
 async def show_successful_page(request: Request):
     message =request.session['message'] 
     print(message)
-    return templates.TemplateResponse(name = "successful.html", context={"request": request, "message": message})
+
+    cursor.execute("SELECT member.id, member.name,member.username,member.password,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC;") 
+    message_from_sql = cursor.fetchall()
+
+    # for n in message_from_sql:
+    user = message_from_sql[0][1]
+    user_message = message_from_sql[0][5]
+    print(message_from_sql[0][1],message_from_sql[0][5])
+
+    return templates.TemplateResponse(name = "successful.html", context={"request": request, "message": message,"user":user, "user_message":user_message })
 
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
