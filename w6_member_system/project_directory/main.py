@@ -34,7 +34,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path == "/createMessage":
             if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
-        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage']:
+        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage',"/deleteMessage"]:
             return RedirectResponse(url='/')
         return await call_next(request)
     
@@ -47,18 +47,14 @@ async def display_html(request: Request):
 
 @app.get("/member", response_class=HTMLResponse)
 async def show_successful_page(request: Request):
-    message =request.session['message'] 
-    print(message)
+    username =request.session['message'] 
+    print(username)
 
-    cursor.execute("SELECT member.id, member.name,member.username,member.password,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC;") 
-    message_from_sql = cursor.fetchall()
+    cursor.execute("SELECT member.id, member.name,member.username,member.password,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC LIMIT 5;") 
+    messages_from_sql = cursor.fetchall()
+    user_messages = [{"name": row[1], "content": row[5]} for row in messages_from_sql]
 
-    # for n in message_from_sql:
-    user = message_from_sql[0][1]
-    user_message = message_from_sql[0][5]
-    print(message_from_sql[0][1],message_from_sql[0][5])
-
-    return templates.TemplateResponse(name = "successful.html", context={"request": request, "message": message,"user":user, "user_message":user_message })
+    return templates.TemplateResponse(name = "successful.html", context={"request": request, "username": username,"user_messages":user_messages })
 
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
@@ -75,7 +71,7 @@ async def login(request: Request, response: Response,username:Optional[str] = Fo
         request.session['user'] = username
         request.session['sign_in'] = True
         request.session['message'] = existing_user[1]
-        # return response
+        request.session['member_id'] = existing_user[0]
         return RedirectResponse(url="/member", status_code=303 )
     else:
         return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
@@ -93,15 +89,20 @@ async def login(request: Request, signup_username: Optional[str] = Form(None) ,s
         if existing_user:
             return RedirectResponse(url='/error?message=Repeated+username', status_code=303)
         else:
-            build_user_sql = "INSERT INTO member (name, username, password) VALUES (%s, %s, %s)"
-            cursor.execute(build_user_sql,(signup_username, signup_user_id, signup_password))
+            cursor.execute("INSERT INTO member (name, username, password) VALUES (%s, %s, %s)",(signup_username, signup_user_id, signup_password))
             mydb.commit() # 這步驟一定要作，不然資料寫不進去
             return RedirectResponse(url='/', status_code=303)
         
-# @app.post('/createMessage')
+@app.post('/createMessage')
+async def create_message(request: Request, input_message: Optional[str] = Form(None)):
+    member_id = request.session['member_id']
+    cursor.execute("INSERT INTO message (member_id, content) VALUES (%s, %s)",(member_id,input_message))
+    mydb.commit()
+    return RedirectResponse(url='/member', status_code=303)
+    
+# @app.post("/deleteMessage")
 # async def create_message(request: Request, input_message: Optional[str] = Form(None)):
-#     # if request.session['sign_in'] = True:
 
-
+        
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=3600)

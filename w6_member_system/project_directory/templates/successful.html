@@ -13,7 +13,7 @@
           <p>歡迎光臨，這是會員頁</p>
         </div>
 
-        <p class="text">{{message}}，歡迎登入系統</p>
+        <p class="text">{{username}}，歡迎登入系統</p>
         <a href="/signout" class="signout_a">登出系統</a>
       </div>
       <div class="form_section">
@@ -37,11 +37,13 @@
       </div>
 
       <div class="message_section">
-        <p>{{user}} : {{user_message}}</p>
-        <p>aaa</p>
-        <p>aaa</p>
-        <p>aaa</p>
-        <p>aaa</p>
+        {% for message in user_messages %}
+        <p class="msg_p">
+          <strong>{{ message['name'] }}</strong>：{{ message['content'] }}
+          <button class="msg_btn"><strong>X</strong></button>
+        </p>
+        <br />
+        {% endfor %}
       </div>
     </div>
   </body>

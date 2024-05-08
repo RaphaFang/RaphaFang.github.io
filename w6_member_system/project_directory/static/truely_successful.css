@@ -19,7 +19,7 @@ body {
 }
 .container {
   background-color: #fff;
-  width: 450px;
+  width: 600px;
   height: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -40,10 +40,11 @@ body {
   /* background-color: aqua; */
   border: 1px solid #bebebe;
   /* border-radius: 4px; */
+  height: 200px;
 }
 .signout_a {
   display: inline-block;
-  margin-bottom: 20px;
+  /* margin-bottom: 30px; */
 }
 
 .form_section {
@@ -95,9 +96,28 @@ button {
 
 .message_section > :first-child {
   display: inline-block;
-  margin-top: 25px;
+  margin-top: 20px;
 }
-.message_section > :last-child {
+.message_section > :nth-last-child(2) {
   display: inline-block;
   margin-bottom: 25px;
+}
+
+.msg_p {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.msg_btn {
+  padding: 1px 5px;
+
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 1.2;
+}
+.message_container {
+  font-size: 14px;
+  display: inline-block;
 }
