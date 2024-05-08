@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+function confirmDelete(event) {
+  if (!confirm("確定刪除這筆留言？")) {
+    event.preventDefault(); // Prevent form submission if not confirmed
+  }
+}
+
 // function squareCounter() {
 //   var posit_num = document.getElementById("posit_num").value;
 //   if (posit_num < 1) {

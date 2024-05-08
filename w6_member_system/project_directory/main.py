@@ -31,7 +31,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path == "/member":
             if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
-        if request.url.path == "/createMessage":
+        if request.url.path == "/createMessage" or request.url.path == "/deleteMessage":
             if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
         if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage',"/deleteMessage"]:
@@ -52,9 +52,9 @@ async def show_successful_page(request: Request):
     user_id = request.session['member_id']
     print(user_id)
 
-    cursor.execute("SELECT member.id, member.name,member.username,member.password,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC LIMIT 5;") 
+    cursor.execute("SELECT member.id, member.name,member.username,member.password,message.id AS message_id,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC LIMIT 5;") 
     messages_from_sql = cursor.fetchall()
-    user_messages_list = [{"name": row[1], "content": row[5]} for row in messages_from_sql]
+    user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6]} for row in messages_from_sql]
 
     return templates.TemplateResponse(name = "successful.html", context={"request": request, "username": username,'user_id':user_id, "user_messages_list":user_messages_list })
 
@@ -104,9 +104,17 @@ async def create_message(request: Request, input_message: Optional[str] = Form(N
     return RedirectResponse(url='/member', status_code=303)
     
 @app.post("/deleteMessage")
-async def delete_message(request: Request, gonna_d_message_id: int = Form(...)):
+async def delete_message( message_id: int = Form(...)):
     print(111)
-    cursor.execute("DELETE FROM message WHERE id = %s", (gonna_d_message_id,))
+    print(message_id)
+
+    # 現在可以正常刪除留言
+    # 處理按鈕隱藏問題
+    # 處理刪除實驗政用戶與留言建立者id
+    # 將檔案名重新處理
+    # if request.session['member_id'] == 
+    cursor.execute("DELETE FROM message WHERE id = %s ", (message_id,))
+    # AND member_id = %s
     mydb.commit()
     return RedirectResponse(url="/member", status_code=303)
 
