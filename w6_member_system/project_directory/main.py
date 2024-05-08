@@ -37,24 +37,26 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage',"/deleteMessage"]:
             return RedirectResponse(url='/')
         return await call_next(request)
-    
 
 app.mount("/static", StaticFiles(directory="static"), name="style")
 templates = Jinja2Templates(directory="templates")
+
 @app.get("/", response_class=HTMLResponse) 
 async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 
 @app.get("/member", response_class=HTMLResponse)
 async def show_successful_page(request: Request):
-    username =request.session['message'] 
+    username =request.session['name'] 
     print(username)
+    user_id = request.session['member_id']
+    print(user_id)
 
     cursor.execute("SELECT member.id, member.name,member.username,member.password,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC LIMIT 5;") 
     messages_from_sql = cursor.fetchall()
-    user_messages = [{"name": row[1], "content": row[5]} for row in messages_from_sql]
+    user_messages_list = [{"name": row[1], "content": row[5]} for row in messages_from_sql]
 
-    return templates.TemplateResponse(name = "successful.html", context={"request": request, "username": username,"user_messages":user_messages })
+    return templates.TemplateResponse(name = "successful.html", context={"request": request, "username": username,'user_id':user_id, "user_messages_list":user_messages_list })
 
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
@@ -66,11 +68,12 @@ async def login(request: Request, response: Response,username:Optional[str] = Fo
     existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行      
     if existing_user == None:
         return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
+    
     correct_password = existing_user[3]
     if correct_password == password:
         request.session['user'] = username
         request.session['sign_in'] = True
-        request.session['message'] = existing_user[1]
+        request.session['name'] = existing_user[1]
         request.session['member_id'] = existing_user[0]
         return RedirectResponse(url="/member", status_code=303 )
     else:
@@ -101,8 +104,11 @@ async def create_message(request: Request, input_message: Optional[str] = Form(N
     return RedirectResponse(url='/member', status_code=303)
     
 @app.post("/deleteMessage")
-async def delete_message(request: Request):
+async def delete_message(request: Request, gonna_d_message_id: int = Form(...)):
     print(111)
+    cursor.execute("DELETE FROM message WHERE id = %s", (gonna_d_message_id,))
+    mydb.commit()
+    return RedirectResponse(url="/member", status_code=303)
 
         
 app.add_middleware(AuthMiddleware)
