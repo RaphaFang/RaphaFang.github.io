@@ -44,14 +44,15 @@ async def display_html(request: Request):
 
 @app.get("/member", response_class=HTMLResponse)
 async def show_successful_page(request: Request):
-    username =request.session['name'] 
-    user_id = request.session['member_id']
+    if request.session['sign_in']:
+        username =request.session['name'] 
+        user_id = request.session['member_id']
 
-    cursor.execute("SELECT member.id, member.name,member.username,member.password,message.id AS message_id,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC LIMIT 5;") 
-    messages_from_sql = cursor.fetchall()
-    user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6], "hidden_state":user_id==row[5]} for row in messages_from_sql]
-        #! 讀取JOIN 後的 member.name / member.username / member.password 以及 message.id AS message_id / message.member_id / message.content /  message.time AS message_time 
-    return templates.TemplateResponse(name = "successful.html", context={"request": request, "username": username,'user_id':user_id, "user_messages_list":user_messages_list })
+        cursor.execute("SELECT member.id, member.name,member.username,member.password,message.id AS message_id,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC LIMIT 5;") 
+        messages_from_sql = cursor.fetchall()
+        user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6], "hidden_state":user_id==row[5]} for row in messages_from_sql]
+            #! 讀取JOIN 後的 member.name / member.username / member.password 以及 message.id AS message_id / message.member_id / message.content /  message.time AS message_time 
+        return templates.TemplateResponse(name = "successful.html", context={"request": request, "username": username,'user_id':user_id, "user_messages_list":user_messages_list })
 
 @app.get("/error", response_class=HTMLResponse)
 async def show_error_page(request: Request,  message: str = "", title:str = "失敗頁面"): #帳號或密碼輸入錯誤
@@ -83,7 +84,7 @@ async def signout(request: Request):
 async def login(request: Request, signup_username: Optional[str] = Form(None) ,signup_user_id : Optional[str] = Form(None) ,signup_password:Optional[str] = Form(None)):
     if signup_user_id: # ! 確保不是空字串
         cursor.execute("SELECT * FROM member WHERE username = %s", (signup_user_id,)) # signup_username, ，這個逗號一定要加上
-        existing_user_checking = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行        
+        existing_user_checking = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行，fetchone()也只有一行就是        
         if existing_user_checking:
             return RedirectResponse(url='/error?message=Repeated+username', status_code=303)
         else:
