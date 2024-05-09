@@ -1,0 +1,5 @@
+將資料存在 env : 
+# nano ~/.zshrc
+# export SQL_USER='當初設定的使用名稱'
+# export SQL_PASSWORD='當初設定的密碼'
+# source ~/.zshrc
