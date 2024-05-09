@@ -38,10 +38,12 @@
 
       <div class="message_section">
         {% for each_message in user_messages_list %}
+        <!-- user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6]} for row in messages_from_sql]  -->
         <p class="msg_p">
-          <strong>{{ each_message['name'] }}</strong>：{{
-          each_message['content'] }}
+          <strong>{{ each_message['name'] }}</strong>：{{each_message['content']
+          }}
         </p>
+        <!-- hidden_state -->
         <form
           action="/deleteMessage"
           method="post"
@@ -50,12 +52,14 @@
         >
           <input
             type="hidden"
-            name="message_id"
-            value='{{each_message["message_id"]}}'
+            name="data_from_html"
+            value="{{ each_message['message_id'] }}|{{ each_message['member_id'] }}"
           />
+          {% if each_message['hidden_state'] %}
           <button class="msg_delete_btn" type="submit">
             <strong>X</strong>
           </button>
+          {% endif %}
         </form>
         <br />
         {% endfor %}

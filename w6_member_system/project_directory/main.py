@@ -1,16 +1,3 @@
-import mysql.connector
-import os
-sql_password = os.getenv('SQL_PASSWORD')
-sql_username = os.getenv('SQL_USER')
-
-mydb = mysql.connector.connect(
-  host="localhost",
-  user=sql_username,
-  password=sql_password,
-  database="website")
-
-cursor = mydb.cursor()
-
 from fastapi import FastAPI, Request, Form, Cookie, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -19,6 +6,16 @@ from typing import Optional
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
+import mysql.connector
+import os
+sql_password = os.getenv('SQL_PASSWORD')
+sql_username = os.getenv('SQL_USER')
+mydb = mysql.connector.connect(
+  host="localhost",
+  user=sql_username,
+  password=sql_password,
+  database="website")
+cursor = mydb.cursor()
 
 # uvicorn main:app --reload
 # max_age=3600 一小時的登入cookies
@@ -48,14 +45,12 @@ async def display_html(request: Request):
 @app.get("/member", response_class=HTMLResponse)
 async def show_successful_page(request: Request):
     username =request.session['name'] 
-    print(username)
     user_id = request.session['member_id']
-    print(user_id)
 
     cursor.execute("SELECT member.id, member.name,member.username,member.password,message.id AS message_id,message.member_id, message.content, message.time AS message_time FROM member LEFT JOIN message message ON member.id = message.member_id ORDER BY message.time DESC LIMIT 5;") 
     messages_from_sql = cursor.fetchall()
-    user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6]} for row in messages_from_sql]
-
+    user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6], "hidden_state":user_id==row[5]} for row in messages_from_sql]
+        #! 讀取JOIN 後的 member.name / member.username / member.password 以及 message.id AS message_id / message.member_id / message.content /  message.time AS message_time 
     return templates.TemplateResponse(name = "successful.html", context={"request": request, "username": username,'user_id':user_id, "user_messages_list":user_messages_list })
 
 @app.get("/error", response_class=HTMLResponse)
@@ -63,18 +58,18 @@ async def show_error_page(request: Request,  message: str = "", title:str = "失
     return templates.TemplateResponse(name = "error.html", context={"request": request, "message": message, "title":title},request = request)
 
 @app.post("/signin")
-async def login(request: Request, response: Response,username:Optional[str] = Form(None) , password:Optional[str] = Form(None)):
-    cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) # signup_username, ，這個逗號一定要加上
-    existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行      
-    if existing_user == None:
+async def login(request: Request, response: Response, username:Optional[str] = Form(None) , password:Optional[str] = Form(None)):
+    cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) # username, ，這個逗號一定要加上
+    apply_sign_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行      
+    if apply_sign_user == None:
         return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
     
-    correct_password = existing_user[3]
-    if correct_password == password:
+    correct_password = apply_sign_user[3]
+    if password == correct_password:
         request.session['user'] = username
         request.session['sign_in'] = True
-        request.session['name'] = existing_user[1]
-        request.session['member_id'] = existing_user[0]
+        request.session['name'] = apply_sign_user[1]
+        request.session['member_id'] = apply_sign_user[0]
         return RedirectResponse(url="/member", status_code=303 )
     else:
         return RedirectResponse(url='/error?message=Username+or+password+is+not+correct', status_code=303)
@@ -86,10 +81,10 @@ async def signout(request: Request):
 
 @app.post("/signup")
 async def login(request: Request, signup_username: Optional[str] = Form(None) ,signup_user_id : Optional[str] = Form(None) ,signup_password:Optional[str] = Form(None)):
-    if signup_user_id:
+    if signup_user_id: # ! 確保不是空字串
         cursor.execute("SELECT * FROM member WHERE username = %s", (signup_user_id,)) # signup_username, ，這個逗號一定要加上
-        existing_user = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行        
-        if existing_user:
+        existing_user_checking = cursor.fetchone() # 這一步驟，做到檢索、讀取檢索答案的第一行        
+        if existing_user_checking:
             return RedirectResponse(url='/error?message=Repeated+username', status_code=303)
         else:
             cursor.execute("INSERT INTO member (name, username, password) VALUES (%s, %s, %s)",(signup_username, signup_user_id, signup_password))
@@ -104,20 +99,23 @@ async def create_message(request: Request, input_message: Optional[str] = Form(N
     return RedirectResponse(url='/member', status_code=303)
     
 @app.post("/deleteMessage")
-async def delete_message( message_id: int = Form(...)):
-    print(111)
-    print(message_id)
+async def delete_message(request: Request, data_from_html: str = Form(...)):
+    print('/deleteMessage functioning...')
 
-    # 現在可以正常刪除留言
-    # 處理按鈕隱藏問題
-    # 處理刪除實驗政用戶與留言建立者id
-    # 將檔案名重新處理
-    # if request.session['member_id'] == 
-    cursor.execute("DELETE FROM message WHERE id = %s ", (message_id,))
-    # AND member_id = %s
-    mydb.commit()
+    html_message_id, html_member_id  = data_from_html.split("|")
+    print(f"the id of msg: {html_message_id},the id of msg creator: {html_member_id}")
+
+    if request.session['member_id'] == int(html_member_id) and request.session['sign_in']==True:  # 從html讀過來，因為我輸入多比資料，透過str，要轉成int
+        cursor.execute("DELETE FROM message WHERE id = %s AND member_id = %s", (html_message_id,html_member_id))
+        mydb.commit()
+        print('mydb.commit()--- check database delete or not?')
     return RedirectResponse(url="/member", status_code=303)
 
-        
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=3600)
+
+
+# O解決：現在可以正常刪除留言
+# O解決：處理按鈕隱藏問題
+# O解決：處理刪除實驗政用戶與留言建立者id
+# O解決：將檔案名重新處理
