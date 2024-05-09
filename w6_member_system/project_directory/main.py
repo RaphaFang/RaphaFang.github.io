@@ -18,7 +18,7 @@ mydb = mysql.connector.connect(
 cursor = mydb.cursor()
 
 # uvicorn main:app --reload
-# max_age=3600 一小時的登入cookies
+# cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w6_member_system/project_directory
 
 app = FastAPI()
 class AuthMiddleware(BaseHTTPMiddleware):

@@ -18,19 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("submission canceled, found empty field");
     }
   });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
   var form = document.getElementById("signin-form");
   var username = document.getElementById("username");
   var password = document.getElementById("password");
 
   form.addEventListener("submit", function (event) {
-    if (
-      username.value.trim() === "" ||
-      password.value.trim() === ""
-      // trim(), 用來去除space的func，可以避免用戶只輸入空白
-    ) {
+    if (username.value.trim() === "" || password.value.trim() === "") {
       event.preventDefault();
       alert("Please make sure all fields are filled out.");
       console.log("submission canceled, found empty field");
