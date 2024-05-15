@@ -23,7 +23,7 @@ cursor = mydb.cursor()
 app = FastAPI()
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        if request.url.path.startswith("/static/"):
+        if request.url.path.startswith("/static/") or request.url.path.startswith("/api/member/"):
             return await call_next(request)
         if request.url.path == "/member":
             if not request.session.get('sign_in'): 
@@ -41,6 +41,16 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse) 
 async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
+
+# class Username()
+@app.get("/api/member/{username}") #  response_model=Username
+def get_user_info(username: str):
+    cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) 
+    user_data = cursor.fetchone()
+    print(user_data)
+    if user_data:
+        return {'id':user_data[0],"name":user_data[1],'username':user_data[2]}
+    return {"data": None}  # json 的 null 在py是 None 
 
 @app.get("/member", response_class=HTMLResponse)
 async def show_successful_page(request: Request):
@@ -114,9 +124,3 @@ async def delete_message(request: Request, data_from_html: str = Form(...)):
 
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=3600)
-
-
-# O解決：現在可以正常刪除留言
-# O解決：處理按鈕隱藏問題
-# O解決：處理刪除實驗政用戶與留言建立者id
-# O解決：將檔案名重新處理
