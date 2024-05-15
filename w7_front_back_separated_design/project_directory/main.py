@@ -18,7 +18,7 @@ mydb = mysql.connector.connect(
 cursor = mydb.cursor()
 
 # uvicorn main:app --reload
-# cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w6_member_system/project_directory
+# cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w7_front_back_separated_design/project_directory
 
 app = FastAPI()
 class AuthMiddleware(BaseHTTPMiddleware):

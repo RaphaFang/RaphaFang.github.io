@@ -5,3 +5,6 @@ cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w4_FastAPI/project_directo
 
 w6
 cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w6_member_system/project_directory
+
+w7 
+cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w7_front_back_separated_design/project_directory
