@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>login page</title>
+    <link rel="stylesheet" href="/static/error.css" />
+    <!-- 記得永遠用絕對路徑，也就是最前方資料夾前面加上"/" -->
+    <!-- <script src="/static/script.js"></script> -->
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-header">
+        <p>{{title}}</p>
+      </div>
+      <p class="text">{{message}}</p>
+      <!-- {{aaa}} 這個方式寫在
+      https://fastapi.tiangolo.com/advanced/templates/ 
+      Template Context Values-->
+      <a href="/">返回首頁</a>
+    </div>
+  </body>
+</html>

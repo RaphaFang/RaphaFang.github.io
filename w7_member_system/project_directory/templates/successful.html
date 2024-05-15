@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>login page</title>
+    <link rel="stylesheet" href="/static/successful.css" />
+    <script src="/static/successful.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logout_section">
+        <div class="login-header">
+          <p>歡迎光臨，這是會員頁</p>
+        </div>
+
+        <p class="text">{{username}}，歡迎登入系統</p>
+        <a href="/signout" class="signout_a">登出系統</a>
+      </div>
+      <div class="form_section">
+        <div class="message-header">
+          <p>快來留言吧</p>
+        </div>
+        <form
+          class="form"
+          action="/createMessage"
+          method="post"
+          id="message-form"
+        >
+          <div class="form-group">
+            <label for="input_message">內容</label>
+            <input type="text" id="input_message" name="input_message" />
+          </div>
+          <div class="form-group-last">
+            <button type="submit">送出</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="message_section">
+        {% for each_message in user_messages_list %}
+        <!-- user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6]} for row in messages_from_sql]  -->
+        <p class="msg_p">
+          <strong>{{ each_message['name'] }}</strong>：{{each_message['content']
+          }}
+        </p>
+        <!-- hidden_state -->
+        <form
+          action="/deleteMessage"
+          method="post"
+          onsubmit="confirmDelete(event)"
+          class="msg_delete_btn"
+        >
+          <input
+            type="hidden"
+            name="data_from_html"
+            value="{{ each_message['message_id'] }}|{{ each_message['member_id'] }}"
+          />
+          {% if each_message['hidden_state'] %}
+          <button class="msg_delete_btn" type="submit">
+            <strong>X</strong>
+          </button>
+          {% endif %}
+        </form>
+        <br />
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
