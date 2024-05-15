@@ -102,25 +102,25 @@ async def login(request: Request, signup_username: Optional[str] = Form(None) ,s
             mydb.commit() # 這步驟一定要作，不然資料寫不進去
             return RedirectResponse(url='/', status_code=303)
         
-@app.post('/createMessage')
-async def create_message(request: Request, input_message: Optional[str] = Form(None)):
-    member_id = request.session['member_id']
-    cursor.execute("INSERT INTO message (member_id, content) VALUES (%s, %s)",(member_id,input_message))
-    mydb.commit()
-    return RedirectResponse(url='/member', status_code=303)
+# @app.post('/createMessage')
+# async def create_message(request: Request, input_message: Optional[str] = Form(None)):
+#     member_id = request.session['member_id']
+#     cursor.execute("INSERT INTO message (member_id, content) VALUES (%s, %s)",(member_id,input_message))
+#     mydb.commit()
+#     return RedirectResponse(url='/member', status_code=303)
     
-@app.post("/deleteMessage")
-async def delete_message(request: Request, data_from_html: str = Form(...)):
-    print('/deleteMessage functioning...')
+# @app.post("/deleteMessage")
+# async def delete_message(request: Request, data_from_html: str = Form(...)):
+#     print('/deleteMessage functioning...')
 
-    html_message_id, html_member_id  = data_from_html.split("|")
-    print(f"the id of msg: {html_message_id},the id of msg creator: {html_member_id}")
+#     html_message_id, html_member_id  = data_from_html.split("|")
+#     print(f"the id of msg: {html_message_id},the id of msg creator: {html_member_id}")
 
-    if request.session['member_id'] == int(html_member_id) and request.session['sign_in']==True:  # 從html讀過來，因為我輸入多比資料，透過str，要轉成int
-        cursor.execute("DELETE FROM message WHERE id = %s AND member_id = %s", (html_message_id,html_member_id))
-        mydb.commit()
-        print('mydb.commit()--- check database delete or not?')
-    return RedirectResponse(url="/member", status_code=303)
+#     if request.session['member_id'] == int(html_member_id) and request.session['sign_in']==True:  # 從html讀過來，因為我輸入多比資料，透過str，要轉成int
+#         cursor.execute("DELETE FROM message WHERE id = %s AND member_id = %s", (html_message_id,html_member_id))
+#         mydb.commit()
+#         print('mydb.commit()--- check database delete or not?')
+#     return RedirectResponse(url="/member", status_code=303)
 
 app.add_middleware(AuthMiddleware)
 app.add_middleware(SessionMiddleware, secret_key="whats_secret_key",max_age=3600)
