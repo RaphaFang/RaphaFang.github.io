@@ -32,6 +32,31 @@
         </div>
         <div id="searching_name_text" class="username-search-result"></div>
       </div>
+      <div class="form_section">
+        <div class="message-header">
+          <p>更新我的姓名</p>
+        </div>
+        <form
+          class="update-name"
+          action="/createMessage"
+          method="post"
+          id="message-form"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              id="input_message"
+              name="input_message"
+              class="input_block"
+              placeholder="newname..."
+            />
+          </div>
+          <div class="form-group-last">
+            <button id="update-button" type="submit">更新</button>
+          </div>
+        </form>
+        <div id="update-SorF" class="update-SorF"></div>
+      </div>
     </div>
   </body>
 </html>
