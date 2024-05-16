@@ -20,29 +20,17 @@
         <div class="message-header">
           <p>查詢會員姓名</p>
         </div>
-        <form
-          class="form"
-          action="/createMessage"
-          method="post"
-          id="message-form"
-        >
-          <div class="block-and-btn">
-            <div class="form-group">
-              <!-- <label for="input_searching_name">內容</label> -->
-              <input
-                type="text"
-                id="input_searching_name"
-                name="input_searching_name"
-              />
-            </div>
-            <div class="form-group-last">
-              <button type="submit">查詢</button>
-            </div>
-          </div>
-          <div class="searching_name_text">
-            <p>{{name}}({{username}})</p>
-          </div>
-        </form>
+        <div class="block-and-btn">
+          <input
+            type="text"
+            id="input_searching_name"
+            name="input_searching_name"
+            class="input_block"
+            placeholder="username..."
+          />
+          <button id="start-fetch-button" type="submit">查詢</button>
+        </div>
+        <div id="searching_name_text" class="username-search-result"></div>
       </div>
     </div>
   </body>

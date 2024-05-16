@@ -55,12 +55,7 @@ body {
   border-left: 1px solid #bebebe;
   border-right: 1px solid #bebebe;
   border-bottom: 1px solid #bebebe;
-}
-
-.message_section {
-  border-left: 1px solid #bebebe;
-  border-right: 1px solid #bebebe;
-  border-bottom: 1px solid #bebebe;
+  height: 165px;
 }
 
 .form {
@@ -81,15 +76,16 @@ button {
   margin-top: 25px;
   font-weight: bold;
   font-size: 20px;
+  margin-bottom: 15px;
 }
-.form-group input[type="text"] {
+.input_block {
   width: 150px;
   padding: 7px;
   border: 1px solid black;
   border-radius: 2px;
 }
 
-.searching_name_text {
+.username-search-result {
   margin-top: 20px;
   margin-bottom: 30px;
   font-size: 18px;
