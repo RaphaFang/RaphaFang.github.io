@@ -78,7 +78,8 @@ button {
   font-size: 20px;
   margin-bottom: 15px;
 }
-.input_block {
+.input_block,
+.update_name_input {
   width: 150px;
   padding: 7px;
   border: 1px solid black;

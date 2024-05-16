@@ -23,7 +23,7 @@ cursor = mydb.cursor()
 app = FastAPI()
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        if request.url.path.startswith("/static/") or request.url.path.startswith("/api/member/"):
+        if request.url.path.startswith("/static/") or request.url.path.startswith("/api/member"):
             return await call_next(request)
         if request.url.path == "/member":
             if not request.session.get('sign_in'): 
@@ -31,7 +31,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path == "/createMessage" or request.url.path == "/deleteMessage":
             if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
-        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage',"/deleteMessage"]:
+        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage',"/deleteMessage","/api/member"]:
             return RedirectResponse(url='/')
         return await call_next(request)
 
@@ -53,19 +53,22 @@ def get_user_info(username: str):
     return {"data": None}  # json 的 null 在py是 None 
 
 @app.patch("/api/member")
-async def update_user_name(request: Request, new_name: Optional[str] = Form(None) ):  # update_request: UpdateNameRequest
-
-    user_id = 1  ## Placeholder: you should replace this with actual user identification logic
-
-    try:
-        cursor.execute("UPDATE member SET name = %s WHERE id = %s", (new_name, user_id))
+async def update_user_name(request: Request, update_name_input: Optional[str] = Form(None) ):  # update_request: UpdateNameRequest
+    user_id = request.session['member_id']
+    if request.session['sign_in'] and user_id:
+        print(user_id)
+        print(update_name_input)
+        cursor.execute("UPDATE member SET name = %s WHERE id = %s", (update_name_input, user_id))
+        
         mydb.commit()
-        if cursor.rowcount == 0:
+        print(cursor.rowcount)
+
+        messages_from_sql = cursor.fetchall()
+        print(messages_from_sql)
+
+        if cursor.rowcount == 0:  # If rowcount is 0, it means that no rows were updated. This could happen if the user_id does not exist in the member table or if the new name is the same as the current name.
             return {"error": True}
         return {"ok": True}
-    
-    except mysql.connector.Error as err:
-        return {"error": True, "message": f"Database error: {err}"}
 
 
 @app.get("/member", response_class=HTMLResponse)

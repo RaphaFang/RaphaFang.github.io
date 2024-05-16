@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("update-button")
     .addEventListener("click", async function () {
-      let new_username = document.getElementById("update-name-input").value;
+      let new_username = document.getElementById("update_name_input").value;
       console.log(new_username);
 
       let response = await fetch(`http://127.0.0.1:8000/api/member`, {
