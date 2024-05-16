@@ -1,6 +1,6 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", function () {
-  console.log(111);
+  console.log("顯示查詢 username 內容");
   document
     .getElementById("start-fetch-button")
     .addEventListener("click", async function () {
@@ -15,12 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
       displayUserInfo(data);
     });
 
-  console.log(222);
+  console.log("顯示更新 username 成功與否");
   document
     .getElementById("update-button")
     .addEventListener("click", async function () {
       let new_username = document.getElementById("update_name_input").value;
       console.log(new_username);
+      console.log(333);
 
       let response = await fetch(`http://127.0.0.1:8000/api/member`, {
         method: "PATCH",
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       let result = await response.json();
       console.log(result);
+      displayUserUpdateInfo(result);
     });
 });
 
@@ -43,5 +45,14 @@ function displayUserInfo(data) {
     userInfoDiv.innerHTML = `
           <p>${data["name"]}(${data["username"]})</p>
       `;
+  }
+}
+
+function displayUserUpdateInfo(data) {
+  let userInfoDiv = document.getElementById("update-SorF");
+  if (data["ok"] === true) {
+    userInfoDiv.innerHTML = "<p>更新成功</p>";
+  } else {
+    userInfoDiv.innerHTML = "<p>更新失敗</p>";
   }
 }

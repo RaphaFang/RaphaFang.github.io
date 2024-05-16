@@ -36,12 +36,9 @@
         <div class="message-header">
           <p>更新我的姓名</p>
         </div>
-        <form
-          class="update-name"
-          action="/api/member"
-          method="patch"
-          id="update-name-form"
-        >
+        <div class="update-name" id="update-name-form">
+          <!-- action="/api/member" method="patch" -->
+          <!-- 問題就出現在使用form，這會導致頁面刷新 -->
           <div class="form-group">
             <input
               type="text"
@@ -54,7 +51,7 @@
           <div class="form-group-last">
             <button id="update-button" type="submit">更新</button>
           </div>
-        </form>
+        </div>
         <div id="update-SorF" class="update-SorF"></div>
       </div>
     </div>

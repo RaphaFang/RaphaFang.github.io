@@ -52,23 +52,25 @@ def get_user_info(username: str):
         return {'id':user_data[0],"name":user_data[1],'username':user_data[2]}
     return {"data": None}  # json 的 null 在py是 None 
 
-@app.patch("/api/member")
-async def update_user_name(request: Request, update_name_input: Optional[str] = Form(None) ):  # update_request: UpdateNameRequest
-    user_id = request.session['member_id']
-    if request.session['sign_in'] and user_id:
-        print(user_id)
-        print(update_name_input)
-        cursor.execute("UPDATE member SET name = %s WHERE id = %s", (update_name_input, user_id))
-        
-        mydb.commit()
-        print(cursor.rowcount)
 
-        messages_from_sql = cursor.fetchall()
-        print(messages_from_sql)
+@app.patch("/api/member")
+async def update_user_name(request: Request):  # update_request: UpdateNameRequest
+    user_id = request.session['member_id']
+    sign_in = request.session['sign_in']
+    update_request = await request.json()
+    print(f'user_id: {user_id}')
+    print(f'update_request: {update_request}')
+
+    if sign_in and user_id:
+        cursor.execute("UPDATE member SET name = %s WHERE id = %s", (update_request['name'], user_id))
+        mydb.commit()
 
         if cursor.rowcount == 0:  # If rowcount is 0, it means that no rows were updated. This could happen if the user_id does not exist in the member table or if the new name is the same as the current name.
+            print(f'cursor.cursor: {cursor.rowcount}')
             return {"error": True}
+        print(f'cursor.cursor: {cursor.rowcount}')
         return {"ok": True}
+    # 問題就出現在html 使用form，這會導致頁面刷新
 
 
 @app.get("/member", response_class=HTMLResponse)
