@@ -14,6 +14,25 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(data);
       displayUserInfo(data);
     });
+
+  console.log(222);
+  document
+    .getElementById("update-button")
+    .addEventListener("click", async function () {
+      let new_username = document.getElementById("update-name-input").value;
+      console.log(new_username);
+
+      let response = await fetch(`http://127.0.0.1:8000/api/member`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: new_username }),
+      });
+
+      let result = await response.json();
+      console.log(result);
+    });
 });
 
 function displayUserInfo(data) {

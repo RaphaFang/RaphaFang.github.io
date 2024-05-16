@@ -53,13 +53,12 @@ def get_user_info(username: str):
     return {"data": None}  # json 的 null 在py是 None 
 
 @app.patch("/api/member")
-async def update_user_name(request: Request ):  # update_request: UpdateNameRequest
-    # Here we assume some way to identify the signed-in user, for example by session or token
-    # Let's assume user_id is obtained from a session or token
+async def update_user_name(request: Request, new_name: Optional[str] = Form(None) ):  # update_request: UpdateNameRequest
+
     user_id = 1  ## Placeholder: you should replace this with actual user identification logic
 
     try:
-        cursor.execute("UPDATE member SET name = %s WHERE id = %s", (update_request.name, user_id))
+        cursor.execute("UPDATE member SET name = %s WHERE id = %s", (new_name, user_id))
         mydb.commit()
         if cursor.rowcount == 0:
             return {"error": True}
