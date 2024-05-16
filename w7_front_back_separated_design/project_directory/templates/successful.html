@@ -18,7 +18,7 @@
       </div>
       <div class="form_section">
         <div class="message-header">
-          <p>快來留言吧</p>
+          <p>查詢會員姓名</p>
         </div>
         <form
           class="form"
@@ -26,43 +26,23 @@
           method="post"
           id="message-form"
         >
-          <div class="form-group">
-            <label for="input_message">內容</label>
-            <input type="text" id="input_message" name="input_message" />
+          <div class="block-and-btn">
+            <div class="form-group">
+              <!-- <label for="input_searching_name">內容</label> -->
+              <input
+                type="text"
+                id="input_searching_name"
+                name="input_searching_name"
+              />
+            </div>
+            <div class="form-group-last">
+              <button type="submit">查詢</button>
+            </div>
           </div>
-          <div class="form-group-last">
-            <button type="submit">送出</button>
+          <div class="searching_name_text">
+            <p>{{name}}({{username}})</p>
           </div>
         </form>
-      </div>
-
-      <div class="message_section">
-        {% for each_message in user_messages_list %}
-        <!-- user_messages_list = [{"name": row[1], 'message_id': row[4],'member_id':row[5], "content": row[6]} for row in messages_from_sql]  -->
-        <p class="msg_p">
-          <strong>{{ each_message['name'] }}</strong>：{{each_message['content']
-          }}
-        </p>
-        <!-- hidden_state -->
-        <form
-          action="/deleteMessage"
-          method="post"
-          onsubmit="confirmDelete(event)"
-          class="msg_delete_btn"
-        >
-          <input
-            type="hidden"
-            name="data_from_html"
-            value="{{ each_message['message_id'] }}|{{ each_message['member_id'] }}"
-          />
-          {% if each_message['hidden_state'] %}
-          <button class="msg_delete_btn" type="submit">
-            <strong>X</strong>
-          </button>
-          {% endif %}
-        </form>
-        <br />
-        {% endfor %}
       </div>
     </div>
   </body>

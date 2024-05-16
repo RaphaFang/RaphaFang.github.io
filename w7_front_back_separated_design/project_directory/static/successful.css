@@ -19,7 +19,7 @@ body {
 }
 .container {
   background-color: #fff;
-  width: 600px;
+  width: 400px;
   height: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -32,19 +32,23 @@ body {
   margin-bottom: 30px;
 }
 .text {
-  /* font-weight: bold; */
   margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .logout_section {
-  /* background-color: aqua; */
   border: 1px solid #bebebe;
-  /* border-radius: 4px; */
   height: 200px;
 }
 .signout_a {
   display: inline-block;
   /* margin-bottom: 30px; */
+}
+.block-and-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .form_section {
@@ -60,17 +64,16 @@ body {
 }
 
 .form {
-  /* display: inline-block; */
   margin-bottom: 20px;
   margin-top: 20px;
 }
-.form-group-last {
-  margin-top: 20px;
-}
+
 button {
-  padding: 6px 18px;
+  vertical-align: top;
+  padding: 4.5px 16px;
   font-size: 14px;
   cursor: pointer;
+  margin-top: 0px;
 }
 
 .message-header {
@@ -80,40 +83,14 @@ button {
   font-size: 20px;
 }
 .form-group input[type="text"] {
-  width: 40%;
+  width: 150px;
   padding: 7px;
   border: 1px solid black;
   border-radius: 2px;
 }
 
-.message_section > :first-child {
-  /* display: inline-block; */
+.searching_name_text {
   margin-top: 20px;
-}
-.message_section > :nth-child(2) {
-  /* display: inline-block; */
-  margin-top: 20px;
-}
-.message_section > :nth-last-child(2) {
-  display: inline-block;
-  margin-bottom: 25px;
-}
-
-.msg_p {
-  display: inline-block;
-  margin-bottom: 10px;
-}
-
-.msg_delete_btn {
-  padding: 1px 5px;
-
-  font-size: 12px;
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: top;
-  line-height: 1.2;
-}
-.message_container {
-  font-size: 14px;
-  display: inline-block;
+  margin-bottom: 30px;
+  font-size: 18px;
 }
