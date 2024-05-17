@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
       // 這步驟記得寫在click func 的內部，每次點及後重新建議一個username的變數，而非在點擊前建立好
       console.log(username);
       let response = await fetch(
-        `http://127.0.0.1:8000/api/member/${username}`
+        `http://127.0.0.1:8000/api/member?username=${username}`
       );
       let data = await response.json();
       console.log(data);
-      displayUserInfo(data);
+      displayUserInfo(data["data"]);
     });
 
   console.log("顯示更新 username 成功與否");

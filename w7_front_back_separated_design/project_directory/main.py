@@ -28,10 +28,10 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path == "/member":
             if not request.session.get('sign_in'): 
                 return RedirectResponse(url='/')
-        if request.url.path == "/createMessage" or request.url.path == "/deleteMessage":
-            if not request.session.get('sign_in'): 
-                return RedirectResponse(url='/')
-        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup", '/createMessage',"/deleteMessage","/api/member"]:
+        # if request.url.path == "/createMessage" or request.url.path == "/deleteMessage":
+        #     if not request.session.get('sign_in'): 
+        #         return RedirectResponse(url='/')
+        if request.url.path not in ["/", "/signin", "/error","/square","/member","/signout", "/signup","/api/member"]: # '/createMessage',"/deleteMessage",
             return RedirectResponse(url='/')
         return await call_next(request)
 
@@ -43,13 +43,13 @@ async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 
 # class Username()
-@app.get("/api/member/{username}") #  response_model=Username
+@app.get("/api/member")   # still need to type: /api/member?username={username}
 def get_user_info(username: str):
     cursor.execute("SELECT * FROM member WHERE username = %s", (username,)) 
     user_data = cursor.fetchone()
     print(user_data)
     if user_data:
-        return {'id':user_data[0],"name":user_data[1],'username':user_data[2]}
+        return {"data":{'id':user_data[0],"name":user_data[1],'username':user_data[2]}}
     return {"data": None}  # json 的 null 在py是 None 
 
 
