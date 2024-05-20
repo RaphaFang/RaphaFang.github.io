@@ -12,16 +12,29 @@
       <span id="emailError" style="color: red"></span><br />
 
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" />
+      <input
+        id="password"
+        name="password"
+        type="password"
+        pattern="^[A-Za-z0-9@#$%]{4,8}$"
+        title="Password must be 4-8 characters long and include only alphabets, numbers, and @#$%"
+      />
+
       <span id="passwordError" style="color: red"></span><br />
 
       <label for="tel">tel:</label>
-      <input type="tel" id="tel" name="tel" required /><br />
+      <input
+        type="tel"
+        id="tel"
+        required
+        maxlength="10"
+        title="Phone number format: 123-456-7890"
+      />
 
       <button type="submit">Submit</button>
     </form>
 
-    <!-- <script>
+    <script>
       document
         .getElementById("dataForm")
         .addEventListener("submit", function (event) {
@@ -50,6 +63,25 @@
             this.submit();
           }
         });
-    </script> -->
+      // const telInput = document.getElementById("tel");
+      // const telError = document.getElementById("telError");
+
+      // telInput.addEventListener("input", function (event) {
+      //   let value = telInput.value.replace(/\D/g, "");
+      //   let formattedValue = "";
+
+      //   if (value.length > 0) {
+      //     formattedValue = value.substring(0, 3);
+      //   }
+      //   if (value.length > 3) {
+      //     formattedValue += "-" + value.substring(3, 6);
+      //   }
+      //   if (value.length > 6) {
+      //     formattedValue += "-" + value.substring(6, 12);
+      //   } // value.substring(6, 12) automatically lock the max length you could input
+
+      //   telInput.value = formattedValue;
+      // });
+    </script>
   </body>
 </html>
