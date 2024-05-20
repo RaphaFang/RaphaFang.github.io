@@ -25,8 +25,8 @@
       <input
         type="tel"
         id="tel"
-        required
-        maxlength="10"
+        maxlength="12"
+        pattern="^[0-9]{4}-[0-9]{3}-[0-9]{3}$"
         title="Phone number format: 123-456-7890"
       />
       <span id="telError" style="color: red"></span><br />
@@ -44,6 +44,10 @@
             let password = document.getElementById("password").value;
             let tel = document.getElementById("tel").value;
 
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let passwordRegex = /^[A-Za-z0-9@#$%]{4,8}$/;
+            let telRegex = /^[0-9]{4}-[0-9]{3}-[0-9]{3}$/;
+
             let emailError = document.getElementById("emailError");
             let passwordError = document.getElementById("passwordError");
             let telError = document.getElementById("telError");
@@ -52,20 +56,22 @@
             passwordError.textContent = "";
             telError.textContent = "";
 
-            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            let passwordRegex = /^[A-Za-z0-9@#$%]{4,8}$/;
-            let telRegex = /^[0-9]{4}-[0-9]{3}-[0-9]{3}$/;
-
             if (!emailRegex.test(email)) {
               emailError.textContent = "Invalid email format";
             }
-
             if (!passwordRegex.test(password)) {
               passwordError.textContent =
                 "Password must be 4-8 characters long and include only alphabets, numbers, and @#$%";
             }
+            if (!telRegex.test(tel)) {
+              telError.textContent = "Invalid tel format";
+            }
 
-            if (emailRegex.test(email) && passwordRegex.test(password)) {
+            if (
+              emailRegex.test(email) &&
+              passwordRegex.test(password) &&
+              telRegex.test(tel)
+            ) {
               this.submit();
             }
 
