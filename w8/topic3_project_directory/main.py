@@ -17,6 +17,7 @@ templates = Jinja2Templates(directory="templates")
 class DataModel(BaseModel):
     email: str
     password: str = Field(..., min_length=4, max_length=8)
+    tel:str
 
     @validator('email')
     def validate_email(cls, v):
@@ -37,4 +38,5 @@ async def display_html(request: Request):
 
 @app.post("/verify")
 async def verify_data(data: DataModel):
+
     return {"message": "Data is valid"}
