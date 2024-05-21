@@ -14,13 +14,7 @@ class DataModel(BaseModel):
     email: str
     password: str
     tel: str
-    #  <input
-    #     id="tel"
-    #     name="tel"
-    #     type="tel"
-    #     maxlength="12"
-    #     title="Phone number format: 123-456-7890"
-    #   />
+ 
     @validator('email')
     def validate_email(cls, v):
         if not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", v):
@@ -41,6 +35,7 @@ class DataModel(BaseModel):
 
 @app.post("/verify")
 async def verify_data(email: str = Form(...), password: str = Form(...), tel: str= Form(...)): 
+    # 上方的password: str = Form(...)，抓的資料是html的name="tel"，所以html 沒東西時，就會報錯，顯示資訊空缺
     try:
         data = DataModel(email=email, password=password, tel=tel)
     except ValueError as e:
