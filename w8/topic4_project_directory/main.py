@@ -5,6 +5,9 @@ from fastapi.staticfiles import StaticFiles
 
 from fastapi.middleware.cors import CORSMiddleware
 
+import requests
+
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -26,6 +29,10 @@ app.add_middleware(
 async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 
+@app.get("/proxy/google")
+async def proxy_google():
+    response = requests.get("https://www.google.com")
+    return response.text
 
 @app.get("/api/data")
 async def get_data():
@@ -38,3 +45,8 @@ async def post_simple(data: dict):
 @app.post("/api/preflight")
 async def post_preflight(data: dict):
     return {"message": "Preflight request received", "data": data}
+
+
+
+# response = requests.get("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json")
+# print(response.json())

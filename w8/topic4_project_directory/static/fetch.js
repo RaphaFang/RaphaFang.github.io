@@ -14,6 +14,16 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => displayOutput({ state: false, error: error.message }));
   });
 
+  // ! the bypass method!!
+  // document.getElementById("fetchGoogle").addEventListener("click", () => {
+  //   fetch("http://localhost:8000/proxy/google")
+  //     .then((response) => response.text())
+  //     .then((data) => displayOutput(data))
+  //     .catch((error) =>
+  //       displayOutput({ success: false, error: error.message })
+  //     );
+  // });
+
   // Fetch from Taipei Attractions (should work if CORS headers are set)
   document.getElementById("fetchTaipei").addEventListener("click", () => {
     fetch(
