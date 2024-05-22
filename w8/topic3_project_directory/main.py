@@ -1,14 +1,17 @@
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 from fastapi import FastAPI, Request, HTTPException, Form
 from pydantic import BaseModel, Field, validator
 import re
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 # uvicorn main:app --reload
 # cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w8/topic3_project_directory
+
 
 class DataModel(BaseModel):
     email: str

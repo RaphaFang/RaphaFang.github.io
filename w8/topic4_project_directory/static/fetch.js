@@ -9,11 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Fetch from Google (should fail due to CORS policy)
   document.getElementById("fetchGoogle").addEventListener("click", () => {
     fetch("https://www.google.com")
-      .then((response) => response.text())
-      .then((data) => displayOutput({ success: true, data }))
-      .catch((error) =>
-        displayOutput({ success: false, error: error.message })
-      );
+      .then((response) => response.json())
+      .then((data) => displayOutput({ state: true, data }))
+      .catch((error) => displayOutput({ state: false, error: error.message }));
   });
 
   // Fetch from Taipei Attractions (should work if CORS headers are set)
@@ -70,5 +68,3 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => console.log("Preflight Request Data:", data))
     .catch((error) => console.error("Preflight Request Error:", error));
 });
-
-

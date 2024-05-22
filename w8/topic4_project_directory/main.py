@@ -1,12 +1,15 @@
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi import FastAPI, Request, HTTPException, Form
+from fastapi.staticfiles import StaticFiles
 
 from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
 # uvicorn main:app --reload
 # cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w8/topic4_project_directory
 
