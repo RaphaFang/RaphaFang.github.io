@@ -1,9 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
   const output = document.getElementById("output");
-
-  // Function to display output
   function displayOutput(data) {
     output.textContent = JSON.stringify(data, null, 2);
+  }
+
+  const response_output = document.getElementById("response_output");
+  function displayResponse(data) {
+    response_output.textContent = JSON.stringify(data, null, 2);
   }
 
   // Fetch from Google (should fail due to CORS policy)
@@ -29,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(
       "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json"
     )
-      .then((response) => response.json())
+      .then((response) => displayResponse(response))
       .then((data) => displayOutput({ success: true, data }))
       .catch((error) =>
         displayOutput({ success: false, error: error.message })
@@ -46,6 +49,11 @@ document.addEventListener("DOMContentLoaded", function () {
       );
   });
 
+  // the header set up and different request
+  //
+  //
+  //
+  //
   // Log Origin, Simple Requests, Preflight Requests, and CORS Headers
   console.log("Origin:", window.location.origin);
 
