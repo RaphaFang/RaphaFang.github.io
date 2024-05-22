@@ -38,6 +38,10 @@ async def verify_data(email: str = Form(...), password: str = Form(...), tel: st
     # 上方的password: str = Form(...)，抓的資料是html的name="tel"，所以html 沒東西時，就會報錯，顯示資訊空缺
     try:
         data = DataModel(email=email, password=password, tel=tel)
+        dd=data.dict()
+        # without the (), the dd would get
+        # <bound method BaseModel.dict of DataModel(email='fangsihyu0211@gmail.com', password='qqqqqqqq', tel='1111-111-111')> 
+        print(dd)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
