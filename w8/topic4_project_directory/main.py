@@ -2,12 +2,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.staticfiles import StaticFiles
-
 from fastapi.middleware.cors import CORSMiddleware
 
 import requests
-
-
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -30,24 +27,25 @@ app.add_middleware(
 async def display_html(request: Request):
     return templates.TemplateResponse(name = "api.html", request = request)
 
-@app.get("/proxy/google")
-async def proxy_google():
-    response = requests.get("https://www.google.com")
-    return response.text
-
 @app.get("/api/data")
 async def get_data():
     return {"message": "This is a CORS-enabled response"}
 
+
+# the simple and the preflight request, got some problem here, might come with js header
 @app.post("/api/simple")
 async def post_simple(data: dict):
     return {"message": "Simple request received", "data": data}
-
 @app.post("/api/preflight")
 async def post_preflight(data: dict):
     return {"message": "Preflight request received", "data": data}
 
 
+# the proxy way to access the google url
+@app.get("/proxy/google")
+async def proxy_google():
+    response = requests.get("https://www.google.com")
+    return response.text
 
 # response = requests.get("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json")
 # print(response.json())

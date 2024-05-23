@@ -23,13 +23,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Fetch from Google (should fail due to CORS policy)
   document.getElementById("fetchGoogle").addEventListener("click", () => {
+    output.textContent = "";
+    response_output.textContent = "";
     fetch("https://www.google.com")
       .then((response) => {
         displayResponse(response);
-        return response.json();
+        return response.text();
       })
       .then((data) => displayOutput({ state: true, data }))
-      .catch((error) => displayOutput({ state: false, error: error.message }));
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        displayOutput({ success: false, error: error.message });
+      });
   });
   // ! the bypass method!!
   // document.getElementById("fetchGoogle").addEventListener("click", () => {
@@ -43,6 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Fetch from Taipei Attractions (should work if CORS headers are set)
   document.getElementById("fetchTaipei").addEventListener("click", () => {
+    output.textContent = "";
+    response_output.textContent = "";
     fetch(
       "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json"
     )
@@ -58,7 +65,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Fetch from Local API (needs to be set up with CORS)
   document.getElementById("fetchLocal").addEventListener("click", () => {
-    fetch("http://localhost:3000/api/data")
+    output.textContent = "";
+    response_output.textContent = "";
+    fetch("http://127.0.0.1:8000/api/data")
       .then((response) => {
         displayResponse(response); // Display the response headers and status
         return response.json(); // Parse the JSON body and return the promise
@@ -84,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   // Simple Request Example
-  fetch("http://localhost:3000/api/simple", {
+  fetch("http://127.0.0.1:8000/api/simple", {
     method: "POST",
     headers: simpleRequestHeaders,
     body: "key1=value1&key2=value2",
@@ -97,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const preflightRequestHeaders = new Headers();
   preflightRequestHeaders.append("X-Custom-Header", "value");
 
-  fetch("http://localhost:3000/api/preflight", {
+  fetch("http://127.0.0.1:8000/api/preflight", {
     method: "POST",
     headers: preflightRequestHeaders,
     body: JSON.stringify({ key1: "value1", key2: "value2" }),
