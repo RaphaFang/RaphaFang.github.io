@@ -5,18 +5,32 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const response_output = document.getElementById("response_output");
-  function displayResponse(data) {
-    response_output.textContent = JSON.stringify(data, null, 2);
+  function displayResponse(response) {
+    const headers = {};
+    response.headers.forEach((value, name) => {
+      headers[name] = value;
+    });
+    response_output.textContent = JSON.stringify(
+      {
+        status: response.status,
+        statusText: response.statusText,
+        headers: headers,
+      },
+      null,
+      2
+    );
   }
 
   // Fetch from Google (should fail due to CORS policy)
   document.getElementById("fetchGoogle").addEventListener("click", () => {
     fetch("https://www.google.com")
-      .then((response) => response.json())
+      .then((response) => {
+        displayResponse(response);
+        return response.json();
+      })
       .then((data) => displayOutput({ state: true, data }))
       .catch((error) => displayOutput({ state: false, error: error.message }));
   });
-
   // ! the bypass method!!
   // document.getElementById("fetchGoogle").addEventListener("click", () => {
   //   fetch("http://localhost:8000/proxy/google")
@@ -32,7 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(
       "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment.json"
     )
-      .then((response) => displayResponse(response))
+      .then((response) => {
+        displayResponse(response);
+        return response.json();
+      })
       .then((data) => displayOutput({ success: true, data }))
       .catch((error) =>
         displayOutput({ success: false, error: error.message })
@@ -42,7 +59,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Fetch from Local API (needs to be set up with CORS)
   document.getElementById("fetchLocal").addEventListener("click", () => {
     fetch("http://localhost:3000/api/data")
-      .then((response) => response.json())
+      .then((response) => {
+        displayResponse(response); // Display the response headers and status
+        return response.json(); // Parse the JSON body and return the promise
+      })
       .then((data) => displayOutput({ success: true, data }))
       .catch((error) =>
         displayOutput({ success: false, error: error.message })
