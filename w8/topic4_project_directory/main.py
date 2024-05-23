@@ -13,7 +13,7 @@ templates = Jinja2Templates(directory="templates")
 # uvicorn main:app --reload
 # cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/w8/topic4_project_directory
 
-origins = ["*"]
+origins = ["https://wehelp.tw"]
 
 app.add_middleware(
     CORSMiddleware,
