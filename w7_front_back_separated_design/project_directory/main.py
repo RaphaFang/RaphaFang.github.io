@@ -129,7 +129,7 @@ async def login(request: Request, signup_username: Optional[str] = Form(None) ,s
 #     cursor.execute("INSERT INTO message (member_id, content) VALUES (%s, %s)",(member_id,input_message))
 #     mydb.commit()
 #     return RedirectResponse(url='/member', status_code=303)
-    
+
 # @app.post("/deleteMessage")
 # async def delete_message(request: Request, data_from_html: str = Form(...)):
 #     print('/deleteMessage functioning...')
