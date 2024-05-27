@@ -57,7 +57,6 @@ def execute_query(query, params=None):
         
 
 # instead, do this
-        
 def run_query(query, params):
     results = execute_query(query, params)
     if isinstance(results, list):
