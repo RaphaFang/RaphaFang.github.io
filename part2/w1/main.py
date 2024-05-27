@@ -1,13 +1,13 @@
-# import mysql.connector
-# import os
-# sql_password = os.getenv('SQL_PASSWORD')
-# sql_username = os.getenv('SQL_USER')
-# mydb = mysql.connector.connect(
-#   host="localhost",
-#   user=sql_username,
-#   password=sql_password,
-#   database="Day_Trip")
-# cursor = mydb.cursor()
+import mysql.connector
+import os
+sql_password = os.getenv('SQL_PASSWORD')
+sql_username = os.getenv('SQL_USER')
+mydb = mysql.connector.connect(
+  host="localhost",
+  user=sql_username,
+  password=sql_password,
+  database="basic_db")
+cursor = mydb.cursor()
 
 # 1. read the json file
 import json
@@ -15,43 +15,34 @@ url = '/Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/part2/w1/taipei-attrac
 with open(url, 'r') as file:
     data = json.load(file)
 
-# 2. convert the data into specific formate
+# 2. convert the data into specific formate, and inser in SQL
 # the format request
+# processed_data
+# INSERT INTO processed_data (id, name, category, description, address, transport, mrt, lat, lng, json_format_str)
+# VALUES ('test', 'test', 'test');
+    
+for j in range(0, len(data['result']['results'])):
+    id = int(data['result']['results'][j]['_id'])
+    name = data['result']['results'][j]['name']
+    category = data['result']['results'][j]['CAT']
+    description = data['result']['results'][j]['description']
+    address = data['result']['results'][j]['address']
+    transport = data['result']['results'][j]['direction']
+    mrt = data['result']['results'][j]['MRT']
+    lat = float(data['result']['results'][j]['latitude'])
+    lng = float(data['result']['results'][j]['longitude'])
+    
+    images_str = data['result']['results'][j]['file']
+    cut_list = ["https://"+n for n in images_str.split("https://") if n and (n[-3:].upper()=='JPG' or n[-3:].upper()=='PNG')]
+    json_format_str = json.dumps(cut_list)
 
-# {
-#   "nextPage": 1,
-#   "data": [
-#     {
-#       "id": 10,
-#       "name": "平安鐘",
-#       "category": "公共藝術",
-#       "description": "平安鐘祈求大家的平安，這是為了紀念 921 地震週年的設計",
-#       "address": "臺北市大安區忠孝東路 4 段 1 號",
-#       "transport": "公車：204、212、212直",
-#       "mrt": "忠孝復興",
-#       "lat": 25.04181,
-#       "lng": 121.544814,
-#       "images": [
-#         "http://140.112.3.4/images/92-0.jpg"
-#       ]
-#     }
-#   ]
-# }
+    cursor.execute("INSERT INTO processed_data (id, name, category, description, address, transport, mrt, lat, lng, images) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",(id, name, category, description, address, transport, mrt, lat, lng, json_format_str))
+    mydb.commit()
 
-id = data['result']['results'][1]['_id']
-print(id)
+print('process finished')
 
-name = data['result']['results'][0]['name']
-category = data['result']['results'][0]['CAT']
-description = data['result']['results'][0]['description']
-address = data['result']['results'][0]['address']
-transport = data['result']['results'][0]['direction']
-mrt = data['result']['results'][0]['MRT']
-lat = data['result']['results'][0]['latitude']
-lng = data['result']['results'][0]['longitude']
-images_str = data['result']['results'][0]['file']
-cut_list = ["https://"+n for n in images_str.split("https://") if n and (n[-3:].upper()=='JPG' or n[-3:].upper()=='PNG')]
-json_format_str = json.dumps(cut_list)
+
+
 
 # aaa = 'abcde'
 # print(aaa[-3:].upper())

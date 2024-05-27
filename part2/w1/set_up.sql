@@ -13,3 +13,6 @@ CREATE TABLE processed_data (
     lng REAL,
     images TEXT
 );
+
+select * from processed_data;
+SELECT COUNT(*) FROM processed_data;
