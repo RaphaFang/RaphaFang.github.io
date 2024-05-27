@@ -16,11 +16,6 @@ with open(url, 'r') as file:
     data = json.load(file)
 
 # 2. convert the data into specific formate, and inser in SQL
-# the format request
-# processed_data
-# INSERT INTO processed_data (id, name, category, description, address, transport, mrt, lat, lng, json_format_str)
-# VALUES ('test', 'test', 'test');
-    
 for j in range(0, len(data['result']['results'])):
     id = int(data['result']['results'][j]['_id'])
     name = data['result']['results'][j]['name']
@@ -41,8 +36,3 @@ for j in range(0, len(data['result']['results'])):
 
 print('process finished')
 
-
-
-
-# aaa = 'abcde'
-# print(aaa[-3:].upper())
