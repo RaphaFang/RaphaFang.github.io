@@ -24,37 +24,39 @@ db_config = {
 
 app = FastAPI()
 
-@app.get("/api/attractions")
-def api_attractions(page=int,keyword=str):
-    pass
+# @app.get("/api/attractions")
+# def api_attractions(page=int,keyword=str):
+#     pass
 
-@app.get("/api/attractions")  
+# http://127.0.0.1:8000/api/attraction?attractionId=1
+@app.get("/api/attraction")  
 def api_attractions(attractionId=int): # page:int, keyword:str, 
+    print(attractionId)
     try:
-        # raise mysql.connector.Error("Manually triggered error for testing")
         mydb = mysql.connector.connect(**db_config)
         cursor = mydb.cursor()
-
         cursor.execute("SELECT * FROM processed_data WHERE id = %s", (attractionId,)) 
         attract_data = cursor.fetchone()
         print(attract_data)
-        return {"data":{'id':attract_data[0],"name":attract_data[1],'category':attract_data[2], 'description':attract_data[3],'address':attract_data[4],'transport':attract_data[5],'mrt':attract_data[6],'lat':attract_data[7],'lng':attract_data[8], 'images':json.loads(attract_data[9])}}
-    
+
+        if attract_data:
+            return {"data":{'id':attract_data[0],"name":attract_data[1],'category':attract_data[2], 'description':attract_data[3],'address':attract_data[4],'transport':attract_data[5],'mrt':attract_data[6],'lat':attract_data[7],'lng':attract_data[8], 'images':json.loads(attract_data[9])}}
+        else:
+            return JSONResponse(    
+                status_code=400,
+                content={"error": True, "message": "inserted id out of range, valid id start from 1 to 58"}
+            )
     except mysql.connector.Error as err:
         return JSONResponse(    
-            status_code=400,
+            status_code=500,
             content={"error": True, "message": str(err)}
         )
     finally:
         cursor.close()
         mydb.close()
 
-    if attract_data:
-    else:
-        return JSONResponse(    
-            status_code=400,
-            content={"error": True, "message": "景點編號不正確"}
-        )
+    
+
     
 @app.get("/api/mrts")
 def api_mrts():
