@@ -16,3 +16,10 @@ CREATE TABLE processed_data (
 
 select * from processed_data;
 SELECT COUNT(*) FROM processed_data;
+
+-- --------------------------------------------------------
+-- the /api/mrts 
+SELECT mrt, COUNT(*) as count
+FROM processed_data
+GROUP BY mrt
+ORDER BY count DESC;
