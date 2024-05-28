@@ -19,14 +19,6 @@ db_config = {
     'database': 'basic_db',
 }
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user=sql_username,
-  password=sql_password,
-  database="basic_db")
-
-cursor = mydb.cursor()
-
 # uvicorn main:app --reload
 # cd /Users/fangsiyu/Desktop/wehelp/RaphaFang.github.io/part2/w1
 
@@ -38,12 +30,26 @@ def api_attractions(page=int,keyword=str):
 
 @app.get("/api/attractions")  
 def api_attractions(attractionId=int): # page:int, keyword:str, 
-    cursor.execute("SELECT * FROM processed_data WHERE id = %s", (attractionId,)) 
-    attract_data = cursor.fetchone()
-    print(attract_data)
+    try:
+        # raise mysql.connector.Error("Manually triggered error for testing")
+        mydb = mysql.connector.connect(**db_config)
+        cursor = mydb.cursor()
+
+        cursor.execute("SELECT * FROM processed_data WHERE id = %s", (attractionId,)) 
+        attract_data = cursor.fetchone()
+        print(attract_data)
+        return {"data":{'id':attract_data[0],"name":attract_data[1],'category':attract_data[2], 'description':attract_data[3],'address':attract_data[4],'transport':attract_data[5],'mrt':attract_data[6],'lat':attract_data[7],'lng':attract_data[8], 'images':json.loads(attract_data[9])}}
+    
+    except mysql.connector.Error as err:
+        return JSONResponse(    
+            status_code=400,
+            content={"error": True, "message": str(err)}
+        )
+    finally:
+        cursor.close()
+        mydb.close()
 
     if attract_data:
-        return {"data":{'id':attract_data[0],"name":attract_data[1],'category':attract_data[2], 'description':attract_data[3],'address':attract_data[4],'transport':attract_data[5],'mrt':attract_data[6],'lat':attract_data[7],'lng':attract_data[8], 'images':json.loads(attract_data[9])}}
     else:
         return JSONResponse(    
             status_code=400,
@@ -53,16 +59,17 @@ def api_attractions(attractionId=int): # page:int, keyword:str,
 @app.get("/api/mrts")
 def api_mrts():
     try:
-        mydb = mysql.connector.connect(db_config)
+        # raise mysql.connector.Error("Manually triggered error for testing")
+        mydb = mysql.connector.connect(**db_config)
         cursor = mydb.cursor()
         cursor.execute("SELECT mrt, COUNT(*) as count FROM processed_data GROUP BY mrt ORDER BY count DESC;") 
         mrts_counted = cursor.fetchall()
         return [n[0] for n in mrts_counted]
-    
     except mysql.connector.Error as err:
-        logger.error(f"Error: {err}")
-        raise HTTPException(status_code=500, detail=f"Database error: {err}")
-
+        return JSONResponse(    
+            status_code=500,
+            content={"error": True, "message": str(err)}
+        )
     finally:
         cursor.close()
         mydb.close()
