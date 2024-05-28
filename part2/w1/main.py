@@ -31,36 +31,29 @@ app = FastAPI()
 @app.get("/api/attractions")
 def api_attractions(page: int=Query(..., ge=0), keyword: Optional[str] = None):
     print(f"page = {page}, keyword = {keyword}")
-
-    # page是要取得的分業業號，從0 1 2 3 
-    offset_num = page*12
-    keyword_format = f"%{keyword}%"  # 這邊不四多加上"""
-
     try:
         mydb = mysql.connector.connect(**db_config)
         cursor = mydb.cursor()
+        offset_num = page*12
+        keyword_format = f"%{keyword}%"  # 這邊不四多加上"""
+        cursor.execute("SELECT COUNT(*) FROM processed_data;") 
+        sum_rows = cursor.fetchone()[0]  # 不然出來的值會是turple, --> (58,)
 
+        if sum_rows-(page+1)*12>0:
+            next_page =  page+1
+        else:
+            next_page =  None
         if keyword==None:
             cursor.execute("SELECT * FROM processed_data LIMIT 12 OFFSET %s;", (offset_num,)) 
             attract_data = cursor.fetchall()
-            if attract_data:
-                each_data_list = [{'id':each[0],"name":each[1],'category':each[2], 'description':each[3],'address':each[4],'transport':each[5],'mrt':each[6],'lat':each[7],'lng':each[8], 'images':json.loads(each[9])} for each in attract_data]
-                return {"data": each_data_list, "nextPage": page+1}
-            else:
-                return {"data": [], "nextPage": None}
-            
-        if keyword:
+        else:
             cursor.execute("SELECT * FROM processed_data WHERE mrt LIKE %s OR name LIKE %s LIMIT 12 OFFSET %s;", (keyword_format, keyword_format, offset_num,)) 
             attract_data = cursor.fetchall()
-            if attract_data:
-                each_data_list = [{'id':each[0],"name":each[1],'category':each[2], 'description':each[3],'address':each[4],'transport':each[5],'mrt':each[6],'lat':each[7],'lng':each[8], 'images':json.loads(each[9])} for each in attract_data]
-                return {"data": each_data_list, "nextPage": page+1}
-            else:
-                return {"data": [], "nextPage": None}
-
-
-        # return final_output
-    
+        if attract_data:
+            each_data_list = [{'id':each[0],"name":each[1],'category':each[2], 'description':each[3],'address':each[4],'transport':each[5],'mrt':each[6],'lat':each[7],'lng':each[8], 'images':json.loads(each[9])} for each in attract_data]
+            return {"data": each_data_list, "nextPage":next_page}
+        else:
+            return {"data": [], "nextPage": None}    
     except mysql.connector.Error as err:
         return JSONResponse(    
             status_code=500,
@@ -69,9 +62,6 @@ def api_attractions(page: int=Query(..., ge=0), keyword: Optional[str] = None):
     finally:
         cursor.close()
         mydb.close()
-
-
-
 
 # http://127.0.0.1:8000/api/attraction?attractionId=1
 @app.get("/api/attraction")  
