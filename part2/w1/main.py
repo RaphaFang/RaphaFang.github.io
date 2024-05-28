@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
@@ -7,6 +7,9 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 import json
+
+from typing import Optional
+
 
 import mysql.connector
 import os
@@ -24,9 +27,51 @@ db_config = {
 
 app = FastAPI()
 
-# @app.get("/api/attractions")
-# def api_attractions(page=int,keyword=str):
-#     pass
+# http://127.0.0.1:8000/api/attractions?page=1
+@app.get("/api/attractions")
+def api_attractions(page: int=Query(..., ge=0), keyword: Optional[str] = None):
+    print(f"page = {page}, keyword = {keyword}")
+
+    # page是要取得的分業業號，從0 1 2 3 
+    offset_num = page*12
+    keyword_format = f"%{keyword}%"  # 這邊不四多加上"""
+
+    try:
+        mydb = mysql.connector.connect(**db_config)
+        cursor = mydb.cursor()
+
+        if keyword==None:
+            cursor.execute("SELECT * FROM processed_data LIMIT 12 OFFSET %s;", (offset_num,)) 
+            attract_data = cursor.fetchall()
+            if attract_data:
+                each_data_list = [{'id':each[0],"name":each[1],'category':each[2], 'description':each[3],'address':each[4],'transport':each[5],'mrt':each[6],'lat':each[7],'lng':each[8], 'images':json.loads(each[9])} for each in attract_data]
+                return {"data": each_data_list, "nextPage": page+1}
+            else:
+                return {"data": [], "nextPage": None}
+            
+        if keyword:
+            cursor.execute("SELECT * FROM processed_data WHERE mrt LIKE %s OR name LIKE %s LIMIT 12 OFFSET %s;", (keyword_format, keyword_format, offset_num,)) 
+            attract_data = cursor.fetchall()
+            if attract_data:
+                each_data_list = [{'id':each[0],"name":each[1],'category':each[2], 'description':each[3],'address':each[4],'transport':each[5],'mrt':each[6],'lat':each[7],'lng':each[8], 'images':json.loads(each[9])} for each in attract_data]
+                return {"data": each_data_list, "nextPage": page+1}
+            else:
+                return {"data": [], "nextPage": None}
+
+
+        # return final_output
+    
+    except mysql.connector.Error as err:
+        return JSONResponse(    
+            status_code=500,
+            content={"error": True, "message": str(err)}
+        )
+    finally:
+        cursor.close()
+        mydb.close()
+
+
+
 
 # http://127.0.0.1:8000/api/attraction?attractionId=1
 @app.get("/api/attraction")  
@@ -55,9 +100,7 @@ def api_attractions(attractionId=int): # page:int, keyword:str,
         cursor.close()
         mydb.close()
 
-    
-
-    
+# http://127.0.0.1:8000/api/mrts
 @app.get("/api/mrts")
 def api_mrts():
     try:
