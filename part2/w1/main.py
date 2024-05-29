@@ -29,7 +29,7 @@ app = FastAPI()
 # http://127.0.0.1:8000/api/attractions?page=1
 @app.get("/api/attractions")
 def api_attractions(page: int=Query(..., ge=0), keyword: Optional[str] = None):
-    # print(f"page = {page}, keyword = {keyword}")
+    print(f"page = {page}, keyword = {keyword}")
     try:
         mydb = mysql.connector.connect(**db_config)
         cursor = mydb.cursor()
