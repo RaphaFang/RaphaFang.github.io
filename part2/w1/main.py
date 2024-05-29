@@ -79,13 +79,13 @@ def api_attractions(page: int=Query(..., ge=0), keyword: Optional[str] = None):
         mydb.close()
 
 # http://127.0.0.1:8000/api/attraction?attractionId=1
-@app.get("/api/attraction")  
-def api_attractions(attractionId=int): # page:int, keyword:str, 
-    print(attractionId)
+@app.get("/api/attraction/{id}")  
+def api_attractions(id=int): # page:int, keyword:str, 
+    print(id)
     try:
         mydb = mysql.connector.connect(**db_config)
         cursor = mydb.cursor()
-        cursor.execute("SELECT * FROM processed_data WHERE id = %s", (attractionId,)) 
+        cursor.execute("SELECT * FROM processed_data WHERE id = %s", (id,)) 
         attract_data = cursor.fetchone()
         print(attract_data)
 
