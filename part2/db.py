@@ -1,0 +1,15 @@
+import os
+import mysql.connector.pooling
+
+sql_password = os.getenv('SQL_PASSWORD')
+sql_username = os.getenv('SQL_USER')
+
+pool_config = {
+    'pool_name': 'day_trip_pool',
+    'pool_size': 10,
+    'host': 'localhost',
+    'user': sql_username,
+    'password': sql_password,
+    'database': 'basic_db'
+}
+mydb_pool = mysql.connector.pooling.MySQLConnectionPool(**pool_config)
