@@ -7,7 +7,7 @@ sql_username = os.getenv('SQL_USER')
 pool_config = {
     'pool_name': 'day_trip_pool',
     'pool_size': 10,
-    'host': '52.4.229.207',
+    'host': 'localhost',
     'user': sql_username,
     'password': sql_password,
     'database': 'basic_db',
