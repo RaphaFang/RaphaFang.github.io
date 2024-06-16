@@ -18,7 +18,7 @@ mydb_pool = mysql.connector.pooling.MySQLConnectionPool(**pool_config)
 
 def execute_query(query, params=None):
     try:
-        mydb_pool_connection = mydb_pool.get_connection()   # Get a connection from the pool
+        mydb_pool_connection = mydb_pool.get_connection()   # Get a connection from the pool 這個get_connection是內建的函數，被連接項要是一個mydb_pool的物件
         cursor = mydb_pool_connection.cursor()
         if params:
             cursor.execute(query, params)
