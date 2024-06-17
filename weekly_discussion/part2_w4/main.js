@@ -66,7 +66,7 @@ function fetchAndStoreImage(url, storageKey) {
         sessionStorage.setItem(storageKey, reader.result); // 將 Base64 字符串存儲到 SessionStorage
         console.log("Image stored in SessionStorage");
       };
-      reader.readAsDataURL(blob); // 讀取為 Base64 字符串，更好的成現在hyml
+      reader.readAsDataURL(blob); // 讀取為 Base64 字符串，更好的成現在tyml，並且存在sessionStorage
     });
 }
 fetchAndStoreImage("url", "storageKey");
